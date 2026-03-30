@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matt Hicks — UI/UX Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:wght@400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Colors */
+      --color-dark-bg: #1a1917;
+      --color-dark-bg-alt: #111110;
+      --color-light-bg: #f3f0ea;
+      --color-brown-darkest: #1a1917;
+      --color-brown-dark: #2d2a25;
+      --color-brown-medium: #5a564f;
+      --color-brown-light: #79746b;
+      --color-brown-lightest: #dad6cc;
+      --color-blue: #5b8feb;
+      --color-green: #68b99a;
+      --color-gold: #c4a158;
+      --color-white: #ffffff;
+
+      /* Typography */
+      --font-heading: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Spacing */
+      --page-margin: 192px;
+      --max-width: 1056px;
+      --spacing-xs: 12px;
+      --spacing-s: 16px;
+      --spacing-m: 24px;
+      --spacing-l: 48px;
+      --spacing-xl: 80px;
+      --spacing-xxl: 112px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-dark-bg);
+      color: var(--color-light-bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ===== NOISE TEXTURE OVERLAY ===== */
+    .noise-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 512px 512px;
+    }
+
+    /* ===== GLOBAL BACKGROUND WITH GRADIENT ===== */
+    .page-wrapper {
+      position: relative;
+    }
+
+    .global-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 4181' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Crect x='0' y='0' height='100%25' width='100%25' fill='url(%23grad)' opacity='0.19'/%3E%3Cdefs%3E%3CradialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(58.7 0.90001 -5.9469 387.86 1060.5 1242.5)'%3E%3Cstop stop-color='rgba(13,153,255,1)' offset='0'/%3E%3Cstop stop-color='rgba(13,153,255,0)' offset='0.65'/%3E%3C/radialGradient%3E%3C/defs%3E%3C/svg%3E");
+      background-size: 100% 100%;
+      transform: translateX(var(--gradient-offset, 0px));
+      transition: transform 0.3s ease-out;
+    }
+
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 10px rgba(35, 197, 98, 0.65);
+      }
+      50% {
+        opacity: 0.7;
+        box-shadow: 0 0 20px rgba(35, 197, 98, 0.9);
+      }
+    }
+
+    @keyframes scrollLine {
+      0% { transform: scaleX(1); opacity: 1; }
+      50% { transform: scaleX(0.6); opacity: 0.5; }
+      100% { transform: scaleX(1); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
+    .stagger-4 { transition-delay: 0.4s; }
+    .stagger-5 { transition-delay: 0.5s; }
+
+    /* ===== NAVIGATION ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 var(--page-margin);
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--color-brown-dark);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .nav.nav-light {
+      background: rgba(0, 0, 0, 0.03);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-container {
+      width: 100%;
+      max-width: var(--max-width);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--color-light-bg);
+      text-decoration: none;
+      transition: color 0.3s ease, opacity 0.2s ease;
+    }
+
+    .nav.nav-light .nav-logo {
+      color: var(--color-dark-bg);
+    }
+
+    .nav-logo:hover {
+      opacity: 0.8;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-link {
+      font-size: 14px;
+      color: var(--color-brown-medium);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--color-light-bg);
+    }
+
+    .nav.nav-light .nav-link {
+      color: var(--color-brown-dark);
+    }
+
+    .nav.nav-light .nav-link:hover {
+      color: var(--color-dark-bg);
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--color-brown-light);
+      text-decoration: none;
+      border: 1px solid var(--color-brown-medium);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--color-light-bg);
+      color: var(--color-light-bg);
+    }
+
+    .nav.nav-light .nav-btn {
+      color: var(--color-brown-dark);
+      border-color: var(--color-brown-dark);
+    }
+
+    .nav.nav-light .nav-btn:hover {
+      border-color: var(--color-dark-bg);
+      color: var(--color-dark-bg);
+    }
+
+    .nav-btn .arrow-icon {
+      width: 14px;
+      height: 9px;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-xxl) var(--page-margin);
+      position: relative;
+      background:
+        linear-gradient(180deg, rgba(17, 17, 16, 0.82) 0%, rgba(17, 17, 16, 0) 60%),
+        var(--color-dark-bg);
+    }
+
+
+    .hero-container {
+      position: relative;
+      width: 100%;
+      max-width: var(--max-width);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      flex: 1;
+      gap: var(--spacing-m);
+    }
+
+    .hero-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+    }
+
+    .hero-badge-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--color-white);
+      border-radius: 2px;
+    }
+
+    .hero-badge-icon span {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      font-weight: 500;
+      color: var(--color-white);
+      letter-spacing: 0.88px;
+    }
+
+    .hero-badge-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-brown-medium);
+      letter-spacing: 0.55px;
+    }
+
+    .hero-status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      height: 12px;
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+      position: relative;
+      z-index: 2;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--color-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(35, 197, 98, 0.65);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .status-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-green);
+      letter-spacing: 0.55px;
+      line-height: 1.5;
+      max-width: 420px;
+    }
+
+    .status-text a {
+      color: var(--color-green);
+      text-decoration: underline;
+    }
+
+    .hero-heading {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+    }
+
+    .hero-name {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 116px;
+      line-height: 0.7;
+      color: var(--color-light-bg);
+    }
+
+    .hero-description {
+      max-width: 480px;
+      font-size: 18px;
+      line-height: 1.5;
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+    }
+
+    .hero-description strong {
+      color: var(--color-light-bg);
+      font-weight: 400;
+    }
+
+    .hero-description span {
+      color: var(--color-brown-medium);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: var(--spacing-xs);
+      padding-top: var(--spacing-m);
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 20px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--color-blue);
+      border-color: var(--color-blue);
+      color: var(--color-brown-lightest);
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(91, 143, 235, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border-color: var(--color-brown-medium);
+      color: var(--color-brown-light);
+      font-weight: 400;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--color-light-bg);
+      color: var(--color-light-bg);
+      transform: translateY(-2px);
+    }
+
+    .btn .arrow-icon {
+      width: 14px;
+      height: 9px;
+      transition: transform 0.3s ease;
+    }
+
+    .btn:hover .arrow-icon {
+      transform: translateX(3px);
+    }
+
+    .hero-scroll {
+      position: relative;
+      width: 100%;
+      max-width: var(--max-width);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: fadeIn 1s ease 1s both;
+    }
+
+    .scroll-line {
+      width: 32px;
+      height: 1px;
+      background: var(--color-blue);
+      animation: scrollLine 2s ease-in-out infinite;
+      transform-origin: left;
+    }
+
+    .scroll-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-brown-medium);
+      letter-spacing: 0.55px;
+    }
+
+    /* ===== PROJECTS SECTION ===== */
+    .projects {
+      position: relative;
+      z-index: 2;
+      background: var(--color-light-bg);
+      padding: var(--spacing-xxl) var(--page-margin);
+    }
+
+    .projects-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--color-brown-lightest);
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-brown-light);
+      letter-spacing: 0.55px;
+      text-transform: uppercase;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--color-brown-lightest);
+    }
+
+    .project-card {
+      background: var(--color-light-bg);
+      padding: var(--spacing-l) 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Thin border - appears on hover */
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid transparent;
+      pointer-events: none;
+      transition: border-color 0.3s ease;
+    }
+
+    /* Corner accents - thicker marks at corners */
+    .project-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background:
+        /* Top-left corner */
+        linear-gradient(var(--color-blue), var(--color-blue)) 0 0 / 16px 2px no-repeat,
+        linear-gradient(var(--color-blue), var(--color-blue)) 0 0 / 2px 16px no-repeat,
+        /* Top-right corner */
+        linear-gradient(var(--color-blue), var(--color-blue)) 100% 0 / 16px 2px no-repeat,
+        linear-gradient(var(--color-blue), var(--color-blue)) 100% 0 / 2px 16px no-repeat,
+        /* Bottom-left corner */
+        linear-gradient(var(--color-blue), var(--color-blue)) 0 100% / 16px 2px no-repeat,
+        linear-gradient(var(--color-blue), var(--color-blue)) 0 100% / 2px 16px no-repeat,
+        /* Bottom-right corner */
+        linear-gradient(var(--color-blue), var(--color-blue)) 100% 100% / 16px 2px no-repeat,
+        linear-gradient(var(--color-blue), var(--color-blue)) 100% 100% / 2px 16px no-repeat;
+    }
+
+    .project-card:hover {
+      background: #fff;
+      box-shadow: 0 8px 40px rgba(26, 25, 23, 0.08);
+      z-index: 10;
+    }
+
+    .project-card:hover::before {
+      border-color: rgba(13, 153, 255, 0.3);
+    }
+
+    .project-card:hover::after {
+      opacity: 1;
+    }
+
+    .project-card:hover .project-arrow {
+      transform: translateX(4px);
+      opacity: 1;
+    }
+
+    .project-card--full {
+      grid-column: span 2;
+    }
+
+    .project-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .project-case {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-brown-light);
+      letter-spacing: 0.55px;
+    }
+
+    .project-type {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--color-blue);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: rgba(91, 143, 235, 0.1);
+      padding: 3px 9px;
+      border-radius: 3px;
+    }
+
+    .project-title {
+      font-family: var(--font-heading);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--color-brown-darkest);
+      line-height: 1.3;
+      transition: color 0.3s ease;
+    }
+
+    .project-description {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--color-brown-light);
+      line-height: 1.5;
+    }
+
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      border-top: 1px solid var(--color-brown-lightest);
+      margin-top: auto;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .project-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--color-brown-light);
+      letter-spacing: 0.5px;
+    }
+
+    .project-tag-sep {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--color-brown-light);
+    }
+
+    .project-arrow {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.6;
+      transition: all 0.3s ease;
+    }
+
+    .project-arrow .arrow-icon {
+      width: 14px;
+      height: 9px;
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .about {
+      position: relative;
+      padding: var(--spacing-xxl) var(--page-margin);
+      background: var(--color-dark-bg);
+    }
+
+
+    .about-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-xl);
+    }
+
+    .about-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-m);
+    }
+
+    .about-heading {
+      font-family: var(--font-heading);
+      font-size: 60px;
+      font-weight: 800;
+      line-height: 1.05;
+      color: var(--color-light-bg);
+    }
+
+    .about-heading span {
+      color: var(--color-blue);
+    }
+
+    .about-text {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--color-brown-medium);
+      line-height: 1.5;
+    }
+
+    .about-text strong {
+      color: var(--color-light-bg);
+      font-weight: 400;
+    }
+
+    .about-award {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      background: rgba(196, 161, 88, 0.08);
+      border: 1px solid rgba(196, 161, 88, 0.22);
+      border-radius: 6px;
+      margin-top: auto;
+      width: fit-content;
+    }
+
+    .about-award svg {
+      width: 11px;
+      height: 10px;
+      fill: var(--color-gold);
+    }
+
+    .about-award span {
+      font-size: 12px;
+      color: var(--color-gold);
+    }
+
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-card {
+      padding: var(--spacing-m) 0;
+      border-bottom: 1px solid var(--color-brown-dark);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-m);
+    }
+
+    .stat-number {
+      font-family: var(--font-heading);
+      font-size: 52px;
+      font-weight: 800;
+      color: var(--color-light-bg);
+      line-height: 1;
+    }
+
+    .stat-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-light-bg);
+      line-height: 1.55;
+    }
+
+    .stat-detail {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--color-brown-medium);
+      line-height: 1.55;
+    }
+
+    /* ===== CONTACT SECTION ===== */
+    .contact {
+      position: relative;
+      padding: 80px var(--page-margin);
+      border-top: 1px solid var(--color-brown-dark);
+      background: var(--color-dark-bg);
+    }
+
+    .contact-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .contact-content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .contact-heading {
+      font-family: var(--font-heading);
+      font-size: 44px;
+      font-weight: 800;
+      color: var(--color-light-bg);
+      line-height: 1.1;
+    }
+
+    .contact-subtext {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--color-brown-medium);
+      line-height: 1.6;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-end;
+      padding-top: 8px;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .contact-link:hover {
+      transform: translateX(-4px);
+    }
+
+    .contact-link:hover .contact-link-value {
+      color: var(--color-blue);
+    }
+
+    .contact-link-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--color-brown-medium);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      opacity: 0.45;
+      text-align: right;
+      min-width: 56px;
+    }
+
+    .contact-link-value {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--color-brown-medium);
+      transition: color 0.3s ease;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--color-dark-bg);
+      padding: 24px var(--page-margin);
+      border-top: 1px solid var(--color-brown-dark);
+    }
+
+    .footer-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-brown-medium);
+      letter-spacing: 0.44px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1200px) {
+      :root {
+        --page-margin: 80px;
+      }
+
+      .hero-name {
+        font-size: 80px;
+      }
+
+      .about-heading {
+        font-size: 48px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      :root {
+        --page-margin: 24px;
+      }
+
+      .hero {
+        padding-top: 120px;
+      }
+
+      .hero-name {
+        font-size: 56px;
+      }
+
+      .hero-description {
+        font-size: 16px;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-card--full {
+        grid-column: span 1;
+      }
+
+      .about-container {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .about-heading {
+        font-size: 40px;
+      }
+
+      .contact-container {
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .contact-links {
+        align-items: flex-start;
+      }
+
+      .stat-number {
+        font-size: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Noise Texture Overlay -->
+  <div class="noise-overlay"></div>
+
+  <!-- Page Wrapper -->
+  <div class="page-wrapper">
+    <!-- Global Blue Gradient -->
+    <div class="global-gradient"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+      <div class="nav-container">
+        <a href="#" class="nav-logo">Matt Hicks</a>
+        <div class="nav-links">
+          <a href="#work" class="nav-link">Work</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#" class="nav-btn">
+            Resume
+            <svg class="arrow-icon" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 4.5H13M13 4.5L9.5 1M13 4.5L9.5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-container">
+        <div class="hero-badge">
+          <div class="hero-badge-icon"><span>F</span></div>
+          <span class="hero-badge-text">PORTFOLIO · 2026</span>
+        </div>
+
+        <div class="hero-status">
+          <div class="status-dot"></div>
+          <span class="status-text">This design was created from scratch in Figma using my own design system and implemented with Claude Code. <a href="https://www.figma.com/design/3eLWiZoQFS1t1keE0nxsAv/Portfolio-Site?node-id=8-30198&t=TlOSSIcbf8FNlPwQ-1" target="_blank">View Here</a></span>
+        </div>
+
+        <div class="hero-heading">
+          <h1 class="hero-name">Matt</h1>
+          <h1 class="hero-name">Hicks</h1>
+        </div>
+
+        <p class="hero-description">
+          <strong>UI/UX Designer</strong><span> fluent in Figma — design systems, AI-augmented workflows, and 170+ shipped government websites. Based in Tampa, FL. Available remote.</span>
+        </p>
+
+        <div class="hero-actions">
+          <a href="#work" class="btn btn-primary">View Work</a>
+          <a href="#" class="btn btn-secondary">
+            Download Resume
+            <svg class="arrow-icon" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 4.5H13M13 4.5L9.5 1M13 4.5L9.5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+      <div class="hero-scroll">
+        <div class="scroll-line"></div>
+        <span class="scroll-text">SCROLL</span>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="work">
+      <div class="projects-container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-label">Selected Work</span>
+          <span class="section-label">05 Case Studies</span>
+        </div>
+
+        <div class="projects-grid">
+          <!-- Featured Project -->
+          <a href="case-study-r6.html" class="project-card project-card--full animate-on-scroll">
+            <div class="project-meta">
+              <span class="project-case">Case / 01</span>
+              <span class="project-type">Gov · Regional Planning</span>
+            </div>
+            <h3 class="project-title">R6 Regional Council, Utah</h3>
+            <p class="project-description">Complete website redesign for a Central Utah regional government body — building a brand color palette from scratch, crafting a clean Apple-inspired layout, and designing a mega menu that makes complex navigation feel simple.</p>
+            <div class="project-footer">
+              <div class="project-tags">
+                <span class="project-tag">Brand Color</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">Visual Design</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">ADA</span>
+              </div>
+              <div class="project-arrow">
+                <svg class="arrow-icon" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 4.5H13M13 4.5L9.5 1M13 4.5L9.5 8" stroke="#79746b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- Row 2 -->
+          <a href="case-study-archbold.html" class="project-card animate-on-scroll stagger-1">
+            <div class="project-meta">
+              <span class="project-case">Case / 02</span>
+              <span class="project-type">Gov · Visual Design</span>
+            </div>
+            <h3 class="project-title">Archbold, Ohio</h3>
+            <p class="project-description">Government website redesign for a small northwest Ohio village — transforming a cluttered, overlapping layout into a clean, confident design built around their navy and gold brand, a grid calendar their residents actually asked for, and navigation that doesn't require a map to use.</p>
+            <div class="project-footer">
+              <div class="project-tags">
+                <span class="project-tag">Visual Design</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">Calendar UX</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">ADA</span>
+              </div>
+              <div class="project-arrow">
+                <svg class="arrow-icon" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 4.5H13M13 4.5L9.5 1M13 4.5L9.5 8" stroke="#79746b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <a href="case-study-south-fork.html" class="project-card animate-on-scroll stagger-2">
+            <div class="project-meta">
+              <span class="project-case">Case / 03</span>
+              <span class="project-type">Utility · Visual Design</span>
+            </div>
+            <h3 class="project-title">South Fork Water, Oregon</h3>
+            <p class="project-description">Website redesign for a wholesale water authority serving Oregon City and West Linn — designed around their "simplicity is brilliant" philosophy and the natural heritage of the Clackamas River headwaters. Pure water since 1915.</p>
+            <div class="project-footer">
+              <div class="project-tags">
+                <span class="project-tag">Brand Guidelines</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">Visual Design</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">ADA</span>
+              </div>
+              <div class="project-arrow">
+                <svg class="arrow-icon" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 4.5H13M13 4.5L9.5 1M13 4.5L9.5 8" stroke="#79746b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- Row 3 -->
+          <a href="case-study-clive.html" class="project-card animate-on-scroll stagger-1">
+            <div class="project-meta">
+              <span class="project-case">Case / 04</span>
+              <span class="project-type">Gov · Multi-Site</span>
+            </div>
+            <h3 class="project-title">City of Clive, Iowa</h3>
+            <p class="project-description">Multi-site redesign for a city whose identity is literally nature — three distinct but cohesive sites for City Hall, the Public Library, and Parks & Recreation built around the Greenbelt trail system that defines Clive.</p>
+            <div class="project-footer">
+              <div class="project-tags">
+                <span class="project-tag">Multi-Site</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">Visual Design</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">Navigation</span>
+              </div>
+              <div class="project-arrow">
+                <svg class="arrow-icon" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 4.5H13M13 4.5L9.5 1M13 4.5L9.5 8" stroke="#79746b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <a href="case-study-temple.html" class="project-card animate-on-scroll stagger-2">
+            <div class="project-meta">
+              <span class="project-case">Case / 05</span>
+              <span class="project-type">Gov · Visual Design</span>
+            </div>
+            <h3 class="project-title">Temple, Texas</h3>
+            <p class="project-description">Large city website redesign across three sub-sites — five revision cycles, mobile-first design exports, and coordinated design for City Hall, the Public Library, and Parks & Recreation. A masterclass in client iteration.</p>
+            <div class="project-footer">
+              <div class="project-tags">
+                <span class="project-tag">Multi-Site</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">Mobile</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">Iteration</span>
+              </div>
+              <div class="project-arrow">
+                <svg class="arrow-icon" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 4.5H13M13 4.5L9.5 1M13 4.5L9.5 8" stroke="#79746b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Systems Section -->
+        <div class="section-header animate-on-scroll">
+          <span class="section-label">Systems & Process</span>
+          <span class="section-label">02 Projects</span>
+        </div>
+
+        <div class="projects-grid">
+          <a href="system-revize.html" class="project-card animate-on-scroll stagger-1">
+            <div class="project-meta">
+              <span class="project-case">System / 01</span>
+              <span class="project-type">Design Systems</span>
+            </div>
+            <h3 class="project-title">Revize Design System</h3>
+            <p class="project-description">The Figma component library behind 170+ government websites — built for consistency, speed, and the team's ability to scale without rebuilding from scratch every time.</p>
+            <div class="project-footer">
+              <div class="project-tags">
+                <span class="project-tag">Variables</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">Tokens</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">Modes</span>
+              </div>
+              <div class="project-arrow">
+                <svg class="arrow-icon" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 4.5H13M13 4.5L9.5 1M13 4.5L9.5 8" stroke="#79746b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <a href="system-ai-workflow.html" class="project-card animate-on-scroll stagger-2">
+            <div class="project-meta">
+              <span class="project-case">System / 02</span>
+              <span class="project-type">AI · Workflow</span>
+            </div>
+            <h3 class="project-title">AI-Augmented Design Workflow</h3>
+            <p class="project-description">Building a personal AI-native design system — Claude Code, Figma AI, MCP servers, and Make automations working in concert. Multi-hour tasks reduced to minutes.</p>
+            <div class="project-footer">
+              <div class="project-tags">
+                <span class="project-tag">Claude Code</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">Figma AI</span>
+                <span class="project-tag-sep">·</span>
+                <span class="project-tag">MCP</span>
+              </div>
+              <div class="project-arrow">
+                <svg class="arrow-icon" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 4.5H13M13 4.5L9.5 1M13 4.5L9.5 8" stroke="#79746b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+      <div class="about-container">
+        <div class="about-content">
+          <h2 class="about-heading animate-on-scroll">Design<br>that lives<br><span>inside<br>Figma</span></h2>
+          <p class="about-text animate-on-scroll stagger-1">I'm a UI/UX designer who spends most of his day in Figma — building systems, not just screens. I design with <strong>variables</strong>, <strong>tokens</strong>, and <strong>modes</strong> baked in from the start so that the work is maintainable, scalable, and developer-ready.</p>
+          <p class="about-text animate-on-scroll stagger-2">At Revize Software Systems, I led visual design across <strong>170+ government website projects</strong>, built and maintained the company's Figma component library, and overhauled how our team uses AI tools to move faster without losing quality.</p>
+          <p class="about-text animate-on-scroll stagger-3">I'm looking for a role where Figma is a first-class tool — on a product team that cares about design systems, accessibility, and shipping real work.</p>
+          <div class="about-award animate-on-scroll stagger-4">
+            <svg viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.5 0L6.7 3.8H10.7L7.5 6.2L8.7 10L5.5 7.6L2.3 10L3.5 6.2L0.3 3.8H4.3L5.5 0Z"/>
+            </svg>
+            <span>2024 Horizon Interactive Gold Award — City of Golden, CO</span>
+          </div>
+        </div>
+
+        <div class="about-stats">
+          <div class="stat-card animate-on-scroll stagger-1">
+            <div class="stat-number">3+</div>
+            <div class="stat-content">
+              <div class="stat-label">Years of experience in Figma</div>
+              <div class="stat-detail">Design Systems · Components · Auto Layout · Dev Mode · Variables · Prototyping</div>
+            </div>
+          </div>
+
+          <div class="stat-card animate-on-scroll stagger-2">
+            <div class="stat-number">170+</div>
+            <div class="stat-content">
+              <div class="stat-label">Government websites shipped</div>
+              <div class="stat-detail">From discovery through developer handoff</div>
+            </div>
+          </div>
+
+          <div class="stat-card animate-on-scroll stagger-3">
+            <div class="stat-number">Gold</div>
+            <div class="stat-content">
+              <div class="stat-label">2024 Horizon Interactive Award</div>
+              <div class="stat-detail">City of Golden, CO — lead designer, end-to-end</div>
+            </div>
+          </div>
+
+          <div class="stat-card animate-on-scroll stagger-4">
+            <div class="stat-number">4+</div>
+            <div class="stat-content">
+              <div class="stat-label">AI tools in daily workflow</div>
+              <div class="stat-detail">Claude · Figma AI · MCP · Make</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact">
+      <div class="contact-container">
+        <div class="contact-content animate-on-scroll">
+          <h2 class="contact-heading">Let's work<br>together.</h2>
+          <p class="contact-subtext">Open to full-time product designer roles.<br>Remote preferred, Tampa area also open.</p>
+        </div>
+
+        <div class="contact-links">
+          <a href="mailto:matt@digitalfish.io" class="contact-link animate-on-scroll stagger-1">
+            <span class="contact-link-label">Email</span>
+            <span class="contact-link-value">matt@digitalfish.io</span>
+          </a>
+          <a href="https://linkedin.com/in/matthicksfl" target="_blank" rel="noopener" class="contact-link animate-on-scroll stagger-2">
+            <span class="contact-link-label">LinkedIn</span>
+            <span class="contact-link-value">linkedin.com/in/matthicksfl</span>
+          </a>
+          <a href="https://www.instagram.com/matthks/" target="_blank" rel="noopener" class="contact-link animate-on-scroll stagger-3">
+            <span class="contact-link-label">Instagram</span>
+            <span class="contact-link-value">instagram.com/matthks</span>
+          </a>
+          <a href="https://digitalfish.io" target="_blank" rel="noopener" class="contact-link animate-on-scroll stagger-4">
+            <span class="contact-link-label">Site</span>
+            <span class="contact-link-value">digitalfish.io</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <span class="footer-text">© 2026 Matt Hicks</span>
+        <span class="footer-text">Built with Figma + Claude Code</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -50px 0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Observe all animated elements
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Parallax effect on scroll for hero
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrolled = window.pageYOffset;
+
+          // Hero parallax
+          const hero = document.querySelector('.hero-container');
+          if (hero && scrolled < window.innerHeight) {
+            hero.style.transform = `translateY(${scrolled * 0.15}px)`;
+            hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
+          }
+
+          // Gradient drift on scroll - subtle left/right movement
+          const gradientOffset = Math.sin(scrolled * 0.003) * 30;
+          document.documentElement.style.setProperty('--gradient-offset', `${gradientOffset}px`);
+
+          // Nav color transition based on section
+          const nav = document.querySelector('.nav');
+          const projects = document.querySelector('.projects');
+          if (nav && projects) {
+            const navBottom = nav.getBoundingClientRect().bottom;
+            const projectsTop = projects.getBoundingClientRect().top;
+            const projectsBottom = projects.getBoundingClientRect().bottom;
+
+            if (navBottom > projectsTop && navBottom < projectsBottom) {
+              nav.classList.add('nav-light');
+            } else {
+              nav.classList.remove('nav-light');
+            }
+          }
+
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  </script>
+
+</body>
+</html>

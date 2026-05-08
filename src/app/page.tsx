@@ -6,6 +6,8 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ScrollAnimations from "@/components/ScrollAnimations";
 import ArrowIcon from "@/components/ArrowIcon";
+import { designerOfRecord, teamWins } from "@/data/awards";
+import { stats } from "@/data/stats";
 
 export default function HomePage() {
   // Parallax hero effect + gradient drift on scroll
@@ -116,7 +118,7 @@ export default function HomePage() {
               <strong>UI/UX Designer</strong>
               <span>
                 {" "}
-                fluent in Figma — design systems, AI-augmented workflows, and 170+
+                fluent in Figma — design systems, AI-augmented workflows, and 190+
                 shipped government websites. Based in Tampa, FL. Available remote.
               </span>
             </p>
@@ -125,7 +127,12 @@ export default function HomePage() {
               <a href="#work" className="btn btn-primary">
                 View Work
               </a>
-              <a href="#" className="btn btn-secondary">
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary"
+              >
                 Download Resume
                 <ArrowIcon />
               </a>
@@ -143,7 +150,7 @@ export default function HomePage() {
           <div className="projects-container">
             <div className="section-header animate-on-scroll">
               <span className="section-label">Selected Work</span>
-              <span className="section-label">05 Case Studies</span>
+              <span className="section-label">06 Case Studies</span>
             </div>
 
             <div className="projects-grid">
@@ -297,6 +304,38 @@ export default function HomePage() {
                   </div>
                 </div>
               </Link>
+
+              <Link
+                href="/case-study/franklin"
+                className="project-card project-card--full animate-on-scroll"
+              >
+                <div className="project-meta">
+                  <span className="project-case">Case / 06</span>
+                  <span className="project-type">Brand &middot; Identity System</span>
+                </div>
+                <h3 className="project-title">City of Franklin, Indiana</h3>
+                <p className="project-description">
+                  A full rebrand for a historic Indiana city — new logo, new palette,
+                  new type pairing, new website. Most municipal projects design around
+                  an existing brand. Franklin let us redefine it: custom wordmark,
+                  abstract arch, four color families, two type families, one design
+                  system that ties everything together.
+                </p>
+                <div className="project-footer">
+                  <div className="project-tags">
+                    <span className="project-tag">Brand Identity</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">Logo</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">Color System</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">Typography</span>
+                  </div>
+                  <div className="project-arrow">
+                    <ArrowIcon stroke="#79746b" />
+                  </div>
+                </div>
+              </Link>
             </div>
 
             {/* Systems Section */}
@@ -391,7 +430,7 @@ export default function HomePage() {
               </p>
               <p className="about-text animate-on-scroll stagger-2">
                 At Revize Software Systems, I led visual design across{" "}
-                <strong>170+ government website projects</strong>, built and
+                <strong>190+ government website projects</strong>, built and
                 maintained the company&apos;s Figma component library, and overhauled
                 how our team uses AI tools to move faster without losing quality.
               </p>
@@ -400,59 +439,59 @@ export default function HomePage() {
                 product team that cares about design systems, accessibility, and
                 shipping real work.
               </p>
-              <div className="about-award animate-on-scroll stagger-4">
-                <svg viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5.5 0L6.7 3.8H10.7L7.5 6.2L8.7 10L5.5 7.6L2.3 10L3.5 6.2L0.3 3.8H4.3L5.5 0Z" />
-                </svg>
-                <span>
-                  2024 Horizon Interactive Gold Award — City of Golden, CO
-                </span>
-              </div>
             </div>
 
             <div className="about-stats">
-              <div className="stat-card animate-on-scroll stagger-1">
-                <div className="stat-number">3+</div>
-                <div className="stat-content">
-                  <div className="stat-label">Years of experience in Figma</div>
-                  <div className="stat-detail">
-                    Design Systems &middot; Components &middot; Auto Layout &middot;
-                    Dev Mode &middot; Variables &middot; Prototyping
+              {stats.map((stat, i) => (
+                <div
+                  key={stat.label}
+                  className={`stat-card animate-on-scroll stagger-${i + 1}`}
+                >
+                  <div className="stat-number">{stat.number}</div>
+                  <div className="stat-content">
+                    <div className="stat-label">{stat.label}</div>
+                    <div className="stat-detail">{stat.detail}</div>
                   </div>
                 </div>
-              </div>
+              ))}
+            </div>
+          </div>
 
-              <div className="stat-card animate-on-scroll stagger-2">
-                <div className="stat-number">170+</div>
-                <div className="stat-content">
-                  <div className="stat-label">Government websites shipped</div>
-                  <div className="stat-detail">
-                    From discovery through developer handoff
-                  </div>
-                </div>
+          <div className="about-recognition-wrapper">
+            <div className="about-recognition animate-on-scroll">
+              <div className="about-recognition-header">
+                <svg
+                  className="about-recognition-icon"
+                  viewBox="0 0 11 10"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M5.5 0L6.7 3.8H10.7L7.5 6.2L8.7 10L5.5 7.6L2.3 10L3.5 6.2L0.3 3.8H4.3L5.5 0Z" />
+                </svg>
+                <span>2024 &amp; 2025 Horizon Interactive Awards · Designer of record</span>
               </div>
-
-              <div className="stat-card animate-on-scroll stagger-3">
-                <div className="stat-number">Gold</div>
-                <div className="stat-content">
-                  <div className="stat-label">
-                    2024 Horizon Interactive Award
-                  </div>
-                  <div className="stat-detail">
-                    City of Golden, CO — lead designer, end-to-end
-                  </div>
-                </div>
-              </div>
-
-              <div className="stat-card animate-on-scroll stagger-4">
-                <div className="stat-number">4+</div>
-                <div className="stat-content">
-                  <div className="stat-label">AI tools in daily workflow</div>
-                  <div className="stat-detail">
-                    Claude &middot; Figma AI &middot; MCP &middot; Make
-                  </div>
-                </div>
-              </div>
+              <ul className="about-recognition-list">
+                {designerOfRecord.map((a) => (
+                  <li
+                    key={`${a.year}-${a.project}`}
+                    className="about-recognition-item"
+                  >
+                    <span className={`award-pill award-pill--${a.level
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}`}>
+                      {a.level}
+                    </span>
+                    <span className="award-project">
+                      {a.project}, {a.state}
+                    </span>
+                    <span className="award-year">{a.year}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="about-recognition-footnote">
+                Plus {teamWins.length} additional team-win awards across the same
+                categories — Pasco County FL (Gold), Conroe TX (Silver), Vineyard UT
+                (Silver), Downtown Duluth GA (Best in Category).
+              </p>
             </div>
           </div>
         </section>

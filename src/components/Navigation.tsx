@@ -68,7 +68,12 @@ export default function Navigation({ isHomepage = false }: NavigationProps) {
           <Link href={aboutHref} className="nav-link">
             About
           </Link>
-          <a href="#" className="nav-btn">
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-btn"
+          >
             Resume
             <ArrowIcon />
           </a>

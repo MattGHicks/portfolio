@@ -32,7 +32,7 @@ export default function SystemRevize() {
 
             <p className="cs-label">System 01</p>
             <h1 className="cs-title">Revize Design<br />System</h1>
-            <p className="cs-subtitle">The Figma component library behind 170+ government websites — built for consistency, speed, and the team&apos;s ability to scale without rebuilding from scratch every time.</p>
+            <p className="cs-subtitle">The Figma component library behind 190+ government websites — built for consistency, speed, and the team&apos;s ability to scale without rebuilding from scratch every time.</p>
 
             <div className="cs-tags">
               <span className="cs-tag">Variables</span>
@@ -50,7 +50,7 @@ export default function SystemRevize() {
           <div className="cs-content-container">
             <div className="cs-section animate-on-scroll">
               <p className="cs-section-label">Overview</p>
-              <h2 className="cs-section-title">A system that ships 170+ sites</h2>
+              <h2 className="cs-section-title">A system that ships 190+ sites</h2>
               <p className="cs-paragraph">The Revize Design System is the component library I built and maintained at Revize Software Systems. It powers every government website our team ships — from small townships to mid-sized cities. The goal was never just consistency; it was speed without sacrifice.</p>
               <p className="cs-paragraph">Every component is built with Figma variables, design tokens, and mode switching baked in from the start. That means a designer can rebrand an entire template in minutes, swap between light and dark modes instantly, and hand off specs that developers can actually trust.</p>
             </div>
@@ -133,7 +133,7 @@ export default function SystemRevize() {
               <div className="cs-decisions">
                 <div className="cs-decision">
                   <span className="cs-decision-name">Sites shipped</span>
-                  <span className="cs-decision-value">170+ government websites built on this system, from small townships to mid-sized cities.</span>
+                  <span className="cs-decision-value">190+ government websites built on this system, from small townships to mid-sized cities.</span>
                 </div>
                 <div className="cs-decision">
                   <span className="cs-decision-name">Design time</span>

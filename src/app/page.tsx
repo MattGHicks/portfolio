@@ -355,7 +355,7 @@ export default function HomePage() {
                 </div>
                 <h3 className="project-title">Revize Design System</h3>
                 <p className="project-description">
-                  The Figma component library behind 170+ government websites — built
+                  The Figma component library behind 190+ government websites — built
                   for consistency, speed, and the team&apos;s ability to scale without
                   rebuilding from scratch every time.
                 </p>

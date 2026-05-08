@@ -28,7 +28,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Matt Hicks — UI/UX Designer",
   description:
-    "UI/UX Designer fluent in Figma — design systems, AI-augmented workflows, and 170+ shipped government websites. Based in Tampa, FL.",
+    "UI/UX Designer fluent in Figma — design systems, AI-augmented workflows, and 190+ shipped government websites. Based in Tampa, FL.",
 };
 
 export default function RootLayout({

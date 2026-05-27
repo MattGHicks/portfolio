@@ -124,3 +124,65 @@ export async function archiveMessage(messageId: string) {
     },
   });
 }
+
+export type GmailSendArgs = {
+  from: string;
+  to: string;
+  subject: string;
+  text: string;
+  html: string;
+};
+
+/**
+ * Send an email via the Gmail API as the authenticated user.
+ * Requires the gmail.modify scope (which our refresh token has).
+ * Encodes the message as multipart/alternative so the recipient
+ * gets HTML if their client supports it, plain text as fallback.
+ */
+export async function sendEmail(args: GmailSendArgs): Promise<{ id: string }> {
+  const gmail = getGmailClient();
+  const boundary = `cdo_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+
+  const headers = [
+    `From: ${args.from}`,
+    `To: ${args.to}`,
+    `Subject: ${encodeSubject(args.subject)}`,
+    "MIME-Version: 1.0",
+    `Content-Type: multipart/alternative; boundary="${boundary}"`,
+  ].join("\r\n");
+
+  const body = [
+    "",
+    `--${boundary}`,
+    "Content-Type: text/plain; charset=UTF-8",
+    "Content-Transfer-Encoding: 7bit",
+    "",
+    args.text,
+    "",
+    `--${boundary}`,
+    "Content-Type: text/html; charset=UTF-8",
+    "Content-Transfer-Encoding: 7bit",
+    "",
+    args.html,
+    "",
+    `--${boundary}--`,
+    "",
+  ].join("\r\n");
+
+  const raw = Buffer.from(headers + "\r\n" + body, "utf-8").toString("base64url");
+
+  const res = await gmail.users.messages.send({
+    userId: "me",
+    requestBody: { raw },
+  });
+
+  if (!res.data.id) throw new Error("Gmail send returned no message id");
+  return { id: res.data.id };
+}
+
+// RFC 2047 encode subject if it contains non-ASCII (for emoji / unicode chars)
+function encodeSubject(subject: string): string {
+  // eslint-disable-next-line no-control-regex
+  if (/^[\x00-\x7F]*$/.test(subject)) return subject;
+  return `=?UTF-8?B?${Buffer.from(subject, "utf-8").toString("base64")}?=`;
+}

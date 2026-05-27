@@ -1,9 +1,11 @@
 /**
  * Daily digest cron — runs at 8am ET.
- * Builds a digest of pipeline state and emails Matt via Resend.
+ * Builds a digest of pipeline state and emails it via Gmail
+ * (using the same OAuth refresh token as the inbox poller).
+ * No third-party email service needed.
  */
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import { sendEmail } from "@/lib/gmail";
 import { buildDigest, renderDigestHtml, renderDigestText } from "@/lib/digest";
 import { verifyCronRequest, getKillSwitch } from "@/lib/cron-auth";
 
@@ -19,7 +21,7 @@ export async function GET(request: Request) {
   }
 
   const digest = await buildDigest();
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://digitalfish.io";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.digitalfish.io";
 
   const html = renderDigestHtml(digest, baseUrl);
   const text = renderDigestText(digest, baseUrl);
@@ -38,24 +40,26 @@ export async function GET(request: Request) {
     return NextResponse.json({ status: "skipped", reason: "no content" });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json({ status: "skipped", reason: "RESEND_API_KEY not set", preview: text });
+  if (!process.env.GMAIL_REFRESH_TOKEN) {
+    return NextResponse.json({
+      status: "skipped",
+      reason: "GMAIL_REFRESH_TOKEN not set",
+      preview: text,
+    });
   }
 
-  const resend = new Resend(apiKey);
-  const from = process.env.NOTIFICATION_EMAIL_FROM ?? "career@digitalfish.io";
+  const from = process.env.NOTIFICATION_EMAIL_FROM ?? "matt@digitalfish.io";
   const to = process.env.NOTIFICATION_EMAIL_TO ?? "matt@digitalfish.io";
 
   try {
-    const result = await resend.emails.send({
+    const result = await sendEmail({
       from,
       to,
       subject: `Career Ops · ${digest.date}`,
       html,
       text,
     });
-    return NextResponse.json({ status: "ok", emailId: result.data?.id, digest });
+    return NextResponse.json({ status: "ok", emailId: result.id, digest });
   } catch (err) {
     console.error("[daily-digest] send failed:", err);
     return NextResponse.json({ status: "error", error: String(err) }, { status: 500 });

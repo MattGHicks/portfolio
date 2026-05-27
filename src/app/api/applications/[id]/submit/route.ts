@@ -17,8 +17,11 @@ export async function POST(_request: Request, { params }: { params: { id: string
 
   const [app] = await db.select().from(applications).where(eq(applications.id, id)).limit(1);
   if (!app) return NextResponse.json({ error: "not found" }, { status: 404 });
-  if (app.status !== "approved") {
+  if (app.status !== "approved" && app.status !== "failed") {
     return NextResponse.json({ error: `cannot submit, status=${app.status}` }, { status: 409 });
+  }
+  if (app.status === "failed") {
+    await db.update(applications).set({ status: "approved" }).where(eq(applications.id, id));
   }
 
   const cancelToken = randomBytes(16).toString("hex");

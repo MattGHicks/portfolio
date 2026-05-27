@@ -6,3 +6,11 @@ out
 .vercel
 _html-source/
 *.tsbuildinfo
+
+# Local IDE state
+.claude/
+
+# Local scratch artifacts (not part of the site)
+IMG_*.jpeg
+IMG_*.jpg
+Screenshot*.png

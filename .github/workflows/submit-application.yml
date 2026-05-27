@@ -1,0 +1,57 @@
+name: Submit application
+
+on:
+  workflow_dispatch:
+    inputs:
+      application_id:
+        description: "Application ID to submit"
+        required: true
+        type: string
+      cancel_token:
+        description: "Cancel token for callback auth"
+        required: true
+        type: string
+
+concurrency:
+  group: submit-application
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: 15-minute cancel window
+        run: |
+          echo "Sleeping 15 minutes to allow cancellation via dashboard…"
+          sleep 900
+
+      - name: Submit application
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          APPLICATION_ID: ${{ inputs.application_id }}
+          CANCEL_TOKEN: ${{ inputs.cancel_token }}
+          RESUME_PDF_PATH: ${{ github.workspace }}/public/resume.pdf
+        run: node scripts/submit/submit.mjs
+
+      - name: Upload artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: submit-${{ inputs.application_id }}-screenshots
+          path: |
+            scripts/submit/*.png
+            scripts/submit/*.log

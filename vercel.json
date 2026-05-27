@@ -1,0 +1,16 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/discovery",
+      "schedule": "0 13 * * *"
+    },
+    {
+      "path": "/api/cron/gmail-poll",
+      "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/cron/daily-digest",
+      "schedule": "0 12 * * *"
+    }
+  ]
+}

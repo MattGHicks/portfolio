@@ -3,17 +3,19 @@
 > Matt's personal design portfolio — case studies, design system work, and AI workflow showcases.
 
 ## Status
-- **Stage:** planning / early build
-- **Deployed:** no (not yet)
-- **Auto-deploy:** no
+- **Stage:** live + actively updated
+- **Deployed:** [digitalfish.io](https://digitalfish.io) on Vercel
+- **Auto-deploy:** yes (push to `main` → Vercel)
+- **Latest production deploy:** 2026-05-27 (`d43ffdc` — submit-route retry-from-failed fix)
 
 ## What This Is
-Matt's personal portfolio site. Showcases UI/UX design work — primarily Revize municipal website case studies (South Fork, Brewster, Clive, Archbold, R6) and potentially DigitalFish freelance work. Also has a section for the AI workflow/ecosystem work.
+Matt's personal portfolio site **plus** the password-protected `/admin` Career Ops dashboard. Public side: case studies (Revize municipal sites — South Fork, Brewster, Clive, Archbold, R6, Franklin), design-system showcase, AI workflow section, awards list, resume PDF download. Admin side: end-to-end job-search pipeline (Postgres-backed pipeline, Gmail polling, daily digest, GitHub Actions auto-submit). See `DASHBOARD-DEPLOY.md` for the admin deploy notes and the Obsidian vault `career/system-design-v2.md` for the architecture.
 
 ## Stack
-- **Frontend:** Next.js (App Router), TypeScript, Tailwind CSS
-- **Content:** Static — no CMS, no backend
-- **Deployment:** TBD (Vercel likely)
+- **Frontend:** Next.js 14 (App Router), TypeScript, React 18, Tailwind CSS v3
+- **Public portfolio:** static — no CMS, no backend
+- **/admin dashboard:** Drizzle ORM + Postgres (local for dev, Neon via Vercel Marketplace for prod), Gmail API (`googleapis`) for inbox poll + digest send, `jose` for session cookies, Vercel Cron for scheduled jobs, GitHub Actions + Playwright for submission
+- **Deployment:** Vercel (auto-deploy on push to `main`)
 
 ## Project Structure
 ```
@@ -49,13 +51,12 @@ portfolio/
 - Mobile-responsive — recruiters and clients view on all devices
 
 ## Active Work
-- [ ] Finalize page structure and navigation
-- [ ] Complete case study pages
-- [ ] Add AI workflow section
+- [ ] Watch first DRY-RUN submission complete (Hugging Face, app id 16, dispatched 2026-05-27) → verify screenshots → flip `DRY_RUN=false` in `.github/workflows/submit-application.yml`
+- [ ] Add more case studies as Revize projects approve
 
 ## Off Limits
 - Don't edit anything in `_html-source/` — it's a reference archive
-- Don't add a backend — keep it fully static
+- Don't add a backend to the **public** routes — keep them fully static. The `/admin` route group is the documented exception; do not bleed DB/server logic into public pages.
 
 ---
 

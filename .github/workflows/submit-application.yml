@@ -48,6 +48,10 @@ jobs:
           APPLICATION_ID: ${{ inputs.application_id }}
           CANCEL_TOKEN: ${{ inputs.cancel_token }}
           RESUME_PDF_PATH: ${{ github.workspace }}/public/resume.pdf
+          # Repo variable DRY_RUN — set to "false" (Settings → Secrets and
+          # variables → Actions → Variables) to enable real submission.
+          # Unset/anything-else = prefill + screenshot only.
+          DRY_RUN: ${{ vars.DRY_RUN }}
         run: node scripts/submit/submit.mjs
 
       - name: Upload artifacts

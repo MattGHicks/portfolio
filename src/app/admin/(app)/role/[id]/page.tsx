@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getRole, getRoleOutreach } from "@/lib/queries";
 import { TierBadge, StatusBadge, NarrativeBadge } from "@/components/admin/Badges";
 import { StatusSelect, TierSelect, DropButton, ArchiveButton } from "@/components/admin/RoleActions";
+import { ApplyButton } from "@/components/admin/ApplyButton";
 import { formatSalary, formatDate, formatRelative, remoteLabel, atsLabel } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -43,7 +44,7 @@ export default async function RoleDetailPage({ params }: { params: { id: string 
               )}
             </div>
           </div>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
             {role.sourceUrl && (
               <a
                 href={role.sourceUrl}
@@ -55,9 +56,12 @@ export default async function RoleDetailPage({ params }: { params: { id: string 
               </a>
             )}
             {lastDraft && role.status !== "submitted" && (
-              <Link href={`/admin/role/${role.id}/draft`} className="admin-btn admin-btn--primary">
+              <Link href={`/admin/role/${role.id}/draft`} className="admin-btn admin-btn--secondary">
                 Review draft
               </Link>
+            )}
+            {["scored", "drafting", "awaiting_approval", "approved"].includes(role.status) && role.tier !== "drop" && (
+              <ApplyButton roleId={role.id} label="Apply now" />
             )}
           </div>
         </div>

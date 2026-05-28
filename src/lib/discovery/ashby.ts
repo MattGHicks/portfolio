@@ -31,7 +31,7 @@ export async function fetchAshbyBoard(slug: string): Promise<AshbyBoard> {
   const res = await fetch(url, {
     headers: { Accept: "application/json" },
     next: { revalidate: 0 },
-    signal: AbortSignal.timeout(12000),
+    signal: AbortSignal.timeout(25000),
   });
   if (!res.ok) {
     throw new Error(`Ashby board ${slug} returned ${res.status}: ${await res.text().catch(() => "")}`);

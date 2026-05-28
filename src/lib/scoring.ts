@@ -77,13 +77,26 @@ function haystack(role: ScoreableRole): string {
   return [role.title, role.jdText, role.jdSnippet, role.location].filter(Boolean).join("  ").toLowerCase();
 }
 
+function countMatches(re: RegExp, s: string): number {
+  const m = s.match(new RegExp(re.source, "gi"));
+  return m ? m.length : 0;
+}
+
 export function classifyBucket(role: ScoreableRole): NarrativeBucket {
-  const h = haystack(role);
-  // Order matters: govtech and fintech are more specific than the broad ai_devtools net.
-  if (GOVTECH.test(h)) return "govtech_civic";
-  if (FINTECH.test(h)) return "b2b_infra_fintech";
-  if (AI_DEVTOOLS.test(h)) return "ai_devtools";
-  return "other";
+  // Weighted scoring instead of first-match: the title is the strongest signal
+  // (×4), JD body is supporting evidence (×1). This stops a single stray
+  // "government" in a benefits blurb from mislabeling an AI-tools role as govtech.
+  const title = (role.title ?? "").toLowerCase();
+  const body = [role.jdText, role.jdSnippet, role.location].filter(Boolean).join("  ").toLowerCase();
+
+  const scoreBucket = (re: RegExp) => countMatches(re, title) * 4 + countMatches(re, body);
+  const scores: Array<[NarrativeBucket, number]> = [
+    ["ai_devtools", scoreBucket(AI_DEVTOOLS)],
+    ["b2b_infra_fintech", scoreBucket(FINTECH)],
+    ["govtech_civic", scoreBucket(GOVTECH)],
+  ];
+  scores.sort((a, b) => b[1] - a[1]);
+  return scores[0][1] > 0 ? scores[0][0] : "other";
 }
 
 function tierForScore(score: number): RoleTier {

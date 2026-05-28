@@ -25,6 +25,7 @@ export async function fetchGreenhouseBoard(slug: string): Promise<GreenhouseBoar
   const res = await fetch(url, {
     headers: { Accept: "application/json" },
     next: { revalidate: 0 },
+    signal: AbortSignal.timeout(25000),
   });
   if (!res.ok) {
     throw new Error(`Greenhouse board ${slug} returned ${res.status}`);

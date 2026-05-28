@@ -11,7 +11,7 @@
 
 import { db } from "@/db";
 import { roles, drafts, standingAnswers } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { scoreRole } from "@/lib/scoring";
 import { generateCoverLetter, defaultCustomAnswers } from "@/lib/autodraft";
 
@@ -104,6 +104,24 @@ export async function scoreUnscoredRoles(): Promise<ScoredSummary[]> {
   const standing = await getStandingMap();
   const out: ScoredSummary[] = [];
   for (const { id } of unscored) {
+    const r = await scoreAndDraftRole(id, standing);
+    if (r) out.push(r);
+  }
+  return out;
+}
+
+/**
+ * Re-score every active role (re-applies the rubric, e.g. after a scoring
+ * change). Skips terminal states. Maintenance use only.
+ */
+export async function rescoreAllRoles(): Promise<ScoredSummary[]> {
+  const active = await db
+    .select({ id: roles.id })
+    .from(roles)
+    .where(sql`status NOT IN ('archived', 'rejected')`);
+  const standing = await getStandingMap();
+  const out: ScoredSummary[] = [];
+  for (const { id } of active) {
     const r = await scoreAndDraftRole(id, standing);
     if (r) out.push(r);
   }

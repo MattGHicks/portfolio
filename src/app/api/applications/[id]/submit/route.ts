@@ -17,10 +17,13 @@ export async function POST(_request: Request, { params }: { params: { id: string
 
   const [app] = await db.select().from(applications).where(eq(applications.id, id)).limit(1);
   if (!app) return NextResponse.json({ error: "not found" }, { status: 404 });
-  if (app.status !== "approved" && app.status !== "failed") {
+  // Allow retry from failed (dispatch error) or submitting (orphaned by a
+  // cancelled/timed-out workflow that never called back into /result).
+  const RETRIABLE = new Set(["approved", "failed", "submitting"]);
+  if (!RETRIABLE.has(app.status)) {
     return NextResponse.json({ error: `cannot submit, status=${app.status}` }, { status: 409 });
   }
-  if (app.status === "failed") {
+  if (app.status !== "approved") {
     await db.update(applications).set({ status: "approved" }).where(eq(applications.id, id));
   }
 

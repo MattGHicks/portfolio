@@ -19,7 +19,10 @@ concurrency:
 jobs:
   submit:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Cancel window is 15 min (sleep 900) + Playwright submission needs ~5-8 min.
+    # timeout-minutes must exceed both, otherwise the job dies during the sleep
+    # and the Submit step never runs.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
@@ -47,11 +50,12 @@ jobs:
           RESUME_PDF_PATH: ${{ github.workspace }}/public/resume.pdf
         run: node scripts/submit/submit.mjs
 
-      - name: Upload artifacts on failure
-        if: failure()
+      - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: submit-${{ inputs.application_id }}-screenshots
           path: |
             scripts/submit/*.png
             scripts/submit/*.log
+          if-no-files-found: ignore

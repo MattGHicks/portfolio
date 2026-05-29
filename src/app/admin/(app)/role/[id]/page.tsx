@@ -4,6 +4,7 @@ import { getRole, getRoleOutreach } from "@/lib/queries";
 import { TierBadge, StatusBadge, NarrativeBadge } from "@/components/admin/Badges";
 import { StatusSelect, TierSelect, DropButton, ArchiveButton } from "@/components/admin/RoleActions";
 import { ApplyButton } from "@/components/admin/ApplyButton";
+import { SubmissionRecord } from "@/components/admin/SubmissionRecord";
 import { formatSalary, formatDate, formatRelative, remoteLabel, atsLabel } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -96,6 +97,10 @@ export default async function RoleDetailPage({ params }: { params: { id: string 
               </div>
               <div className="admin-detail-jd">{role.jdText}</div>
             </div>
+          )}
+
+          {lastApp?.submissionLog && (lastApp.submissionLog as unknown[]).length > 0 && (
+            <SubmissionRecord log={lastApp.submissionLog as any} />
           )}
 
           {lastDraft && (

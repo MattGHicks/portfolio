@@ -19,6 +19,7 @@ const APPLICATION_ID = process.env.APPLICATION_ID;
 const CANCEL_TOKEN = process.env.CANCEL_TOKEN;
 const RESUME_PDF_PATH = process.env.RESUME_PDF_PATH;
 const DRY_RUN = process.env.DRY_RUN !== "false";
+const RUN_URL = process.env.RUN_URL || null;
 
 if (!BASE_URL || !APPLICATION_ID || !CANCEL_TOKEN) {
   console.error("Missing env: BASE_URL, APPLICATION_ID, CANCEL_TOKEN");
@@ -29,8 +30,42 @@ async function reportResult(ok, error, log, extra = {}) {
   await fetch(`${BASE_URL}/api/applications/${APPLICATION_ID}/result`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-cancel-token": CANCEL_TOKEN },
-    body: JSON.stringify({ ok, error, log, ...extra }),
+    body: JSON.stringify({ ok, error, log, runUrl: RUN_URL, ...extra }),
   });
+}
+
+/**
+ * Find required fields the auto-fill left empty. Conservative: only counts
+ * visible, enabled, non-file controls that are HTML-required OR whose label
+ * carries a required asterisk (Greenhouse/Ashby/Lever mark custom questions
+ * this way). Better to over-report (refuse a fine form) than under-report
+ * (submit a broken one).
+ */
+async function detectMissingRequired(page) {
+  return page.evaluate(() => {
+    const out = [];
+    const controls = Array.from(document.querySelectorAll("input, textarea, select"));
+    for (const f of controls) {
+      if (f.type === "hidden" || f.type === "file" || f.type === "submit" || f.type === "button") continue;
+      if (f.disabled) continue;
+      const style = window.getComputedStyle(f);
+      if (style.display === "none" || style.visibility === "hidden") continue;
+      // Determine "required": native attr, aria, or an asterisk in the field's label.
+      const labelEl =
+        f.closest("label") ||
+        (f.id && document.querySelector(`label[for="${CSS.escape(f.id)}"]`)) ||
+        f.closest("div")?.querySelector("label");
+      const labelText = (labelEl?.textContent || "").replace(/\s+/g, " ").trim();
+      const required = f.required || f.getAttribute("aria-required") === "true" || /\*/.test(labelText);
+      if (!required) continue;
+      const val = (f.value || "").trim();
+      if (!val) {
+        out.push((labelText.replace(/\*/g, "").trim() || f.name || f.id || "unknown field").slice(0, 70));
+      }
+    }
+    // de-dupe
+    return [...new Set(out)];
+  }).catch(() => []);
 }
 
 async function tryFill(page, selector, value, log, label) {
@@ -158,27 +193,73 @@ async function main() {
     await page.screenshot({ path: screenshotPath, fullPage: true }).catch(() => {});
     log.steps.push({ at: new Date().toISOString(), step: "screenshot", path: screenshotPath });
 
+    // Completeness gate: which required fields did the auto-fill leave empty?
+    const missingRequired = await detectMissingRequired(page);
+    log.steps.push({ at: new Date().toISOString(), step: "completeness_check", missingRequired });
+
     if (DRY_RUN) {
       log.steps.push({ at: new Date().toISOString(), step: "dry_run_stop_before_submit" });
       // Successful prefill: report ok:true + dryRun so the dashboard shows
       // "dry-run passed" (not "failed"). Set DRY_RUN=false to submit for real.
-      await reportResult(true, undefined, log, { dryRun: true });
+      await reportResult(true, undefined, log, { dryRun: true, missingRequired });
       await browser.close();
       return;
     }
 
+    // SAFETY GATE: never submit a form with empty required fields. Route to
+    // manual so a half-filled application is never sent.
+    if (missingRequired.length > 0) {
+      log.steps.push({ at: new Date().toISOString(), step: "blocked_incomplete", missingRequired });
+      await reportResult(
+        false,
+        `Not submitted — ${missingRequired.length} required field(s) the auto-fill couldn't complete: ${missingRequired.join(", ")}. Apply on the posting and mark it applied.`,
+        log,
+        { incomplete: true, missingRequired }
+      );
+      await browser.close();
+      return;
+    }
+
+    const preSubmitUrl = page.url();
     const submitBtn = page
       .locator('button[type="submit"], button:has-text("Submit application"), button:has-text("Submit")')
       .first();
     await submitBtn.click();
-    await page.waitForLoadState("networkidle", { timeout: 30000 });
-    log.steps.push({ at: new Date().toISOString(), step: "submitted", url: page.url() });
+    await page.waitForLoadState("networkidle", { timeout: 30000 }).catch(() => {});
 
     const finalShot = path.join(process.cwd(), `scripts/submit/${APPLICATION_ID}-final.png`);
     await page.screenshot({ path: finalShot, fullPage: true }).catch(() => {});
-    log.steps.push({ at: new Date().toISOString(), step: "final_screenshot", path: finalShot });
 
-    await reportResult(true, undefined, log);
+    // Success signal: confirm the submission actually went through rather than
+    // assuming a button click worked. Look for a confirmation page (URL moved
+    // off the form) or confirmation copy.
+    const postSubmitUrl = page.url();
+    const bodyText = (await page.locator("body").innerText().catch(() => "")).toLowerCase();
+    const confirmText =
+      /(thank you for applying|thanks for applying|application (was )?(received|submitted|sent)|we('ve| have) received your application|your application has been (received|submitted)|successfully (submitted|applied))/i.test(
+        bodyText
+      );
+    const urlChanged = postSubmitUrl !== preSubmitUrl;
+    const confirmed = confirmText || urlChanged;
+    log.steps.push({
+      at: new Date().toISOString(),
+      step: "submit_result",
+      confirmed,
+      via: confirmText ? "confirmation_text" : urlChanged ? "url_changed" : "none",
+      postSubmitUrl,
+    });
+
+    if (confirmed) {
+      await reportResult(true, undefined, log, { confirmed: true });
+    } else {
+      // Clicked, but no confirmation detected — don't claim success.
+      await reportResult(
+        false,
+        "Submit was clicked but no confirmation was detected — please verify on the posting that it went through.",
+        log,
+        { unconfirmed: true }
+      );
+    }
   } catch (err) {
     const errShot = path.join(process.cwd(), `scripts/submit/${APPLICATION_ID}-error.png`);
     await page.screenshot({ path: errShot, fullPage: true }).catch(() => {});

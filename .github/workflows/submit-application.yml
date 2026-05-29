@@ -52,6 +52,8 @@ jobs:
           # variables → Actions → Variables) to enable real submission.
           # Unset/anything-else = prefill + screenshot only.
           DRY_RUN: ${{ vars.DRY_RUN }}
+          # Deep link back to this run (screenshots live in its artifacts).
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: node scripts/submit/submit.mjs
 
       - name: Upload artifacts

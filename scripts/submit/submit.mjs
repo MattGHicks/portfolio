@@ -89,7 +89,27 @@ async function fillGreenhouse(page, { application, standing }, log) {
   await tryFill(page, 'textarea[id*="cover" i], textarea[name*="cover" i], textarea[aria-label*="cover" i]', application.coverLetterMd, log, "cover_letter");
 }
 
-const FILLERS = { ashby: fillAshby, greenhouse: fillGreenhouse };
+async function fillLever(page, { application, standing }, log) {
+  // Lever hosted application form lives at jobs.lever.co/{co}/{id}/apply.
+  // If we're on the posting page, click the Apply button to reach the form.
+  if (!/\/apply\/?$/.test(page.url())) {
+    const applyBtn = page.locator('a:has-text("Apply"), a.postings-btn, button:has-text("Apply")').first();
+    if (await applyBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
+      await applyBtn.click().catch(() => {});
+      await page.waitForLoadState("domcontentloaded").catch(() => {});
+    }
+  }
+  // Lever field names are stable: name, email, phone, org, urls[LinkedIn], etc.
+  await tryFill(page, 'input[name="name"]', standing.name ?? "Matt Hicks", log, "name");
+  await tryFill(page, 'input[name="email"]', standing.email ?? "matt@digitalfish.io", log, "email");
+  await tryFill(page, 'input[name="phone"]', standing.phone, log, "phone");
+  await tryFill(page, 'input[name="urls[LinkedIn]"], input[name*="LinkedIn"]', standing.linkedin_url, log, "linkedin");
+  await tryFill(page, 'input[name="urls[Portfolio]"], input[name*="Portfolio"], input[name*="Website"]', standing.portfolio_url, log, "portfolio");
+  await uploadResume(page, log);
+  await tryFill(page, 'textarea[name="comments"], textarea[name*="additional" i]', application.coverLetterMd, log, "cover_letter");
+}
+
+const FILLERS = { ashby: fillAshby, greenhouse: fillGreenhouse, lever: fillLever };
 
 async function main() {
   console.log(`[submit] application=${APPLICATION_ID} base=${BASE_URL} dryRun=${DRY_RUN}`);

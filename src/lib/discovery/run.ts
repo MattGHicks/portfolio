@@ -1,16 +1,19 @@
 /**
- * Shared discovery routine — scrape watchlist ATS boards, insert new roles,
- * then auto-score + auto-draft each one. Called by the cron AND the manual
- * "Find new roles now" button so both paths behave identically.
+ * Shared discovery routine — scrape every watchlist board via the provider
+ * registry, insert new roles, then auto-score + auto-draft each one. Called by
+ * the cron AND the manual "Find new roles now" button so both behave identically.
+ *
+ * Platform-agnostic: it asks the registry for a provider by the watchlist row's
+ * ats_platform and trusts the normalized output. Adding a platform touches only
+ * providers.ts — never this file.
  */
 import { db } from "@/db";
 import { roles, watchlistCompanies, standingAnswers } from "@/db/schema";
 import { and, eq, sql } from "drizzle-orm";
-import { fetchAshbyBoard, isDesignRole as isAshbyDesign, parseCompensation } from "@/lib/discovery/ashby";
-import { fetchGreenhouseBoard, isDesignRole as isGreenhouseDesign, locationIsRemoteUS } from "@/lib/discovery/greenhouse";
+import { getProvider } from "@/lib/discovery/providers";
 import { scoreAndDraftRole } from "@/lib/scoring-service";
 
-export type ScrapeResult = { company: string; found: number; new: number; errors: string[]; insertedIds: number[] };
+export type ScrapeResult = { company: string; platform: string; found: number; new: number; errors: string[]; insertedIds: number[] };
 export type DiscoveryResult = {
   status: "ok";
   companies: number;
@@ -28,73 +31,33 @@ async function existingActiveRole(company: string, title: string): Promise<boole
   return rows.length > 0;
 }
 
-async function scrapeAshby(name: string, slug: string): Promise<ScrapeResult> {
-  const result: ScrapeResult = { company: name, found: 0, new: 0, errors: [], insertedIds: [] };
-  try {
-    const board = await fetchAshbyBoard(slug);
-    for (const job of board.jobs) {
-      if (!job.isListed) continue;
-      if (!isAshbyDesign(job.title)) continue;
-      result.found++;
-      if (await existingActiveRole(name, job.title)) continue;
-      const { min, max } = parseCompensation(job.compensationTierSummary);
-      const remotePolicy = job.isRemote
-        ? job.locationName?.toLowerCase().includes("us") || job.locationName?.toLowerCase().includes("america")
-          ? "remote_us"
-          : "remote_global"
-        : "onsite";
-      const inserted = await db
-        .insert(roles)
-        .values({
-          company: name,
-          title: job.title,
-          sourceUrl: job.jobUrl ?? job.applyUrl,
-          atsPlatform: "ashby",
-          atsExternalId: `${slug}:${job.id}`,
-          postedAt: job.publishedAt ? new Date(job.publishedAt) : null,
-          salaryMin: min ?? null,
-          salaryMax: max ?? null,
-          location: job.locationName,
-          remotePolicy: remotePolicy as any,
-          jdText: job.description?.slice(0, 8000) ?? null,
-          jdSnippet: job.description?.slice(0, 400) ?? null,
-          status: "unscored",
-        })
-        .onConflictDoNothing({ target: [roles.atsPlatform, roles.atsExternalId] })
-        .returning({ id: roles.id });
-      if (inserted.length > 0) {
-        result.new++;
-        result.insertedIds.push(inserted[0].id);
-      }
-    }
-  } catch (err) {
-    result.errors.push(String(err));
+async function scrapeCompany(name: string, platform: string, slug: string): Promise<ScrapeResult> {
+  const result: ScrapeResult = { company: name, platform, found: 0, new: 0, errors: [], insertedIds: [] };
+  const provider = getProvider(platform);
+  if (!provider || !provider.discoverable) {
+    result.errors.push(`no discoverable provider for platform '${platform}'`);
+    return result;
   }
-  return result;
-}
-
-async function scrapeGreenhouse(name: string, slug: string): Promise<ScrapeResult> {
-  const result: ScrapeResult = { company: name, found: 0, new: 0, errors: [], insertedIds: [] };
   try {
-    const board = await fetchGreenhouseBoard(slug);
-    for (const job of board.jobs) {
-      if (!isGreenhouseDesign(job.title)) continue;
+    const normalized = await provider.fetchRoles(slug);
+    for (const r of normalized) {
       result.found++;
-      if (await existingActiveRole(name, job.title)) continue;
-      const remotePolicy = locationIsRemoteUS(job.location?.name) ? "remote_us" : "unknown";
+      if (await existingActiveRole(name, r.title)) continue;
       const inserted = await db
         .insert(roles)
         .values({
           company: name,
-          title: job.title,
-          sourceUrl: job.absolute_url,
-          atsPlatform: "greenhouse",
-          atsExternalId: `${slug}:${job.id}`,
-          postedAt: job.updated_at ? new Date(job.updated_at) : null,
-          location: job.location?.name ?? null,
-          remotePolicy: remotePolicy as any,
-          jdText: job.content?.replace(/<[^>]+>/g, " ")?.slice(0, 8000) ?? null,
-          jdSnippet: job.content?.replace(/<[^>]+>/g, " ")?.slice(0, 400) ?? null,
+          title: r.title,
+          sourceUrl: r.sourceUrl,
+          atsPlatform: platform as any,
+          atsExternalId: r.atsExternalId,
+          postedAt: r.postedAt,
+          salaryMin: r.salaryMin,
+          salaryMax: r.salaryMax,
+          location: r.location,
+          remotePolicy: r.remotePolicy as any,
+          jdText: r.jdText,
+          jdSnippet: r.jdSnippet,
           status: "unscored",
         })
         .onConflictDoNothing({ target: [roles.atsPlatform, roles.atsExternalId] })
@@ -117,14 +80,8 @@ export async function runDiscovery(): Promise<DiscoveryResult> {
   const allInserted: number[] = [];
 
   for (const co of companies) {
-    let r: ScrapeResult;
-    if (co.atsPlatform === "ashby" && co.atsBoardSlug) {
-      r = await scrapeAshby(co.name, co.atsBoardSlug);
-    } else if (co.atsPlatform === "greenhouse" && co.atsBoardSlug) {
-      r = await scrapeGreenhouse(co.name, co.atsBoardSlug);
-    } else {
-      continue;
-    }
+    if (!co.atsBoardSlug || !getProvider(co.atsPlatform)) continue;
+    const r = await scrapeCompany(co.name, co.atsPlatform, co.atsBoardSlug);
     results.push(r);
     totalNew += r.new;
     allInserted.push(...r.insertedIds);
@@ -138,6 +95,7 @@ export async function runDiscovery(): Promise<DiscoveryResult> {
       .where(eq(watchlistCompanies.id, co.id));
   }
 
+  // Auto-score + auto-draft every newly discovered role (zero API).
   let totalScored = 0;
   if (allInserted.length > 0) {
     const standingRows = await db.select().from(standingAnswers);

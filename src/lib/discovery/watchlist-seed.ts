@@ -13,7 +13,7 @@ import { eq, sql, inArray } from "drizzle-orm";
 
 export type WatchlistSeed = {
   name: string;
-  atsPlatform: "ashby" | "greenhouse";
+  atsPlatform: "ashby" | "greenhouse" | "lever";
   slug: string;
   priority: "S" | "A" | "B";
 };

@@ -61,7 +61,7 @@ export default async function RoleDetailPage({ params }: { params: { id: string 
               </Link>
             )}
             {["scored", "drafting", "awaiting_approval", "approved"].includes(role.status) && role.tier !== "drop" && (
-              <ApplyButton roleId={role.id} label="Apply now" />
+              <ApplyButton roleId={role.id} atsPlatform={role.atsPlatform} sourceUrl={role.sourceUrl} label="Apply now" />
             )}
           </div>
         </div>

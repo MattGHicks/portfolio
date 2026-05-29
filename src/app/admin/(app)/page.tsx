@@ -53,6 +53,8 @@ async function getDashboardData() {
         score: roles.score,
         narrativeBucket: roles.narrativeBucket,
         status: roles.status,
+        atsPlatform: roles.atsPlatform,
+        sourceUrl: roles.sourceUrl,
         hasDraft: sql<boolean>`EXISTS (SELECT 1 FROM drafts d WHERE d.role_id = ${roles.id})`,
       })
       .from(roles)
@@ -192,7 +194,7 @@ export default async function OverviewPage() {
                   {r.score !== null ? <div className="admin-role-row-score">{r.score}</div> : <div style={{ width: 38 }} />}
                   <TierBadge tier={r.tier} />
                   <span style={{ marginLeft: 8 }}>
-                    <ApplyButton roleId={r.id} size="sm" label="Apply" />
+                    <ApplyButton roleId={r.id} atsPlatform={r.atsPlatform} sourceUrl={r.sourceUrl} size="sm" label="Apply" />
                   </span>
                 </div>
               ))}

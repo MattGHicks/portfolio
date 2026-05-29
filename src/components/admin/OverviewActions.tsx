@@ -28,7 +28,8 @@ export function OverviewActions({ unscored }: { unscored: number }) {
   const discover = () => {
     startTransition(async () => {
       const r = await runDiscoveryNow();
-      setMsg(`Discovery: ${r.totalNew} new role${r.totalNew === 1 ? "" : "s"} found + auto-scored across ${r.companies} boards`);
+      const closed = r.totalClosed > 0 ? `, ${r.totalClosed} closed` : "";
+      setMsg(`Discovery: ${r.totalNew} new role${r.totalNew === 1 ? "" : "s"} across ${r.companies} boards${closed}`);
       router.refresh();
       setTimeout(() => setMsg(null), 6000);
     });

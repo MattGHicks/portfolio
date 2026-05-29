@@ -28,7 +28,12 @@ export async function scoreAllUnscored() {
 export async function runDiscoveryNow() {
   const result = await runDiscovery();
   revalidateBoard();
-  return { totalNew: result.totalNew, totalScored: result.totalScored, companies: result.companies };
+  return {
+    totalNew: result.totalNew,
+    totalScored: result.totalScored,
+    totalClosed: result.totalClosed,
+    companies: result.companies,
+  };
 }
 
 /** Mark an opportunity as applied (you clicked through and applied on the site). */

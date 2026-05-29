@@ -10,24 +10,16 @@ export default async function AdminAppLayout({ children }: { children: React.Rea
 
   const navGroups = [
     {
-      label: "Pipeline",
+      label: "Hunt",
       items: [
-        { href: "/admin", label: "Overview" },
-        { href: "/admin/pipeline", label: "Pipeline", count: counts.pipeline },
-        { href: "/admin/applications", label: "Applications" },
-        { href: "/admin/drafts", label: "Drafts", count: counts.drafts },
-      ],
-    },
-    {
-      label: "Comms",
-      items: [
-        { href: "/admin/inbox", label: "Inbox", count: counts.inbox },
+        { href: "/admin", label: "Opportunities", count: counts.open },
+        { href: "/admin/applied", label: "Applied", count: counts.applied },
       ],
     },
     {
       label: "System",
       items: [
-        { href: "/admin/watchlist", label: "Watchlist", count: counts.watchlist },
+        { href: "/admin/watchlist", label: "Watchlist" },
         { href: "/admin/settings", label: "Settings" },
       ],
     },

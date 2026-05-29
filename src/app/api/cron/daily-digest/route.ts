@@ -26,18 +26,9 @@ export async function GET(request: Request) {
   const html = renderDigestHtml(digest, baseUrl);
   const text = renderDigestText(digest, baseUrl);
 
-  // Skip empty digests (nothing to report)
-  const hasContent =
-    digest.pendingApproval.length > 0 ||
-    digest.newTierS.length > 0 ||
-    digest.newTierA.length > 0 ||
-    digest.recruiterMessages.length > 0 ||
-    digest.unscored > 0 ||
-    digest.unclassified > 0 ||
-    digest.submittedToday > 0;
-
-  if (!hasContent) {
-    return NextResponse.json({ status: "skipped", reason: "no content" });
+  // Skip empty digests (no new roles found in the last 24h)
+  if (digest.newRoles.length === 0) {
+    return NextResponse.json({ status: "skipped", reason: "no new roles" });
   }
 
   if (!process.env.GMAIL_REFRESH_TOKEN) {
@@ -55,7 +46,7 @@ export async function GET(request: Request) {
     const result = await sendEmail({
       from,
       to,
-      subject: `Career Ops · ${digest.date}`,
+      subject: `${digest.newRoles.length} new ${digest.newRoles.length === 1 ? "opportunity" : "opportunities"} · ${digest.date}`,
       html,
       text,
     });

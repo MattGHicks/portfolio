@@ -8,7 +8,7 @@
  * providers.ts — never this file.
  */
 import { db } from "@/db";
-import { roles, watchlistCompanies, standingAnswers } from "@/db/schema";
+import { roles, watchlistCompanies } from "@/db/schema";
 import { and, eq, sql } from "drizzle-orm";
 import { getProvider } from "@/lib/discovery/providers";
 import { scoreAndDraftRole } from "@/lib/scoring-service";
@@ -95,18 +95,14 @@ export async function runDiscovery(): Promise<DiscoveryResult> {
       .where(eq(watchlistCompanies.id, co.id));
   }
 
-  // Auto-score + auto-draft every newly discovered role (zero API).
+  // Auto-score every newly discovered role (zero API).
   let totalScored = 0;
-  if (allInserted.length > 0) {
-    const standingRows = await db.select().from(standingAnswers);
-    const standing = Object.fromEntries(standingRows.map((s) => [s.key, s.value]));
-    for (const id of allInserted) {
-      try {
-        await scoreAndDraftRole(id, standing);
-        totalScored++;
-      } catch (err) {
-        console.error(`[discovery] auto-score failed for role ${id}:`, err);
-      }
+  for (const id of allInserted) {
+    try {
+      await scoreAndDraftRole(id);
+      totalScored++;
+    } catch (err) {
+      console.error(`[discovery] auto-score failed for role ${id}:`, err);
     }
   }
 

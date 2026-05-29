@@ -1,19 +1,24 @@
 /**
- * Glue between the pure scoring/draft logic and the database.
+ * Glue between the pure scorer and the database.
  *
- * scoreAndDraftRole(roleId) — score a single role, write back tier/score/
- * reasoning/bucket, and generate a starter draft so it's apply-ready.
+ * scoreAndDraftRole(roleId) — score a role and write back tier/score/reasoning/
+ *   bucket + set its board status. (Name kept for callers; no drafts anymore.)
  * scoreUnscoredRoles()      — batch over every status=unscored role.
+ * rescoreAllRoles()         — re-apply the rubric to all non-terminal roles.
  *
- * Used by the discovery cron (auto-score on insert) and the manual
- * "Score now" trigger in the UI. Zero API cost — pure rules.
+ * Status model (simplified 2026-05-29 — "find + link to apply" board):
+ *   unscored → freshly discovered (internal)
+ *   scored   → OPEN opportunity (shown on the board)
+ *   submitted→ APPLIED (Matt clicked Apply / marked applied)
+ *   archived → DISMISSED (Matt hid it)
+ *   dropped  → auto-filtered bad fit (hidden)
+ * Scoring never overwrites a role Matt has already actioned.
  */
 
 import { db } from "@/db";
-import { roles, drafts, standingAnswers } from "@/db/schema";
+import { roles } from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
 import { scoreRole } from "@/lib/scoring";
-import { generateCoverLetter, defaultCustomAnswers } from "@/lib/autodraft";
 
 export type ScoredSummary = {
   roleId: number;
@@ -21,22 +26,12 @@ export type ScoredSummary = {
   title: string;
   tier: string;
   score: number;
-  draftCreated: boolean;
 };
 
-async function getStandingMap(): Promise<Record<string, string>> {
-  const rows = await db.select().from(standingAnswers);
-  return Object.fromEntries(rows.map((r) => [r.key, r.value]));
-}
+// Statuses that reflect a human decision — never auto-overwrite these.
+const TERMINAL = ["submitted", "responded", "rejected", "archived"];
 
-/**
- * Score one role and (for actionable tiers) ensure a starter draft exists.
- * Returns null if the role doesn't exist.
- */
-export async function scoreAndDraftRole(
-  roleId: number,
-  standing?: Record<string, string>
-): Promise<ScoredSummary | null> {
+export async function scoreAndDraftRole(roleId: number): Promise<ScoredSummary | null> {
   const [role] = await db.select().from(roles).where(eq(roles.id, roleId)).limit(1);
   if (!role) return null;
 
@@ -52,9 +47,11 @@ export async function scoreAndDraftRole(
     location: role.location,
   });
 
-  // Don't clobber a role that's already moved past triage.
-  const advanced = ["drafting", "awaiting_approval", "approved", "submitted", "responded", "rejected"];
-  const nextStatus = advanced.includes(role.status) ? role.status : result.tier === "drop" ? "dropped" : "scored";
+  const nextStatus = TERMINAL.includes(role.status)
+    ? role.status
+    : result.tier === "drop"
+      ? "dropped"
+      : "scored";
 
   await db
     .update(roles)
@@ -69,60 +66,29 @@ export async function scoreAndDraftRole(
     })
     .where(eq(roles.id, roleId));
 
-  // Auto-draft for actionable tiers only, and only if no draft exists yet.
-  let draftCreated = false;
-  if (result.tier !== "drop") {
-    const existing = await db.select({ id: drafts.id }).from(drafts).where(eq(drafts.roleId, roleId)).limit(1);
-    if (existing.length === 0) {
-      const standingMap = standing ?? (await getStandingMap());
-      await db.insert(drafts).values({
-        roleId,
-        version: 1,
-        coverLetterMd: generateCoverLetter({ company: role.company, title: role.title, bucket: result.bucket }),
-        customAnswers: defaultCustomAnswers(standingMap),
-        voiceAnchor: "auto",
-        createdBy: "auto",
-      });
-      draftCreated = true;
-    }
-  }
-
-  return {
-    roleId,
-    company: role.company,
-    title: role.title,
-    tier: result.tier,
-    score: result.score,
-    draftCreated,
-  };
+  return { roleId, company: role.company, title: role.title, tier: result.tier, score: result.score };
 }
 
-/** Batch-score every unscored role. Returns per-role summaries. */
 export async function scoreUnscoredRoles(): Promise<ScoredSummary[]> {
   const unscored = await db.select({ id: roles.id }).from(roles).where(eq(roles.status, "unscored"));
-  if (unscored.length === 0) return [];
-  const standing = await getStandingMap();
   const out: ScoredSummary[] = [];
   for (const { id } of unscored) {
-    const r = await scoreAndDraftRole(id, standing);
+    const r = await scoreAndDraftRole(id);
     if (r) out.push(r);
   }
   return out;
 }
 
-/**
- * Re-score every active role (re-applies the rubric, e.g. after a scoring
- * change). Skips terminal states. Maintenance use only.
- */
+/** Re-apply the rubric to every non-terminal role. Also normalizes legacy
+ *  statuses (drafting/awaiting_approval/approved) back to the open board. */
 export async function rescoreAllRoles(): Promise<ScoredSummary[]> {
   const active = await db
     .select({ id: roles.id })
     .from(roles)
-    .where(sql`status NOT IN ('archived', 'rejected')`);
-  const standing = await getStandingMap();
+    .where(sql`status NOT IN ('rejected')`);
   const out: ScoredSummary[] = [];
   for (const { id } of active) {
-    const r = await scoreAndDraftRole(id, standing);
+    const r = await scoreAndDraftRole(id);
     if (r) out.push(r);
   }
   return out;

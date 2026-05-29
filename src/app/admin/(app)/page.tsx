@@ -1,252 +1,143 @@
-import { db } from "@/db";
-import { roles, applications, inboxMessages, drafts } from "@/db/schema";
-import { and, desc, eq, gte, inArray, sql } from "drizzle-orm";
 import Link from "next/link";
-import { TierBadge, StatusBadge, NarrativeBadge } from "@/components/admin/Badges";
-import { formatSalary, formatRelative, remoteLabel } from "@/lib/format";
+import { db } from "@/db";
+import { roles } from "@/db/schema";
+import { and, desc, eq, gte, inArray, or, like, sql } from "drizzle-orm";
+import { TierBadge, NarrativeBadge } from "@/components/admin/Badges";
+import { FilterChips, SearchInput } from "@/components/admin/Filters";
 import { OverviewActions } from "@/components/admin/OverviewActions";
-import { ApplyButton } from "@/components/admin/ApplyButton";
+import { OpportunityActions } from "@/components/admin/OpportunityActions";
+import { formatSalary, formatRelative, remoteLabel } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
-async function getDashboardData() {
-  const startOfDay = new Date();
-  startOfDay.setHours(0, 0, 0, 0);
-  const startOfWeek = new Date();
-  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-  startOfWeek.setHours(0, 0, 0, 0);
+export default async function OpportunitiesPage({
+  searchParams,
+}: {
+  searchParams: { tier?: string; bucket?: string; q?: string };
+}) {
+  const tier = (searchParams.tier ?? "").split(",").filter(Boolean) as ("S" | "A" | "B")[];
+  const bucket = (searchParams.bucket ?? "").split(",").filter(Boolean);
+  const q = searchParams.q?.trim();
 
-  const [
-    totalSubmitted,
-    todayCount,
-    weekCount,
-    inFlight,
-    readyToApply,
-    tierA,
-    recentActivity,
-    unscored,
-    unclassified,
-  ] = await Promise.all([
-    db.select({ c: sql<number>`count(*)::int` }).from(applications).where(eq(applications.status, "submitted")),
-    db
-      .select({ c: sql<number>`count(*)::int` })
-      .from(applications)
-      .where(and(eq(applications.status, "submitted"), gte(applications.submittedAt, startOfDay))),
-    db
-      .select({ c: sql<number>`count(*)::int` })
-      .from(applications)
-      .where(and(eq(applications.status, "submitted"), gte(applications.submittedAt, startOfWeek))),
-    db
-      .select({ c: sql<number>`count(*)::int` })
-      .from(applications)
-      .where(inArray(applications.status, ["pending_approval", "approved", "submitting"])),
-    // Ready to apply = actionable, ranked, has a draft, not yet in-flight/done.
-    db
-      .select({
-        id: roles.id,
-        company: roles.company,
-        title: roles.title,
-        salaryMin: roles.salaryMin,
-        salaryMax: roles.salaryMax,
-        remotePolicy: roles.remotePolicy,
-        tier: roles.tier,
-        score: roles.score,
-        narrativeBucket: roles.narrativeBucket,
-        status: roles.status,
-        atsPlatform: roles.atsPlatform,
-        sourceUrl: roles.sourceUrl,
-        hasDraft: sql<boolean>`EXISTS (SELECT 1 FROM drafts d WHERE d.role_id = ${roles.id})`,
-      })
-      .from(roles)
-      .where(
-        and(
-          inArray(roles.tier, ["S", "A"]),
-          sql`${roles.status} IN ('scored', 'drafting', 'awaiting_approval')`
-        )
-      )
-      .orderBy(
-        sql`CASE WHEN tier = 'S' THEN 1 WHEN tier = 'A' THEN 2 ELSE 3 END`,
-        desc(roles.score)
-      )
-      .limit(12),
+  const sinceYesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+  const where = [eq(roles.status, "scored")] as any[];
+  if (tier.length) where.push(inArray(roles.tier, tier));
+  if (bucket.length) where.push(inArray(roles.narrativeBucket, bucket as any));
+  if (q) where.push(or(like(roles.company, `%${q}%`), like(roles.title, `%${q}%`)));
+
+  const [open, newTodayRows, unscoredRows, appliedTotalRows] = await Promise.all([
     db
       .select()
       .from(roles)
-      .where(and(eq(roles.tier, "A"), sql`status NOT IN ('archived', 'dropped', 'submitted', 'rejected', 'responded')`))
-      .orderBy(desc(roles.score))
-      .limit(6),
-    db
-      .select({
-        id: applications.id,
-        roleId: applications.roleId,
-        status: applications.status,
-        submittedAt: applications.submittedAt,
-        createdAt: applications.createdAt,
-        company: roles.company,
-        title: roles.title,
-        tier: roles.tier,
-      })
-      .from(applications)
-      .innerJoin(roles, eq(roles.id, applications.roleId))
-      .orderBy(desc(sql`COALESCE(${applications.submittedAt}, ${applications.createdAt})`))
-      .limit(6),
+      .where(and(...where))
+      .orderBy(sql`CASE WHEN tier='S' THEN 1 WHEN tier='A' THEN 2 WHEN tier='B' THEN 3 ELSE 4 END`, desc(roles.score), desc(roles.scoredAt)),
+    db.select({ c: sql<number>`count(*)::int` }).from(roles).where(and(eq(roles.status, "scored"), gte(roles.scoredAt, sinceYesterday))),
     db.select({ c: sql<number>`count(*)::int` }).from(roles).where(eq(roles.status, "unscored")),
-    db.select({ c: sql<number>`count(*)::int` }).from(inboxMessages).where(sql`classification IS NULL`),
+    db.select({ c: sql<number>`count(*)::int` }).from(roles).where(eq(roles.status, "submitted")),
   ]);
 
-  return {
-    totalSubmitted: totalSubmitted[0]?.c ?? 0,
-    submittedToday: todayCount[0]?.c ?? 0,
-    submittedThisWeek: weekCount[0]?.c ?? 0,
-    inFlight: inFlight[0]?.c ?? 0,
-    readyToApply,
-    tierA,
-    recentActivity,
-    unscored: unscored[0]?.c ?? 0,
-    unclassified: unclassified[0]?.c ?? 0,
-  };
-}
-
-export default async function OverviewPage() {
-  const data = await getDashboardData();
-  const now = new Date();
-  const dayCap = 3;
-  const weekCap = 10;
+  const newToday = newTodayRows[0]?.c ?? 0;
+  const unscored = unscoredRows[0]?.c ?? 0;
+  const appliedTotal = appliedTotalRows[0]?.c ?? 0;
 
   return (
     <>
       <div className="admin-page-header">
         <div className="admin-page-header-row">
           <div>
-            <div className="admin-page-eyebrow">Overview · {now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}</div>
-            <h1 className="admin-page-title">Career Operations</h1>
+            <div className="admin-page-eyebrow">Opportunities</div>
+            <h1 className="admin-page-title">Open roles</h1>
             <p className="admin-page-subtitle">
-              Mid-level Product Designer hunt — remote-US, healthy culture, $140–180K target. New roles are auto-found, auto-scored, and arrive draft-ready. Review &amp; apply in one click.
+              Auto-found across the watchlist, ranked by fit. Click <strong>Apply ↗</strong> to open the posting, then ✓ or ✕ to keep this list clean.
             </p>
           </div>
-          <OverviewActions unscored={data.unscored} />
+          <OverviewActions unscored={unscored} />
         </div>
       </div>
 
       <div className="admin-stat-grid">
         <div className="admin-stat">
-          <div className="admin-stat-label">Ready to apply</div>
-          <div className="admin-stat-value" style={{ color: data.readyToApply.length > 0 ? "var(--tier-s-fg)" : undefined }}>
-            {data.readyToApply.length}
-          </div>
-          <div className="admin-stat-sub">ranked &amp; draft-ready</div>
+          <div className="admin-stat-label">Open opportunities</div>
+          <div className="admin-stat-value" style={{ color: open.length > 0 ? "var(--tier-s-fg)" : undefined }}>{open.length}</div>
+          <div className="admin-stat-sub">ranked & ready</div>
         </div>
         <div className="admin-stat">
-          <div className="admin-stat-label">Today / cap</div>
-          <div className="admin-stat-value">
-            {data.submittedToday}<span style={{ color: "var(--text-on-dark-tertiary)", fontSize: "24px" }}> / {dayCap}</span>
-          </div>
-          <div className="admin-stat-sub">{Math.max(0, dayCap - data.submittedToday)} submissions left today</div>
+          <div className="admin-stat-label">New (24h)</div>
+          <div className="admin-stat-value">{newToday}</div>
+          <div className="admin-stat-sub">freshly discovered</div>
         </div>
         <div className="admin-stat">
-          <div className="admin-stat-label">In flight</div>
-          <div className="admin-stat-value" style={{ color: data.inFlight > 0 ? "var(--status-pending-fg)" : undefined }}>
-            {data.inFlight}
-          </div>
-          <div className="admin-stat-sub">{data.inFlight === 0 ? "nothing pending" : "awaiting / submitting"}</div>
+          <div className="admin-stat-label">Applied</div>
+          <div className="admin-stat-value">{appliedTotal}</div>
+          <div className="admin-stat-sub"><Link href="/admin/applied" style={{ color: "var(--color-blue)" }}>view all →</Link></div>
         </div>
         <div className="admin-stat">
-          <div className="admin-stat-label">Submitted this hunt</div>
-          <div className="admin-stat-value">{data.totalSubmitted}</div>
-          <div className="admin-stat-sub">{data.submittedThisWeek}/{weekCap} this week</div>
+          <div className="admin-stat-label">Unscored</div>
+          <div className="admin-stat-value" style={{ color: unscored > 0 ? "var(--status-pending-fg)" : undefined }}>{unscored}</div>
+          <div className="admin-stat-sub">{unscored > 0 ? "hit “Score” above" : "all ranked"}</div>
         </div>
       </div>
 
-      {/* Ready to apply — the action queue */}
-      <section className="admin-section">
-        <div className="admin-section-header">
-          <span className="admin-section-label">
-            Ready to apply
-            <span style={{ marginLeft: 12, color: "var(--text-on-dark-tertiary)", textTransform: "none", letterSpacing: 0 }}>
-              · ranked, draft-ready — one click to submit
-            </span>
-          </span>
-          <span className="admin-section-count">{data.readyToApply.length}</span>
+      <div className="admin-filters">
+        <div className="admin-filters-group">
+          <span className="admin-filters-label">Tier</span>
+          <FilterChips param="tier" options={[{ value: "S", label: "S" }, { value: "A", label: "A" }, { value: "B", label: "B" }]} />
         </div>
-        {data.readyToApply.length === 0 ? (
-          <div className="admin-card">
-            <div className="admin-empty">
-              <div className="admin-empty-eyebrow">Queue empty</div>
-              <div className="admin-empty-title">No ranked roles waiting</div>
-              <div className="admin-empty-body">
-                {data.unscored > 0
-                  ? `${data.unscored} unscored role${data.unscored === 1 ? "" : "s"} — hit “Score ${data.unscored} unscored” above.`
-                  : "Hit “Find new roles now” to scan the watchlist for fresh postings."}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="admin-card" style={{ padding: "8px 20px" }}>
-            <div className="admin-role-list">
-              {data.readyToApply.map((r) => (
-                <div key={r.id} className="admin-role-row" style={{ cursor: "default" }}>
-                  <Link href={`/admin/role/${r.id}`} className="admin-role-row-main" style={{ textDecoration: "none" }}>
-                    <div className="admin-role-row-company">{r.company}</div>
-                    <div className="admin-role-row-title">{r.title} · {remoteLabel(r.remotePolicy)}</div>
-                  </Link>
-                  <div className="admin-role-row-salary">{formatSalary(r.salaryMin, r.salaryMax)}</div>
-                  <NarrativeBadge bucket={r.narrativeBucket} />
-                  {r.score !== null ? <div className="admin-role-row-score">{r.score}</div> : <div style={{ width: 38 }} />}
-                  <TierBadge tier={r.tier} />
-                  <span style={{ marginLeft: 8 }}>
-                    <ApplyButton roleId={r.id} atsPlatform={r.atsPlatform} sourceUrl={r.sourceUrl} size="sm" label="Apply" />
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </section>
+        <div className="admin-filters-group">
+          <span className="admin-filters-label">Bucket</span>
+          <FilterChips
+            param="bucket"
+            options={[
+              { value: "ai_devtools", label: "AI / devtools" },
+              { value: "b2b_infra_fintech", label: "B2B · fintech" },
+              { value: "govtech_civic", label: "Govtech" },
+            ]}
+          />
+        </div>
+        <div className="admin-filters-group" style={{ marginLeft: "auto" }}>
+          <SearchInput placeholder="Company, title…" />
+        </div>
+      </div>
 
-      <section className="admin-section">
-        <div className="admin-section-header">
-          <span className="admin-section-label">Recent activity</span>
-          <span className="admin-section-count">last 6</span>
-        </div>
-        {data.recentActivity.length === 0 ? (
-          <div className="admin-card">
-            <div className="admin-empty">
-              <div className="admin-empty-eyebrow">No activity</div>
-              <div className="admin-empty-title">Quiet so far</div>
-              <div className="admin-empty-body">Once you apply, submissions show up here.</div>
+      {open.length === 0 ? (
+        <div className="admin-card">
+          <div className="admin-empty">
+            <div className="admin-empty-eyebrow">Nothing open</div>
+            <div className="admin-empty-title">No matching opportunities</div>
+            <div className="admin-empty-body">
+              {unscored > 0 ? `${unscored} unscored — hit “Score” above.` : "Hit “Find new roles now” to scan the watchlist, or clear your filters."}
             </div>
           </div>
-        ) : (
-          <div className="admin-table-wrap">
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>Company</th>
-                  <th>Role</th>
-                  <th>Tier</th>
-                  <th>Status</th>
-                  <th style={{ textAlign: "right" }}>When</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.recentActivity.map((row) => (
-                  <tr key={row.id}>
-                    <td>
-                      <Link href={`/admin/role/${row.roleId}`} className="admin-table-link" style={{ fontWeight: 500 }}>
-                        {row.company}
-                      </Link>
-                    </td>
-                    <td className="is-secondary" style={{ maxWidth: 320, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{row.title}</td>
-                    <td><TierBadge tier={row.tier} /></td>
-                    <td><StatusBadge status={row.status} /></td>
-                    <td className="is-mono is-secondary" style={{ textAlign: "right" }}>{formatRelative(row.submittedAt ?? row.createdAt)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        </div>
+      ) : (
+        <div className="admin-card" style={{ padding: "6px 8px" }}>
+          <div className="admin-role-list">
+            {open.map((r) => (
+              <div key={r.id} className="admin-opp-row">
+                <Link href={`/admin/role/${r.id}`} className="admin-opp-main">
+                  <div className="admin-opp-head">
+                    <span className="admin-opp-company">{r.company}</span>
+                    <TierBadge tier={r.tier} />
+                    {r.score !== null && <span className="admin-opp-score">{r.score}</span>}
+                    <NarrativeBadge bucket={r.narrativeBucket} />
+                  </div>
+                  <div className="admin-opp-title">{r.title}</div>
+                  <div className="admin-opp-meta">
+                    {formatSalary(r.salaryMin, r.salaryMax)} · {remoteLabel(r.remotePolicy)} · {formatRelative(r.scoredAt)}
+                  </div>
+                  {r.scoreReasoning && (
+                    <div className="admin-opp-why">{r.scoreReasoning.replace(/\s*\[auto-scored.*$/, "")}</div>
+                  )}
+                </Link>
+                <div className="admin-opp-actions">
+                  <OpportunityActions roleId={r.id} sourceUrl={r.sourceUrl} variant="open" size="sm" />
+                </div>
+              </div>
+            ))}
           </div>
-        )}
-      </section>
+        </div>
+      )}
     </>
   );
 }

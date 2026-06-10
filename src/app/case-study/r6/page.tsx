@@ -33,7 +33,7 @@ export default function CaseStudyR6() {
               Back to work
             </Link>
 
-            <p className="cs-label">Case Study 01</p>
+            <p className="cs-label">Case Study 02</p>
             <h1 className="cs-title">R6 Regional<br />Council, Utah</h1>
             <p className="cs-subtitle">Complete website redesign for a Central Utah regional government body — building a brand color palette from scratch, crafting a clean Apple-inspired layout, and designing a mega menu that makes complex program offerings navigable.</p>
 

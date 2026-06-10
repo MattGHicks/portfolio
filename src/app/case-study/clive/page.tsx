@@ -30,7 +30,7 @@ export default function CaseStudyClive() {
               Back to work
             </Link>
 
-            <p className="cs-label">Case Study 04</p>
+            <p className="cs-label">Case Study 05</p>
             <h1 className="cs-title">City of Clive, Iowa</h1>
             <p className="cs-subtitle">Multi-site redesign for a city whose identity is literally nature — three distinct but cohesive sites for City Hall, the Public Library, and Parks &amp; Recreation, all built around the Greenbelt trail system that defines Clive.</p>
 

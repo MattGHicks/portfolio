@@ -32,7 +32,7 @@ export default function CaseStudyFranklin() {
               Back to work
             </Link>
 
-            <p className="cs-label">Case Study 06</p>
+            <p className="cs-label">Case Study 07</p>
             <h1 className="cs-title">City of Franklin,<br />Indiana</h1>
             <p className="cs-subtitle">A full rebrand for a historic Indiana city — new logo, new color system, new type pairing, new website. Most municipal projects design <em>around</em> an existing brand. Franklin let us redefine it.</p>
 
@@ -208,9 +208,9 @@ export default function CaseStudyFranklin() {
         {/* Next Case Study */}
         <section className="cs-next">
           <div className="cs-next-container">
-            <p className="cs-next-label">Next Case Study</p>
-            <Link href="/case-study/r6" className="cs-next-link">
-              <span className="cs-next-title">R6 Regional Council, Utah</span>
+            <p className="cs-next-label">Back to All Work</p>
+            <Link href="/#work" className="cs-next-link">
+              <span className="cs-next-title">View all case studies</span>
               <span className="cs-next-arrow">&#8599;</span>
             </Link>
           </div>

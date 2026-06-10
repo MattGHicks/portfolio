@@ -569,10 +569,6 @@ body {
   opacity: 1;
 }
 
-.project-card--full {
-  grid-column: span 2;
-}
-
 .project-meta {
   display: flex;
   justify-content: space-between;
@@ -1001,6 +997,11 @@ body {
     --page-margin: 24px;
   }
 
+  /* The logo wraps to two lines on narrow screens - tighten the stack. */
+  .nav-logo {
+    line-height: 1.1;
+  }
+
   .hero {
     padding-top: 120px;
   }
@@ -1015,10 +1016,6 @@ body {
 
   .projects-grid {
     grid-template-columns: 1fr;
-  }
-
-  .project-card--full {
-    grid-column: span 1;
   }
 
   .about-container {

@@ -32,7 +32,7 @@ export default function CaseStudySouthFork() {
               Back to work
             </Link>
 
-            <p className="cs-label">Case Study 03</p>
+            <p className="cs-label">Case Study 04</p>
             <h1 className="cs-title">South Fork<br />Water Board</h1>
             <p className="cs-subtitle">Website redesign for a wholesale water authority serving Oregon City and West Linn — designed around their &quot;simplicity is brilliant&quot; philosophy and the natural heritage of the Clackamas River headwaters. Pure water since 1915.</p>
 

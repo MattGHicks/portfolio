@@ -32,7 +32,7 @@ export default function CaseStudyArchbold() {
               Back to work
             </Link>
 
-            <p className="cs-label">Case Study 02</p>
+            <p className="cs-label">Case Study 03</p>
             <h1 className="cs-title">Village of Archbold,<br />Ohio</h1>
             <p className="cs-subtitle">Government website redesign for a small northwest Ohio village — transforming a cluttered, overlapping layout into a clean, confident design built around their navy and gold brand, a grid calendar their residents actually asked for, and navigation that doesn&apos;t require a map to use.</p>
 

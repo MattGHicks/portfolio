@@ -30,7 +30,7 @@ export default function CaseStudyTemple() {
               Back to work
             </Link>
 
-            <p className="cs-label">Case Study 05</p>
+            <p className="cs-label">Case Study 06</p>
             <h1 className="cs-title">City of Temple,<br />Texas</h1>
             <p className="cs-subtitle">Large city website redesign across three sub-sites — five revision cycles, mobile-first design exports, and coordinated design for City Hall, the Public Library, and Parks &amp; Recreation. A masterclass in client iteration.</p>
 
@@ -212,9 +212,9 @@ export default function CaseStudyTemple() {
         {/* Next Case Study */}
         <section className="cs-next">
           <div className="cs-next-container">
-            <p className="cs-next-label">Back to All Work</p>
-            <Link href="/#work" className="cs-next-link">
-              <span className="cs-next-title">View all case studies</span>
+            <p className="cs-next-label">Next Case Study</p>
+            <Link href="/case-study/franklin" className="cs-next-link">
+              <span className="cs-next-title">City of Franklin, Indiana</span>
               <span className="cs-next-arrow">&#8599;</span>
             </Link>
           </div>

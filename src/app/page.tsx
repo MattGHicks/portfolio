@@ -150,17 +150,47 @@ export default function HomePage() {
           <div className="projects-container">
             <div className="section-header animate-on-scroll">
               <span className="section-label">Selected Work</span>
-              <span className="section-label">06 Case Studies</span>
+              <span className="section-label">07 Case Studies</span>
             </div>
 
             <div className="projects-grid">
-              {/* Featured Project */}
+              {/* Row 1 */}
               <Link
-                href="/case-study/r6"
-                className="project-card project-card--full animate-on-scroll"
+                href="/case-study/poolpilot"
+                className="project-card animate-on-scroll stagger-1"
               >
                 <div className="project-meta">
                   <span className="project-case">Case / 01</span>
+                  <span className="project-type">IoT &middot; Full-Stack &middot; Side Project</span>
+                </div>
+                <h3 className="project-title">PoolPilot</h3>
+                <p className="project-description">
+                  A self-hosted smart controller for a &quot;dumb&quot; pool pump —
+                  reverse-engineered RS-485 protocol, hand-wired ESP32 bridge
+                  hardware, and a real-time mobile app with scheduling and energy
+                  analytics. Designed, engineered, and shipped end-to-end; it runs
+                  the family pool every day.
+                </p>
+                <div className="project-footer">
+                  <div className="project-tags">
+                    <span className="project-tag">Product Design</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">Hardware</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">Real-Time UI</span>
+                  </div>
+                  <div className="project-arrow">
+                    <ArrowIcon stroke="#79746b" />
+                  </div>
+                </div>
+              </Link>
+
+              <Link
+                href="/case-study/r6"
+                className="project-card animate-on-scroll stagger-2"
+              >
+                <div className="project-meta">
+                  <span className="project-case">Case / 02</span>
                   <span className="project-type">Gov &middot; Regional Planning</span>
                 </div>
                 <h3 className="project-title">R6 Regional Council, Utah</h3>
@@ -190,7 +220,7 @@ export default function HomePage() {
                 className="project-card animate-on-scroll stagger-1"
               >
                 <div className="project-meta">
-                  <span className="project-case">Case / 02</span>
+                  <span className="project-case">Case / 03</span>
                   <span className="project-type">Gov &middot; Visual Design</span>
                 </div>
                 <h3 className="project-title">Archbold, Ohio</h3>
@@ -220,7 +250,7 @@ export default function HomePage() {
                 className="project-card animate-on-scroll stagger-2"
               >
                 <div className="project-meta">
-                  <span className="project-case">Case / 03</span>
+                  <span className="project-case">Case / 04</span>
                   <span className="project-type">
                     Utility &middot; Visual Design
                   </span>
@@ -252,7 +282,7 @@ export default function HomePage() {
                 className="project-card animate-on-scroll stagger-1"
               >
                 <div className="project-meta">
-                  <span className="project-case">Case / 04</span>
+                  <span className="project-case">Case / 05</span>
                   <span className="project-type">Gov &middot; Multi-Site</span>
                 </div>
                 <h3 className="project-title">City of Clive, Iowa</h3>
@@ -281,7 +311,7 @@ export default function HomePage() {
                 className="project-card animate-on-scroll stagger-2"
               >
                 <div className="project-meta">
-                  <span className="project-case">Case / 05</span>
+                  <span className="project-case">Case / 06</span>
                   <span className="project-type">Gov &middot; Visual Design</span>
                 </div>
                 <h3 className="project-title">Temple, Texas</h3>
@@ -307,10 +337,10 @@ export default function HomePage() {
 
               <Link
                 href="/case-study/franklin"
-                className="project-card project-card--full animate-on-scroll"
+                className="project-card animate-on-scroll stagger-1"
               >
                 <div className="project-meta">
-                  <span className="project-case">Case / 06</span>
+                  <span className="project-case">Case / 07</span>
                   <span className="project-type">Brand &middot; Identity System</span>
                 </div>
                 <h3 className="project-title">City of Franklin, Indiana</h3>
@@ -396,46 +426,6 @@ export default function HomePage() {
                     <span className="project-tag">Figma AI</span>
                     <span className="project-tag-sep">&middot;</span>
                     <span className="project-tag">MCP</span>
-                  </div>
-                  <div className="project-arrow">
-                    <ArrowIcon stroke="#79746b" />
-                  </div>
-                </div>
-              </Link>
-            </div>
-
-            {/* Side Projects Section */}
-            <div className="section-header animate-on-scroll">
-              <span className="section-label">Designed &amp; Built</span>
-              <span className="section-label">01 Product</span>
-            </div>
-
-            <div className="projects-grid">
-              <Link
-                href="/case-study/poolpilot"
-                className="project-card project-card--full animate-on-scroll"
-              >
-                <div className="project-meta">
-                  <span className="project-case">Product / 01</span>
-                  <span className="project-type">IoT &middot; Full-Stack &middot; Side Project</span>
-                </div>
-                <h3 className="project-title">PoolPilot</h3>
-                <p className="project-description">
-                  A self-hosted smart controller for a &quot;dumb&quot; pool pump —
-                  reverse-engineered RS-485 protocol, hand-wired ESP32 bridge
-                  hardware, and a real-time mobile app with scheduling and energy
-                  analytics. Designed, engineered, and shipped end-to-end; it runs
-                  the family pool every day.
-                </p>
-                <div className="project-footer">
-                  <div className="project-tags">
-                    <span className="project-tag">Product Design</span>
-                    <span className="project-tag-sep">&middot;</span>
-                    <span className="project-tag">Hardware</span>
-                    <span className="project-tag-sep">&middot;</span>
-                    <span className="project-tag">Real-Time UI</span>
-                    <span className="project-tag-sep">&middot;</span>
-                    <span className="project-tag">Self-Hosted</span>
                   </div>
                   <div className="project-arrow">
                     <ArrowIcon stroke="#79746b" />

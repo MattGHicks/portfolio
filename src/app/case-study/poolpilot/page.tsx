@@ -32,7 +32,7 @@ export default function CaseStudyPoolPilot() {
               Back to work
             </Link>
 
-            <p className="cs-label">Side Project · Designed &amp; Built</p>
+            <p className="cs-label">Case Study 01 · Side Project</p>
             <h1 className="cs-title">PoolPilot</h1>
             <p className="cs-subtitle">A self-hosted smart controller for a &quot;dumb&quot; pool pump — reverse-engineered RS-485 protocol, hand-wired ESP32 bridge hardware, and a real-time mobile app with scheduling and energy analytics. Designed, engineered, and shipped end-to-end. It runs the family pool every day.</p>
 
@@ -229,9 +229,9 @@ export default function CaseStudyPoolPilot() {
         {/* Next Case Study */}
         <section className="cs-next animate-on-scroll">
           <div className="cs-next-container">
-            <p className="cs-next-label">Related</p>
-            <Link href="/system/ai-workflow" className="cs-next-link">
-              <span className="cs-next-title">AI-Augmented Design Workflow</span>
+            <p className="cs-next-label">Next Case Study</p>
+            <Link href="/case-study/r6" className="cs-next-link">
+              <span className="cs-next-title">R6 Regional Council, Utah</span>
               <span className="cs-next-arrow">&#8599;</span>
             </Link>
           </div>

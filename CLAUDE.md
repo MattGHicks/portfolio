@@ -6,7 +6,7 @@
 - **Stage:** live + actively updated
 - **Deployed:** [digitalfish.io](https://digitalfish.io) on Vercel
 - **Auto-deploy:** yes (push to `main` → Vercel)
-- **Latest production deploy:** 2026-05-27 (`d43ffdc` — submit-route retry-from-failed fix)
+- **Latest production deploy:** 2026-06-09 (`f586665` — PoolPilot case study + homepage "Designed & Built" section)
 
 ## What This Is
 Matt's personal portfolio site **plus** the password-protected `/admin` Career Ops dashboard. Public side: case studies (Revize municipal sites — South Fork, Brewster, Clive, Archbold, R6, Franklin), design-system showcase, AI workflow section, awards list, resume PDF download. Admin side: end-to-end job-search pipeline (Postgres-backed pipeline, Gmail polling, daily digest, GitHub Actions auto-submit). See `DASHBOARD-DEPLOY.md` for the admin deploy notes and the Obsidian vault `career/system-design-v2.md` for the architecture.

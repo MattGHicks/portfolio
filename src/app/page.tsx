@@ -403,6 +403,46 @@ export default function HomePage() {
                 </div>
               </Link>
             </div>
+
+            {/* Side Projects Section */}
+            <div className="section-header animate-on-scroll">
+              <span className="section-label">Designed &amp; Built</span>
+              <span className="section-label">01 Product</span>
+            </div>
+
+            <div className="projects-grid">
+              <Link
+                href="/case-study/poolpilot"
+                className="project-card project-card--full animate-on-scroll"
+              >
+                <div className="project-meta">
+                  <span className="project-case">Product / 01</span>
+                  <span className="project-type">IoT &middot; Full-Stack &middot; Side Project</span>
+                </div>
+                <h3 className="project-title">PoolPilot</h3>
+                <p className="project-description">
+                  A self-hosted smart controller for a &quot;dumb&quot; pool pump —
+                  reverse-engineered RS-485 protocol, hand-wired ESP32 bridge
+                  hardware, and a real-time mobile app with scheduling and energy
+                  analytics. Designed, engineered, and shipped end-to-end; it runs
+                  the family pool every day.
+                </p>
+                <div className="project-footer">
+                  <div className="project-tags">
+                    <span className="project-tag">Product Design</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">Hardware</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">Real-Time UI</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">Self-Hosted</span>
+                  </div>
+                  <div className="project-arrow">
+                    <ArrowIcon stroke="#79746b" />
+                  </div>
+                </div>
+              </Link>
+            </div>
           </div>
         </section>
 

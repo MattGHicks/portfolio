@@ -355,6 +355,16 @@
   height: 30px;
 }
 
+/* ===== PHONE SCREEN GRID (mobile app shots) ===== */
+.cs-screens--phones {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.cs-github-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
 /* ===== NEXT CASE STUDY ===== */
 .cs-next {
   padding: var(--spacing-xl) var(--page-margin);
@@ -415,6 +425,10 @@
 @media (max-width: 1200px) {
   .cs-title {
     font-size: 48px;
+  }
+
+  .cs-screens--phones {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

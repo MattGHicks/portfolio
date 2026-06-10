@@ -504,6 +504,10 @@ body {
   background: var(--color-brown-lightest);
 }
 
+.project-card--full {
+  grid-column: span 2;
+}
+
 .project-card {
   background: var(--color-light-bg);
   padding: var(--spacing-l) 32px;
@@ -1016,6 +1020,10 @@ body {
 
   .projects-grid {
     grid-template-columns: 1fr;
+  }
+
+  .project-card--full {
+    grid-column: span 1;
   }
 
   .about-container {

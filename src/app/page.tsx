@@ -337,7 +337,7 @@ export default function HomePage() {
 
               <Link
                 href="/case-study/franklin"
-                className="project-card animate-on-scroll stagger-1"
+                className="project-card project-card--full animate-on-scroll"
               >
                 <div className="project-meta">
                   <span className="project-case">Case / 07</span>

@@ -89,6 +89,7 @@ export default function LiveDemo({ liveUrl, repoUrl, poster }: LiveDemoProps) {
           </div>
 
           <div className="cs-live-actions">
+            <p className="cs-live-actions-label">Try it yourself</p>
             <a
               href={liveUrl}
               target="_blank"

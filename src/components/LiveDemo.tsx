@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import PhoneMock from './PhoneMock';
 
@@ -19,6 +19,23 @@ type LiveDemoProps = {
 export default function LiveDemo({ liveUrl, repoUrl, poster }: LiveDemoProps) {
   const [loaded, setLoaded] = useState(false);
 
+  // Render the app at a real phone width (logical) and scale it to fit the
+  // frame, so the embedded app never looks crushed at the frame's size.
+  const LOGICAL_W = 402;
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [box, setBox] = useState({ w: 0, h: 0 });
+  useEffect(() => {
+    if (!loaded) return;
+    const el = wrapRef.current;
+    if (!el) return;
+    const measure = () => setBox({ w: el.clientWidth, h: el.clientHeight });
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [loaded]);
+  const scale = box.w ? box.w / LOGICAL_W : 1;
+
   return (
     <section className="cs-live">
       <div className="cs-live-container">
@@ -36,14 +53,21 @@ export default function LiveDemo({ liveUrl, repoUrl, poster }: LiveDemoProps) {
           <div className="cs-live-stage">
             <PhoneMock variant="flat" className="cs-live-phone">
               {loaded ? (
-                <iframe
-                  className="cs-live-iframe"
-                  src={liveUrl}
-                  title="Dr. Dabber companion app — live interactive concept"
-                  loading="lazy"
-                  allow="accelerometer; clipboard-write"
-                  sandbox="allow-scripts allow-same-origin allow-popups allow-pointer-lock"
-                />
+                <div ref={wrapRef} className="cs-live-iframe-wrap">
+                  <iframe
+                    className="cs-live-iframe"
+                    src={liveUrl}
+                    title="Dr. Dabber companion app — live interactive concept"
+                    loading="lazy"
+                    allow="accelerometer; clipboard-write"
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-pointer-lock"
+                    style={{
+                      width: LOGICAL_W,
+                      height: box.h ? box.h / scale : '100%',
+                      transform: `scale(${scale})`,
+                    }}
+                  />
+                </div>
               ) : (
                 <button
                   type="button"

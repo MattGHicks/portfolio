@@ -35,12 +35,12 @@ export default function CaseStudyDrDabber() {
             <h1 className="cs-title">Dr. Dabber</h1>
             <p className="cs-subtitle">
               A speculative redesign of the companion app for the Dr. Dabber e-rig
-              I actually own. The shipping app underdelivers on a beautiful device,
-              so I rebuilt it around its best feature — light. A living Aurora Core
-              that glows with the heat, strain LED themes that recolor the entire
-              UI, real heating modes, and a true home screen — all wired to a
-              simulated device you can drive in the browser. A concept, not client
-              work.
+              I actually own. I love the hardware, so I explored how the app could
+              lean even harder into what makes it special — light. A living Aurora
+              Core that glows with the heat, strain LED themes that recolor the
+              entire UI, real heating modes, and a command-center home — all wired
+              to a simulated device you can drive in the browser. A concept and a
+              love letter, not client work.
             </p>
 
             <div className="cs-tags">
@@ -64,30 +64,36 @@ export default function CaseStudyDrDabber() {
           <div className="cs-content-container">
             <div className="cs-section animate-on-scroll">
               <p className="cs-section-label">The Opportunity</p>
-              <h2 className="cs-section-title">I love the device. The app is the weak link.</h2>
+              <h2 className="cs-section-title">
+                I love this device — and saw room to dream.
+              </h2>
               <p className="cs-paragraph">
                 The Dr. Dabber is a genuinely premium piece of hardware — sharp
-                industrial design, a gorgeous programmable LED light ring, a polished
-                brand. Then you open the companion app and the magic evaporates. I
-                use this thing constantly, so I wanted to see how good its software
-                <em> could</em> be — and design the version I wish shipped in the box.
+                industrial design, a gorgeous programmable LED light ring, and a brand
+                with real polish. I use mine constantly. This is a love letter to it:
+                an exploration of how far the companion experience{' '}
+                <em>could</em> go if it leaned all the way into what makes the device
+                special — the version I&apos;d be thrilled to find in the box.
               </p>
             </div>
 
             <div className="cs-section animate-on-scroll">
-              <p className="cs-section-label">The Problems</p>
-              <h2 className="cs-section-title">A dead home screen and a menu nobody can find.</h2>
+              <p className="cs-section-label">Where I Focused</p>
+              <h2 className="cs-section-title">
+                Three ways to let the app shine as bright as the device.
+              </h2>
               <p className="cs-paragraph">
-                The home screen is a static product photo — no status, no control, no
-                life. Core functions hide behind an unlabeled swipe-up sheet most
-                people never discover. And none of it matches the cinematic,
-                electric-cyan world of drdabber.com — the website sells a premium
-                product the app doesn&apos;t deliver.
+                I zeroed in on three opportunities. The home screen — a beautiful
+                product shot today — could double as a living command center with
+                live status and one-tap control. A few favorite controls sit a swipe
+                away, so I brought them front-and-center to make them easy to reach.
+                And the cinematic, electric-cyan world of drdabber.com could carry all
+                the way into the app, so the software feels as premium as the site and
+                the hardware.
               </p>
               <p className="cs-paragraph">
-                Three problems, then: no command center, broken navigation, and an
-                app that feels off-brand from the product it controls. Each one was a
-                chance to do something better.
+                None of this is a knock on what&apos;s there — it&apos;s about
+                amplifying a product I already love.
               </p>
             </div>
           </div>

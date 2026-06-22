@@ -515,6 +515,7 @@
 }
 .phone-island {
   position: absolute;
+  pointer-events: none;
   z-index: 3;
   top: 4cqw;
   left: 50%;
@@ -621,11 +622,15 @@
 }
 .cs-live-grid {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 360px 1fr;
   gap: var(--spacing-xl);
   align-items: center;
 }
-.cs-live-phone { width: 300px; }
+.cs-live-phone { width: 360px; }
+/* The live app renders at a real phone width (logical) and is scaled to fit the
+   frame by LiveDemo, so it never looks crushed. JS sets width/height/transform. */
+.cs-live-iframe-wrap { position: absolute; inset: 0; overflow: hidden; }
+.cs-live-iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: top left; }
 .cs-live-poster {
   appearance: none;
   border: 0;
@@ -732,7 +737,9 @@
 @media (max-width: 768px) {
   .cs-live-grid { grid-template-columns: 1fr; gap: var(--spacing-l); justify-items: center; }
   .cs-live-actions { align-items: center; text-align: center; max-width: none; }
-  .cs-live-phone { width: min(72vw, 300px); }
+  .cs-live-phone { width: min(80vw, 360px); }
+  /* Already on a phone — no point scanning a QR with the same device. */
+  .cs-qr-card { display: none; }
 }
 @media (max-width: 600px) {
   .cs-phone-hero { padding: 16px 0; }

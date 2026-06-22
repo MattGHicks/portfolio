@@ -39,16 +39,6 @@ export default function LiveDemo({ liveUrl, repoUrl, poster }: LiveDemoProps) {
   return (
     <section className="cs-live">
       <div className="cs-live-container">
-        <p className="cs-showcase-label animate-on-scroll">Experience It Live</p>
-        <h2 className="cs-live-title animate-on-scroll">
-          It&apos;s not a mockup. It&apos;s the running app.
-        </h2>
-        <p className="cs-live-lede animate-on-scroll">
-          Everything here is live and interactive — heat the device and watch the
-          Aurora Core ramp, pick a strain and wash the whole app in its color.
-          Simulated in the browser, no install.
-        </p>
-
         <div className="cs-live-grid animate-on-scroll">
           <div className="cs-live-stage">
             <PhoneMock variant="flat" className="cs-live-phone">
@@ -88,55 +78,81 @@ export default function LiveDemo({ liveUrl, repoUrl, poster }: LiveDemoProps) {
             </PhoneMock>
           </div>
 
-          <div className="cs-live-actions">
-            <p className="cs-live-actions-label">Try it yourself</p>
-            <a
-              href={liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cs-live-open"
-            >
-              Open live app
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M14 3h7v7m0-7L10 14M19 13v6H5V5h6"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+          <div className="cs-live-copy">
+            <p className="cs-showcase-label">Experience It Live</p>
+            <h2 className="cs-live-title">
+              It&apos;s not a mockup. It&apos;s the running app.
+            </h2>
+            <p className="cs-live-lede">
+              Everything here is live and interactive — heat the device and watch
+              the Aurora Core ramp, pick a strain and wash the whole app in its
+              color. Simulated in the browser, no install.
+            </p>
+
+            <div className="cs-live-actions">
+              <p className="cs-live-actions-label">Try it yourself</p>
+            <ul className="cs-live-tips">
+              <li className="cs-live-tip">
+                Heat a profile — watch the Aurora Core ramp cyan to amber
+              </li>
+              <li className="cs-live-tip">
+                Open Light Studio — pick a strain, recolor the whole app
+              </li>
+              <li className="cs-live-tip">
+                Edit temps and modes, then check your stats
+              </li>
+            </ul>
+            <div className="cs-live-cta-row">
+              <div className="cs-live-cta-buttons">
+                <a
+                  href={liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cs-live-open"
+                >
+                  Open live app
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M14 3h7v7m0-7L10 14M19 13v6H5V5h6"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href={repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cs-figma-btn cs-github-btn"
+                >
+                  <svg
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+                  </svg>
+                  View the Code on GitHub
+                </a>
+              </div>
+
+              <div className="cs-qr-card">
+                <QRCodeSVG
+                  value={liveUrl}
+                  size={108}
+                  bgColor="#ffffff"
+                  fgColor="#1a1917"
+                  level="M"
+                  marginSize={2}
                 />
-              </svg>
-            </a>
-
-            <div className="cs-qr-card">
-              <QRCodeSVG
-                value={liveUrl}
-                size={132}
-                bgColor="#ffffff"
-                fgColor="#1a1917"
-                level="M"
-                marginSize={2}
-              />
-              <p className="cs-qr-label">Scan to try it on your phone</p>
+                <p className="cs-qr-label">Scan to try on your phone</p>
+              </div>
             </div>
-
-            <a
-              href={repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cs-figma-btn cs-github-btn"
-            >
-              <svg
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
-              </svg>
-              View the Code on GitHub
-            </a>
+            </div>
           </div>
         </div>
       </div>

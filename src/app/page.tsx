@@ -371,15 +371,49 @@ export default function HomePage() {
             {/* Speculative Work Section */}
             <div className="section-header animate-on-scroll">
               <span className="section-label">Speculative Work</span>
-              <span className="section-label">01 Concept</span>
+              <span className="section-label">02 Concepts</span>
             </div>
             <p className="projects-intro animate-on-scroll">
-              Self-initiated redesigns of products I love — each a fully
-              interactive prototype, not a mockup. I pick a brand, study what
-              makes it special, and reimagine its app around one signature idea.
+              Self-initiated concepts for products and ideas I love — each a
+              fully built, interactive piece, not a mockup. I study what makes
+              something special, then design and build a reveal around one
+              signature idea.
             </p>
 
             <div className="projects-grid">
+              <Link
+                href="/case-study/ai1"
+                className="project-card project-card--full animate-on-scroll"
+              >
+                <div className="project-meta">
+                  <span className="project-case">Concept / 02</span>
+                  <span className="project-type">
+                    Concept &middot; Cinematic Reveal
+                  </span>
+                </div>
+                <h3 className="project-title">AI1 — Orbital Intelligence</h3>
+                <p className="project-description">
+                  A cinematic concept reveal for SpaceX&apos;s AI1 orbital AI
+                  data-center satellite — the real spec sheet treated as cinema, with
+                  AI-generated Seedance film loops, a live WebGL starfield,
+                  scroll-driven lore, HUD telemetry, and a draggable orbit. Honest
+                  about every real fact versus invented bit of lore.
+                </p>
+                <div className="project-footer">
+                  <div className="project-tags">
+                    <span className="project-tag">Art Direction</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">Motion / WebGL</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">3D</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">AI Film</span>
+                  </div>
+                  <div className="project-arrow">
+                    <ArrowIcon stroke="#79746b" />
+                  </div>
+                </div>
+              </Link>
               <Link
                 href="/case-study/dr-dabber"
                 className="project-card project-card--full animate-on-scroll"

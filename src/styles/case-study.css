@@ -860,9 +860,11 @@
    AI1 CASE STUDY — browser frame, cinematic video showcase, live embed
    Accent: radiator-cyan #2ee6ff (scoped under .cs-ai1)
    =================================================================== */
+/* bright cyan only on dark sections (hero, showcase, next); a deep teal that
+   actually reads on the cream content background for light-section accents */
 .cs-ai1 .cs-label { color: #2ee6ff; }
-.cs-ai1 .cs-decision-name { color: #2ee6ff; }
-.cs-ai1 .cs-callout-stat { color: #2ee6ff; }
+.cs-ai1 .cs-decision-name { color: #0b6b7e; }
+.cs-ai1 .cs-callout-stat { color: #0b6b7e; }
 .cs-ai1 .cs-next-link:hover .cs-next-title,
 .cs-ai1 .cs-next-link:hover .cs-next-arrow { color: #2ee6ff; }
 

@@ -497,6 +497,14 @@ body {
   text-transform: uppercase;
 }
 
+.projects-intro {
+  margin: 22px 0 30px;
+  max-width: 640px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-brown-medium);
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

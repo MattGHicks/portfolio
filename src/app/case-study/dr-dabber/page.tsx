@@ -52,9 +52,9 @@ export default function CaseStudyDrDabber() {
             </div>
 
             <p className="cs-private-note">
-              Private concept — shared directly with the Dr. Dabber team, not
-              published on my public site. Unofficial; not affiliated with or
-              endorsed by Dr. Dabber.
+              A self-initiated concept project, built because I love the device.
+              Unofficial — not affiliated with, authorized by, or endorsed by
+              Dr. Dabber. All product names and trademarks belong to their owners.
             </p>
           </div>
         </section>

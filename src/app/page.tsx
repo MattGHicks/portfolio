@@ -368,6 +368,53 @@ export default function HomePage() {
               </Link>
             </div>
 
+            {/* Speculative Work Section */}
+            <div className="section-header animate-on-scroll">
+              <span className="section-label">Speculative Work</span>
+              <span className="section-label">01 Concept</span>
+            </div>
+            <p className="projects-intro animate-on-scroll">
+              Self-initiated redesigns of products I love — each a fully
+              interactive prototype, not a mockup. I pick a brand, study what
+              makes it special, and reimagine its app around one signature idea.
+            </p>
+
+            <div className="projects-grid">
+              <Link
+                href="/case-study/dr-dabber"
+                className="project-card project-card--full animate-on-scroll"
+              >
+                <div className="project-meta">
+                  <span className="project-case">Concept / 01</span>
+                  <span className="project-type">
+                    Concept &middot; Interactive Prototype
+                  </span>
+                </div>
+                <h3 className="project-title">Dr. Dabber</h3>
+                <p className="project-description">
+                  An unsolicited, end-to-end redesign of the companion app for the
+                  Dr. Dabber e-rig I own — a heat-reactive &quot;Aurora Core&quot;
+                  that glows with the temperature, strain LED themes that recolor
+                  the entire UI, real heating modes, and a command-center home, all
+                  wired to a simulated device you can drive live in the browser.
+                </p>
+                <div className="project-footer">
+                  <div className="project-tags">
+                    <span className="project-tag">Product Design</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">Interaction</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">Motion</span>
+                    <span className="project-tag-sep">&middot;</span>
+                    <span className="project-tag">Front-End</span>
+                  </div>
+                  <div className="project-arrow">
+                    <ArrowIcon stroke="#79746b" />
+                  </div>
+                </div>
+              </Link>
+            </div>
+
             {/* Systems Section */}
             <div className="section-header animate-on-scroll">
               <span className="section-label">Systems &amp; Process</span>

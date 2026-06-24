@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import HeroWebGL from "@/components/lab/HeroWebGL";
+import HeroFilm from "@/components/lab/HeroFilm";
 import RefinedCursor from "@/components/lab/RefinedCursor";
 import CursorPops from "@/components/lab/CursorPops";
 import WorkIndex from "@/components/lab/WorkIndex";
@@ -49,7 +49,7 @@ export default function LabHome() {
       <CursorPops />
 
       <div className="lab-canvas">
-        <HeroWebGL />
+        <HeroFilm />
       </div>
 
       <div className="lab-intro">

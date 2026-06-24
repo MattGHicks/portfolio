@@ -276,6 +276,7 @@
   line-height: 1;
   letter-spacing: -0.035em;
   margin: 16px 0;
+  text-shadow: 0 2px 36px rgba(6, 8, 13, 0.65);
 }
 .scrub-title em {
   font-style: normal;
@@ -284,12 +285,13 @@
 .scrub-sub {
   max-width: 480px;
   font-size: clamp(15px, 1.4vw, 17px);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.65;
-  color: var(--muted);
+  color: #c4c9d4;
+  text-shadow: 0 1px 18px rgba(6, 8, 13, 0.7);
 }
 .scrub-sub strong {
-  color: var(--text);
+  color: #fff;
   font-weight: 600;
 }
 .scrub-actions {
@@ -309,7 +311,19 @@
   opacity: 0;
   pointer-events: none;
 }
+.scrub-beat::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(94vw, 1200px);
+  height: min(70vh, 560px);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(6, 8, 13, 0.72) 0%, rgba(6, 8, 13, 0.4) 46%, transparent 72%);
+  pointer-events: none;
+}
 .scrub-beat-num {
+  position: relative;
   display: block;
   font-family: var(--font-display), sans-serif;
   font-weight: 700;
@@ -317,8 +331,10 @@
   line-height: 0.86;
   letter-spacing: -0.04em;
   color: var(--text);
+  text-shadow: 0 6px 60px rgba(0, 0, 0, 0.55);
 }
 .scrub-beat-label {
+  position: relative;
   display: block;
   margin-top: 18px;
   font-family: var(--font-mono), monospace;
@@ -326,6 +342,7 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
 }
 .scrub-outro {
   position: absolute;

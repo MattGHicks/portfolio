@@ -96,9 +96,8 @@ export default function LabHome() {
             Résumé
           </a>
         </div>
+        <div className="lab2-scroll">Scroll ↓</div>
       </section>
-
-      <div className="lab2-scroll">Scroll ↓</div>
 
       <WorkIndex />
       <About />

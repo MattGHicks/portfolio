@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Syne, DM_Sans, JetBrains_Mono } from "next/font/google";
 import NoiseOverlay from "@/components/NoiseOverlay";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import "./globals.css";
 
 const syne = Syne({
@@ -43,7 +44,7 @@ export default function RootLayout({
     >
       <body>
         <NoiseOverlay />
-        {children}
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>
   );

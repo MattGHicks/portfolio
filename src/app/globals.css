@@ -35,6 +35,73 @@
   --spacing-l: 48px;
   --spacing-xl: 80px;
   --spacing-xxl: 112px;
+
+  /* ===== CINEMATIC NOIR — redesign token layer (2026-06) =====
+     Namespaced --cin-* tokens for the cinematic redesign. Added ALONGSIDE the
+     existing --color-* / --text-on-* tokens (which /admin and the case studies
+     still depend on) — nothing above is renamed or removed. */
+
+  /* Surfaces — deep cool-cast "cinematic shadow" blacks, layered */
+  --cin-abyss: #07080c;   /* deepest background / letterbox */
+  --cin-ink: #0b0d13;     /* base page surface */
+  --cin-slate: #12151e;   /* raised surface — cards */
+  --cin-haze: #1b1f2a;    /* raised surface 2 — hover / inputs */
+
+  /* Cinematic light — a warm KEY + cool FILL duo (deliberately not one accent) */
+  --cin-amber: #f4a15d;       /* warm key-light bloom — the signature glow */
+  --cin-amber-deep: #e07b3c;
+  --cin-steel: #7cb0ff;       /* cool fill light / interactive accent */
+  --cin-steel-deep: #4f7fd6;
+
+  /* Text — warm off-whites for legibility on the cool dark */
+  --cin-text-hi: #f4f1ea;
+  --cin-text-mid: #b8b2a6;
+  --cin-text-lo: #837d72;
+
+  /* Glass & structure */
+  --cin-glass: rgba(255, 255, 255, 0.04);
+  --cin-glass-strong: rgba(255, 255, 255, 0.07);
+  --cin-stroke: rgba(255, 255, 255, 0.09);
+  --cin-hairline: rgba(255, 255, 255, 0.07);
+
+  /* Volumetric light blooms (radial gradients) */
+  --cin-bloom-warm: radial-gradient(60% 60% at 50% 38%, rgba(244, 161, 93, 0.18), rgba(244, 161, 93, 0) 70%);
+  --cin-bloom-cool: radial-gradient(50% 50% at 72% 28%, rgba(124, 176, 255, 0.14), rgba(124, 176, 255, 0) 70%);
+
+  /* Fluid kinetic type scale */
+  --cin-step-hero: clamp(3.25rem, 11vw, 10.5rem);
+  --cin-step-display: clamp(2.5rem, 6vw, 5.5rem);
+  --cin-step-h2: clamp(1.75rem, 4vw, 3.5rem);
+  --cin-step-h3: clamp(1.25rem, 2.4vw, 1.875rem);
+  --cin-step-lead: clamp(1.05rem, 1.4vw, 1.25rem);
+  --cin-label: 0.6875rem;  /* 11px mono labels */
+
+  /* Motion */
+  --cin-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --cin-ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --cin-dur-fast: 0.3s;
+  --cin-dur-base: 0.6s;
+  --cin-dur-slow: 1.1s;
+  --cin-stagger: 0.08s;
+}
+
+/* ===== REDUCED MOTION (global a11y reset) =====
+   Complements the JS kill-switch in SmoothScrollProvider and the existing
+   case-study.css block — under reduced-motion all motion snaps to final state. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --cin-dur-fast: 0.001ms;
+    --cin-dur-base: 0.001ms;
+    --cin-dur-slow: 0.001ms;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 * {

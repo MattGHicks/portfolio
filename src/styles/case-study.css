@@ -1,10 +1,20 @@
 /* ===== CASE STUDY HERO ===== */
 .cs-hero {
-  padding: 140px var(--page-margin) var(--spacing-xl);
-  background: var(--color-dark-bg);
+  position: relative;
+  padding: 160px var(--page-margin) var(--spacing-xl);
+  background: var(--cin-abyss);
+  overflow: hidden;
+}
+.cs-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--cin-bloom-warm);
+  pointer-events: none;
 }
 
 .cs-hero-container {
+  position: relative;
   max-width: var(--max-width);
   margin: 0 auto;
 }
@@ -15,15 +25,15 @@
   gap: 8px;
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--text-on-dark-secondary);
+  color: var(--cin-text-mid);
   text-decoration: none;
   letter-spacing: 0.55px;
   margin-bottom: var(--spacing-l);
-  transition: color 0.3s ease;
+  transition: color var(--cin-dur-fast) var(--cin-ease);
 }
 
 .cs-back:hover {
-  color: var(--color-light-bg);
+  color: var(--cin-text-hi);
 }
 
 .cs-back svg {
@@ -34,9 +44,9 @@
 
 .cs-label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--cin-label);
   font-weight: 500;
-  color: var(--color-blue);
+  color: var(--cin-steel);
   letter-spacing: 0.55px;
   text-transform: uppercase;
   margin-bottom: var(--spacing-s);
@@ -44,17 +54,18 @@
 
 .cs-title {
   font-family: var(--font-heading);
-  font-size: 64px;
+  font-size: var(--cin-step-display);
   font-weight: 800;
-  color: var(--color-light-bg);
-  line-height: 1.05;
+  color: var(--cin-text-hi);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
   margin-bottom: var(--spacing-m);
 }
 
 .cs-subtitle {
-  font-size: 18px;
+  font-size: var(--cin-step-lead);
   font-weight: 300;
-  color: var(--color-brown-light);
+  color: var(--cin-text-mid);
   line-height: 1.6;
   max-width: 640px;
   margin-bottom: var(--spacing-l);
@@ -70,18 +81,20 @@
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 500;
-  color: var(--text-on-dark-secondary);
+  color: var(--cin-text-mid);
   letter-spacing: 0.4px;
   text-transform: uppercase;
   padding: 6px 12px;
-  border: 1px solid rgba(243, 240, 234, 0.18);
+  border: 1px solid var(--cin-stroke);
   border-radius: 4px;
+  background: var(--cin-glass);
 }
 
 /* ===== CASE STUDY CONTENT ===== */
 .cs-content {
   padding: var(--spacing-xl) var(--page-margin);
-  background: var(--color-light-bg);
+  background: var(--cin-ink);
+  border-top: 1px solid var(--cin-hairline);
 }
 
 .cs-content-container {
@@ -101,7 +114,7 @@
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 500;
-  color: var(--color-brown-medium);
+  color: var(--cin-steel);
   letter-spacing: 0.8px;
   text-transform: uppercase;
   margin-bottom: var(--spacing-s);
@@ -109,17 +122,18 @@
 
 .cs-section-title {
   font-family: var(--font-heading);
-  font-size: 32px;
+  font-size: var(--cin-step-h2);
   font-weight: 700;
-  color: var(--color-brown-darkest);
-  line-height: 1.2;
+  color: var(--cin-text-hi);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
   margin-bottom: var(--spacing-m);
 }
 
 .cs-paragraph {
   font-size: 16px;
   font-weight: 300;
-  color: var(--color-brown-medium);
+  color: var(--cin-text-mid);
   line-height: 1.7;
   margin-bottom: var(--spacing-s);
 }
@@ -140,10 +154,11 @@
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
-  color: var(--color-brown-medium);
+  color: var(--cin-text-mid);
   letter-spacing: 0.44px;
   padding: 8px 14px;
-  background: var(--color-brown-lightest);
+  background: var(--cin-glass);
+  border: 1px solid var(--cin-hairline);
   border-radius: 4px;
 }
 
@@ -159,7 +174,7 @@
   display: flex;
   gap: 24px;
   padding-bottom: 20px;
-  border-bottom: 1px solid var(--color-brown-lightest);
+  border-bottom: 1px solid var(--cin-hairline);
 }
 
 .cs-decision:last-child {
@@ -171,7 +186,7 @@
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
-  color: var(--color-blue);
+  color: var(--cin-steel);
   letter-spacing: 0.44px;
   min-width: 120px;
   flex-shrink: 0;
@@ -180,17 +195,27 @@
 .cs-decision-value {
   font-size: 14px;
   font-weight: 300;
-  color: var(--color-brown-medium);
+  color: var(--cin-text-mid);
   line-height: 1.6;
 }
 
 /* ===== DESIGN SHOWCASE ===== */
 .cs-showcase {
+  position: relative;
   padding: var(--spacing-xl) var(--page-margin);
-  background: var(--color-dark-bg);
+  background: var(--cin-abyss);
+  overflow: hidden;
+}
+.cs-showcase::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--cin-bloom-cool);
+  pointer-events: none;
 }
 
 .cs-showcase-container {
+  position: relative;
   max-width: var(--max-width);
   margin: 0 auto;
 }
@@ -199,7 +224,7 @@
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 500;
-  color: var(--text-on-dark-tertiary);
+  color: var(--cin-text-lo);
   letter-spacing: 0.8px;
   text-transform: uppercase;
   margin-bottom: var(--spacing-m);
@@ -224,14 +249,19 @@
   flex-direction: column;
   overflow: hidden;
   border-radius: 12px;
-  background: var(--color-brown-dark);
+  background: var(--cin-slate);
+  border: 1px solid var(--cin-stroke);
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform var(--cin-dur-fast) var(--cin-ease),
+    box-shadow var(--cin-dur-fast) var(--cin-ease),
+    border-color var(--cin-dur-fast) var(--cin-ease);
 }
 
 .cs-screen:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(124, 176, 255, 0.35);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px -12px rgba(124, 176, 255, 0.25);
 }
 
 .cs-screen-img {
@@ -242,20 +272,20 @@
   width: 100%;
   height: auto;
   display: block;
-  transition: transform 0.5s ease;
+  transition: transform 0.5s var(--cin-ease);
 }
 
 .cs-screen:hover img {
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
 .cs-screen-caption {
   padding: 14px 18px;
-  background: var(--color-brown-darker);
+  background: var(--cin-haze);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
-  color: var(--color-light-bg);
+  color: var(--cin-text-hi);
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -270,16 +300,16 @@
 
 .cs-tool {
   padding: 24px;
-  background: var(--color-white);
+  background: var(--cin-glass);
   border-radius: 8px;
-  border: 1px solid var(--color-brown-lightest);
+  border: 1px solid var(--cin-stroke);
 }
 
 .cs-tool-name {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
-  color: var(--color-brown-darkest);
+  color: var(--cin-text-hi);
   letter-spacing: 0.44px;
   margin-bottom: 8px;
 }
@@ -287,7 +317,7 @@
 .cs-tool-desc {
   font-size: 13px;
   font-weight: 300;
-  color: var(--color-brown-medium);
+  color: var(--cin-text-mid);
   line-height: 1.6;
 }
 
@@ -298,16 +328,16 @@
   gap: 24px;
   margin-top: var(--spacing-l);
   padding: 32px;
-  background: var(--color-white);
+  background: var(--cin-glass);
   border-radius: 8px;
-  border: 1px solid var(--color-brown-lightest);
+  border: 1px solid var(--cin-stroke);
 }
 
 .cs-callout-stat {
   font-family: var(--font-heading);
   font-size: 48px;
   font-weight: 800;
-  color: var(--color-blue);
+  color: var(--cin-amber);
   line-height: 1;
   flex-shrink: 0;
 }
@@ -315,7 +345,7 @@
 .cs-callout-text {
   font-size: 15px;
   font-weight: 300;
-  color: var(--color-brown-medium);
+  color: var(--cin-text-mid);
   line-height: 1.6;
 }
 
@@ -334,20 +364,20 @@
   font-family: var(--font-body);
   font-size: 14px;
   font-weight: 500;
-  color: var(--color-brown-darkest);
+  color: var(--cin-text-hi);
   text-decoration: none;
-  background: var(--color-white);
-  border: 1px solid var(--color-brown-lightest);
+  background: var(--cin-glass-strong);
+  border: 1px solid var(--cin-stroke);
   border-radius: 8px;
-  transition: all 0.3s ease;
+  transition: all var(--cin-dur-fast) var(--cin-ease);
 }
 
 .cs-figma-btn:hover {
-  background: var(--color-blue);
-  border-color: var(--color-blue);
-  color: var(--color-white);
+  background: var(--cin-steel);
+  border-color: var(--cin-steel);
+  color: #06070b;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(91, 143, 235, 0.25);
+  box-shadow: 0 8px 24px rgba(124, 176, 255, 0.3);
 }
 
 .cs-figma-btn svg {
@@ -368,8 +398,8 @@
 /* ===== NEXT CASE STUDY ===== */
 .cs-next {
   padding: var(--spacing-xl) var(--page-margin);
-  background: var(--color-dark-bg);
-  border-top: 1px solid var(--color-brown-dark);
+  background: var(--cin-ink);
+  border-top: 1px solid var(--cin-hairline);
 }
 
 .cs-next-container {
@@ -381,7 +411,7 @@
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 500;
-  color: var(--text-on-dark-tertiary);
+  color: var(--cin-text-lo);
   letter-spacing: 0.8px;
   text-transform: uppercase;
   margin-bottom: var(--spacing-s);
@@ -392,7 +422,7 @@
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: transform var(--cin-dur-fast) var(--cin-ease);
 }
 
 .cs-next-link:hover {
@@ -401,24 +431,24 @@
 
 .cs-next-title {
   font-family: var(--font-heading);
-  font-size: 32px;
+  font-size: var(--cin-step-h3);
   font-weight: 700;
-  color: var(--color-light-bg);
-  transition: color 0.3s ease;
+  color: var(--cin-text-hi);
+  transition: color var(--cin-dur-fast) var(--cin-ease);
 }
 
 .cs-next-link:hover .cs-next-title {
-  color: var(--color-blue);
+  color: var(--cin-steel);
 }
 
 .cs-next-arrow {
   font-size: 24px;
-  color: var(--text-on-dark-secondary);
-  transition: color 0.3s ease;
+  color: var(--cin-text-mid);
+  transition: color var(--cin-dur-fast) var(--cin-ease);
 }
 
 .cs-next-link:hover .cs-next-arrow {
-  color: var(--color-blue);
+  color: var(--cin-steel);
 }
 
 /* ===== CASE STUDY RESPONSIVE ===== */
@@ -600,15 +630,15 @@
 /* ----- Live demo section ----- */
 .cs-live {
   padding: var(--spacing-xl) var(--page-margin);
-  background: var(--color-dark-bg);
+  background: var(--cin-ink);
   background-image: radial-gradient(120% 80% at 50% 0%, rgba(0, 226, 237, 0.06), transparent 60%);
 }
 .cs-live-container { max-width: var(--max-width); margin: 0 auto; }
 .cs-live-title {
   font-family: var(--font-heading);
-  font-size: 32px;
+  font-size: var(--cin-step-h2);
   font-weight: 700;
-  color: var(--color-light-bg);
+  color: var(--cin-text-hi);
   line-height: 1.2;
   margin-bottom: var(--spacing-s);
 }

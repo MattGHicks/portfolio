@@ -25,8 +25,9 @@ export default function Navigation({ isHomepage = false }: NavigationProps) {
 
           const navBottom = nav.getBoundingClientRect().bottom;
 
-          // Check for light sections: .projects on homepage, .cs-content on case studies
-          const lightSections = document.querySelectorAll(".projects, .cs-content");
+          // Cinematic Noir is dark throughout; only elements that explicitly
+          // opt in (data-section-light) flip the nav to its light treatment.
+          const lightSections = document.querySelectorAll("[data-section-light]");
           let isOverLight = false;
 
           lightSections.forEach((section) => {

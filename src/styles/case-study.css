@@ -53,7 +53,7 @@
 }
 
 .cs-title {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: var(--cin-step-display);
   font-weight: 800;
   color: var(--cin-text-hi);
@@ -121,7 +121,7 @@
 }
 
 .cs-section-title {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: var(--cin-step-h2);
   font-weight: 700;
   color: var(--cin-text-hi);
@@ -334,7 +334,7 @@
 }
 
 .cs-callout-stat {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: 48px;
   font-weight: 800;
   color: var(--cin-amber);
@@ -430,7 +430,7 @@
 }
 
 .cs-next-title {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: var(--cin-step-h3);
   font-weight: 700;
   color: var(--cin-text-hi);
@@ -635,7 +635,7 @@
 }
 .cs-live-container { max-width: var(--max-width); margin: 0 auto; }
 .cs-live-title {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: var(--cin-step-h2);
   font-weight: 700;
   color: var(--cin-text-hi);

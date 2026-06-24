@@ -41,22 +41,22 @@
      existing --color-* / --text-on-* tokens (which /admin and the case studies
      still depend on) — nothing above is renamed or removed. */
 
-  /* Surfaces — deep cool-cast "cinematic shadow" blacks, layered */
-  --cin-abyss: #07080c;   /* deepest background / letterbox */
-  --cin-ink: #0b0d13;     /* base page surface */
-  --cin-slate: #12151e;   /* raised surface — cards */
-  --cin-haze: #1b1f2a;    /* raised surface 2 — hover / inputs */
+  /* Surfaces — cool charcoal, matched to the WebGL homepage */
+  --cin-abyss: #07080d;   /* deepest background / letterbox */
+  --cin-ink: #0a0c12;     /* base page surface */
+  --cin-slate: #11131c;   /* raised surface — cards */
+  --cin-haze: #1a1d28;    /* raised surface 2 — hover / inputs */
 
-  /* Cinematic light — a warm KEY + cool FILL duo (deliberately not one accent) */
-  --cin-amber: #f4a15d;       /* warm key-light bloom — the signature glow */
-  --cin-amber-deep: #e07b3c;
-  --cin-steel: #7cb0ff;       /* cool fill light / interactive accent */
-  --cin-steel-deep: #4f7fd6;
+  /* Accent — single cool electric blue (cyan secondary lives per-page) */
+  --cin-amber: #4d8dff;       /* (legacy token name) primary accent */
+  --cin-amber-deep: #3b7fff;
+  --cin-steel: #4d8dff;       /* interactive accent */
+  --cin-steel-deep: #3b7fff;
 
-  /* Text — warm off-whites for legibility on the cool dark */
-  --cin-text-hi: #f4f1ea;
-  --cin-text-mid: #b8b2a6;
-  --cin-text-lo: #837d72;
+  /* Text — cool off-whites */
+  --cin-text-hi: #f1f3f8;
+  --cin-text-mid: #9aa0b0;
+  --cin-text-lo: #6f7585;
 
   /* Glass & structure */
   --cin-glass: rgba(255, 255, 255, 0.04);
@@ -64,9 +64,9 @@
   --cin-stroke: rgba(255, 255, 255, 0.09);
   --cin-hairline: rgba(255, 255, 255, 0.07);
 
-  /* Volumetric light blooms (radial gradients) */
-  --cin-bloom-warm: radial-gradient(60% 60% at 50% 38%, rgba(244, 161, 93, 0.18), rgba(244, 161, 93, 0) 70%);
-  --cin-bloom-cool: radial-gradient(50% 50% at 72% 28%, rgba(124, 176, 255, 0.14), rgba(124, 176, 255, 0) 70%);
+  /* Volumetric light blooms (cool blue / cyan) */
+  --cin-bloom-warm: radial-gradient(60% 60% at 50% 38%, rgba(77, 141, 255, 0.16), rgba(77, 141, 255, 0) 70%);
+  --cin-bloom-cool: radial-gradient(50% 50% at 72% 28%, rgba(63, 224, 255, 0.12), rgba(63, 224, 255, 0) 70%);
 
   /* Fluid kinetic type scale */
   --cin-step-hero: clamp(3.25rem, 11vw, 10.5rem);

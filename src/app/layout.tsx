@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Syne, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Syne, DM_Sans, JetBrains_Mono, Bricolage_Grotesque } from "next/font/google";
 import NoiseOverlay from "@/components/NoiseOverlay";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import "./globals.css";
@@ -26,6 +26,13 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-display",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Matt Hicks — UI/UX Designer",
   description:
@@ -40,7 +47,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
+      className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable} ${bricolage.variable}`}
     >
       <body>
         <NoiseOverlay />

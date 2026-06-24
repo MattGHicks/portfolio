@@ -100,11 +100,11 @@
 
 /* ---- nav ---- */
 .lab2-nav {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 5;
+  z-index: 50;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -228,6 +228,130 @@
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+/* ---- scroll-scrubbed hero ---- */
+.scrub {
+  position: relative;
+  height: 100vh;
+  z-index: 1;
+}
+.scrub-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.scrub-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.scrub-grade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(10, 12, 18, 0.9) 0%, rgba(10, 12, 18, 0.5) 34%, rgba(10, 12, 18, 0) 64%),
+    radial-gradient(76% 64% at 52% 46%, transparent 42%, rgba(10, 12, 18, 0.55) 96%),
+    linear-gradient(180deg, rgba(10, 12, 18, 0.55) 0%, transparent 22%, transparent 64%, var(--bg) 100%);
+}
+.scrub-overlays {
+  position: absolute;
+  inset: 0;
+}
+.scrub-title-block {
+  position: absolute;
+  left: clamp(24px, 5vw, 64px);
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 640px;
+  z-index: 2;
+}
+.scrub-title {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600;
+  font-size: clamp(40px, 6.4vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  margin: 16px 0;
+}
+.scrub-title em {
+  font-style: normal;
+  color: var(--accent);
+}
+.scrub-sub {
+  max-width: 480px;
+  font-size: clamp(15px, 1.4vw, 17px);
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.scrub-sub strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.scrub-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 36px;
+}
+.scrub-beat {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  padding: 0 24px;
+  opacity: 0;
+  pointer-events: none;
+}
+.scrub-beat-num {
+  display: block;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  font-size: clamp(64px, 13vw, 200px);
+  line-height: 0.86;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+.scrub-beat-label {
+  display: block;
+  margin-top: 18px;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(11px, 1.1vw, 14px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.scrub-outro {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(28px, 5vh, 52px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600;
+  font-size: clamp(20px, 3vw, 38px);
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.scrub-outro-cue {
+  font-family: var(--font-mono), monospace;
+  font-size: 14px;
+  color: var(--accent);
+  animation: scrubBob 1.8s ease-in-out infinite;
+}
+@keyframes scrubBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
 }
 
 /* ---- work section ---- */

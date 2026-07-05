@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import '@/styles/case-study.css';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -115,13 +116,13 @@ export default function CaseStudyClive() {
             <div className="cs-screens cs-screens--2 animate-on-scroll">
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/clive/city-home.jpg" alt="City of Clive main city homepage — dark forest green nav, Greenbelt trail imagery, card-style quick links" loading="lazy" />
+                  <Image src="/images/cs/clive/city-home.jpg" alt="City of Clive main city homepage — dark forest green nav, Greenbelt trail imagery, card-style quick links" width={1440} height={4386} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">City Homepage</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/clive/parks-home.jpg" alt="Clive Parks and Recreation homepage — department-branded header, activity-focused design" loading="lazy" />
+                  <Image src="/images/cs/clive/parks-home.jpg" alt="Clive Parks and Recreation homepage — department-branded header, activity-focused design" width={1440} height={4134} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Parks &amp; Rec Homepage</figcaption>
               </figure>
@@ -129,13 +130,13 @@ export default function CaseStudyClive() {
             <div className="cs-screens cs-screens--2 animate-on-scroll" style={{ marginTop: '24px' }}>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/clive/library-home.jpg" alt="Clive Public Library homepage — library-branded header, community-focused warmth within city palette" loading="lazy" />
+                  <Image src="/images/cs/clive/library-home.jpg" alt="Clive Public Library homepage — library-branded header, community-focused warmth within city palette" width={1440} height={4134} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Library Homepage</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/clive/city-inner.jpg" alt="City of Clive interior page — full-width content layout, breadcrumb navigation, minimal sidebar" loading="lazy" />
+                  <Image src="/images/cs/clive/city-inner.jpg" alt="City of Clive interior page — full-width content layout, breadcrumb navigation, minimal sidebar" width={1440} height={2646} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">City Interior Page</figcaption>
               </figure>

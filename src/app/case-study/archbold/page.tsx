@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import ScrollAnimations from '@/components/ScrollAnimations';
@@ -102,7 +103,7 @@ export default function CaseStudyArchbold() {
             <div className="cs-screens cs-screens--1 animate-on-scroll">
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/archbold/home.jpg" alt="Village of Archbold homepage — clean navy hero, gold quick links grid, grid calendar layout" loading="lazy" />
+                  <Image src="/images/cs/archbold/home.jpg" alt="Village of Archbold homepage — clean navy hero, gold quick links grid, grid calendar layout" width={1440} height={3613} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Homepage</figcaption>
               </figure>
@@ -110,13 +111,13 @@ export default function CaseStudyArchbold() {
             <div className="cs-screens cs-screens--2 animate-on-scroll" style={{ marginTop: '24px' }}>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/archbold/inner.jpg" alt="Archbold interior page — clean content layout, sidebar navigation, heading hierarchy" loading="lazy" />
+                  <Image src="/images/cs/archbold/inner.jpg" alt="Archbold interior page — clean content layout, sidebar navigation, heading hierarchy" width={1440} height={2516} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Interior Page</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/archbold/interactions.jpg" alt="Archbold interactions — mega menu expanded, button hover states, calendar interactions" loading="lazy" />
+                  <Image src="/images/cs/archbold/interactions.jpg" alt="Archbold interactions — mega menu expanded, button hover states, calendar interactions" width={1440} height={3619} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Mega Menu &amp; Interactions</figcaption>
               </figure>

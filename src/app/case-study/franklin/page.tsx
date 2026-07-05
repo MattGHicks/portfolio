@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import ScrollAnimations from '@/components/ScrollAnimations';
@@ -107,7 +108,7 @@ export default function CaseStudyFranklin() {
             <div className="cs-screens cs-screens--1 animate-on-scroll">
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/franklin/brand-guide.jpg" alt="Franklin Brand and Logo Guide — full identity system showing logo lockups, color palette, and typography" loading="lazy" />
+                  <Image src="/images/cs/franklin/brand-guide.jpg" alt="Franklin Brand and Logo Guide — full identity system showing logo lockups, color palette, and typography" width={1440} height={3707} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Client-facing Brand Guidelines</figcaption>
               </figure>

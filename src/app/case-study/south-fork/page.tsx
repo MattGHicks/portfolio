@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import ScrollAnimations from '@/components/ScrollAnimations';
@@ -109,7 +110,7 @@ export default function CaseStudySouthFork() {
             <div className="cs-screens cs-screens--1 animate-on-scroll">
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/south-fork/home.jpg" alt="South Fork Water Board homepage — Clackamas River hero, forest green accents, pure water heritage messaging" loading="lazy" />
+                  <Image src="/images/cs/south-fork/home.jpg" alt="South Fork Water Board homepage — Clackamas River hero, forest green accents, pure water heritage messaging" width={1440} height={4361} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Homepage</figcaption>
               </figure>
@@ -117,13 +118,13 @@ export default function CaseStudySouthFork() {
             <div className="cs-screens cs-screens--2 animate-on-scroll" style={{ marginTop: '24px' }}>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/south-fork/inner.jpg" alt="South Fork interior page — clean content layout, optional sidebar, board meeting documents" loading="lazy" />
+                  <Image src="/images/cs/south-fork/inner.jpg" alt="South Fork interior page — clean content layout, optional sidebar, board meeting documents" width={1440} height={3106} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Interior Page</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/south-fork/interactions.jpg" alt="South Fork interactions page — navigation hover states and interactive elements" loading="lazy" />
+                  <Image src="/images/cs/south-fork/interactions.jpg" alt="South Fork interactions page — navigation hover states and interactive elements" width={1440} height={4361} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Interactions</figcaption>
               </figure>

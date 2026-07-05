@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import '@/styles/case-study.css';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -115,13 +116,13 @@ export default function CaseStudyTemple() {
             <div className="cs-screens cs-screens--2 animate-on-scroll">
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/temple/city-home.jpg" alt="City of Temple, Texas main city homepage — final approved design after 5 revision cycles" loading="lazy" />
+                  <Image src="/images/cs/temple/city-home.jpg" alt="City of Temple, Texas main city homepage — final approved design after 5 revision cycles" width={1440} height={5603} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">City Homepage</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/temple/city-inner.jpg" alt="City of Temple interior page — full-width content layout with department navigation" loading="lazy" />
+                  <Image src="/images/cs/temple/city-inner.jpg" alt="City of Temple interior page — full-width content layout with department navigation" width={1440} height={2657} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">City Interior Page</figcaption>
               </figure>
@@ -129,19 +130,19 @@ export default function CaseStudyTemple() {
             <div className="cs-screens cs-screens--3 animate-on-scroll" style={{ marginTop: '24px' }}>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/temple/library-home.jpg" alt="Temple Public Library homepage — library-branded sub-site within city design system" loading="lazy" />
+                  <Image src="/images/cs/temple/library-home.jpg" alt="Temple Public Library homepage — library-branded sub-site within city design system" width={1440} height={3756} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Library Homepage</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/temple/parks-home.jpg" alt="Temple Parks and Recreation homepage — Parks sub-site with activity-focused design" loading="lazy" />
+                  <Image src="/images/cs/temple/parks-home.jpg" alt="Temple Parks and Recreation homepage — Parks sub-site with activity-focused design" width={1440} height={4648} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Parks &amp; Rec Homepage</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/temple/city-interactions.jpg" alt="City of Temple interactions page — navigation, hover states, dropdown menu" loading="lazy" />
+                  <Image src="/images/cs/temple/city-interactions.jpg" alt="City of Temple interactions page — navigation, hover states, dropdown menu" width={1440} height={5603} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Interactions</figcaption>
               </figure>

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import ScrollAnimations from '@/components/ScrollAnimations';
@@ -103,13 +104,13 @@ export default function CaseStudyR6() {
             <div className="cs-screens cs-screens--2 animate-on-scroll">
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/r6/home.jpg" alt="R6 Regional Council homepage design — charcoal nav, Utah Sky Blue accents, card-style quick links" loading="lazy" />
+                  <Image src="/images/cs/r6/home.jpg" alt="R6 Regional Council homepage design — charcoal nav, Utah Sky Blue accents, card-style quick links" width={1440} height={3469} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Homepage</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/r6/inner.jpg" alt="R6 Regional Council interior page design — clean content layout with optional sidebar" loading="lazy" />
+                  <Image src="/images/cs/r6/inner.jpg" alt="R6 Regional Council interior page design — clean content layout with optional sidebar" width={1440} height={2366} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Interior Page</figcaption>
               </figure>
@@ -117,7 +118,7 @@ export default function CaseStudyR6() {
             <div className="cs-screens cs-screens--1 animate-on-scroll" style={{ marginTop: '24px' }}>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/r6/interactions.jpg" alt="R6 Regional Council interactions page — mega menu expanded showing Programs and Services" loading="lazy" />
+                  <Image src="/images/cs/r6/interactions.jpg" alt="R6 Regional Council interactions page — mega menu expanded showing Programs and Services" width={1440} height={3469} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Mega Menu &amp; Interactions</figcaption>
               </figure>

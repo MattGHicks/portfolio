@@ -6,13 +6,11 @@ import '@/styles/case-study.css';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import ScrollAnimations from '@/components/ScrollAnimations';
-import NoiseOverlay from '@/components/NoiseOverlay';
 
 export default function SystemRevize() {
 
   return (
     <>
-      <NoiseOverlay />
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 

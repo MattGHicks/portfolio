@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Pixel transition prototype — Matt Hicks portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { font-family: "Inter", system-ui, sans-serif; background: #06070c; color: #f1f3f8; overflow: hidden; }
+
+  .stage { position: fixed; inset: 0; }
+  .screen {
+    position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
+    padding: 0 clamp(28px, 7vw, 120px); opacity: 0; visibility: hidden;
+  }
+  .screen.on { opacity: 1; visibility: visible; }
+  .screen .eyebrow {
+    font-family: "Space Mono", monospace; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 12px; margin-bottom: 26px;
+  }
+  .screen .eyebrow i { width: 30px; height: 1px; display: inline-block; }
+  .screen h1 {
+    font-family: "Bricolage Grotesque", sans-serif; font-weight: 700;
+    font-size: clamp(44px, 8vw, 124px); line-height: 0.96; letter-spacing: -0.04em; max-width: 16ch;
+  }
+  .screen p { max-width: 46ch; margin-top: 26px; font-size: clamp(15px, 1.5vw, 19px); line-height: 1.6; color: #9aa0b4; }
+  .screen p b { color: #f1f3f8; font-weight: 500; }
+  .screen .meta { font-family: "Space Mono", monospace; font-size: 13px; letter-spacing: 0.05em; color: #f1f3f8; margin-top: 22px; }
+
+  .s0 .eyebrow, .s0 .eyebrow i { color: #4d8dff; background: #4d8dff; }
+  .s1 .eyebrow, .s1 .eyebrow i { color: #3fe0ff; background: #3fe0ff; }
+  .s1 h1 em { font-style: normal; color: #3fe0ff; }
+  .s2 .eyebrow, .s2 .eyebrow i { color: #a78bfa; background: #a78bfa; }
+  .s2 h1 em { font-style: normal; color: #a78bfa; }
+
+  .bgline { position: absolute; bottom: clamp(120px, 18vh, 180px); left: clamp(28px, 7vw, 120px);
+    font-family: "Space Mono", monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #4a4f63; }
+
+  .px-overlay { position: fixed; inset: 0; z-index: 50; display: grid; pointer-events: none; }
+  .px-cell { width: 100%; height: 100%; background: #0a0c14; transform: scale(0); border: 0.5px solid rgba(125,168,255,0.05); }
+
+  .panel {
+    position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 80;
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap; justify-content: center;
+    padding: 12px 16px; border-radius: 16px; max-width: min(94vw, 880px);
+    background: rgba(14,16,24,0.82); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.1);
+  }
+  .panel .grp { display: flex; align-items: center; gap: 9px; }
+  .panel label { font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8b90a0; }
+  .panel .val { font-family: "Space Mono", monospace; font-size: 11px; color: #f1f3f8; min-width: 26px; }
+  .fire {
+    font-family: "Space Mono", monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700;
+    color: #06070c; background: #4d8dff; border: none; border-radius: 999px; padding: 12px 20px; cursor: pointer; white-space: nowrap;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .fire:hover { transform: translateY(-1px); box-shadow: 0 10px 30px -8px rgba(77,141,255,0.6); }
+  select, input[type=range] { accent-color: #4d8dff; }
+  select { background: rgba(255,255,255,0.06); color: #f1f3f8; border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px; padding: 7px 9px; font-family: "Space Mono", monospace; font-size: 11px; }
+  input[type=range] { width: 92px; }
+  .hint { position: fixed; top: 22px; left: 50%; transform: translateX(-50%); z-index: 80;
+    font-family: "Space Mono", monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5a6076; }
+  @media (prefers-reduced-motion: reduce) { .px-cell { transition: none; } }
+</style>
+</head>
+<body>
+  <div class="hint">Click the stage or “fire” to run the pixel transition</div>
+
+  <div class="stage" id="stage">
+    <section class="screen s0 on">
+      <span class="eyebrow"><i></i> UI/UX &amp; Product Designer — Tampa, FL</span>
+      <h1>Designer who builds systems.</h1>
+      <p><b>Matt Hicks</b> — 190+ government websites shipped and award-winning, with an AI-native design workflow.</p>
+    </section>
+
+    <section class="screen s1">
+      <span class="eyebrow"><i></i> Selected work — Concept</span>
+      <h1>AI1 — Orbital <em>Intelligence</em>.</h1>
+      <p>A cinematic concept reveal for an orbital AI data-center satellite — WebGL starfield, scroll-driven lore, draggable orbit.</p>
+      <span class="meta">View case study ↗</span>
+    </section>
+
+    <section class="screen s2">
+      <span class="eyebrow"><i></i> Open to work — 2026</span>
+      <h1>Let&apos;s build <em>something</em>.</h1>
+      <p>Product teams that care about design systems, accessibility, and shipping real work — let&apos;s talk.</p>
+      <span class="meta">mattghicks@gmail.com</span>
+    </section>
+
+    <div class="bgline">Pixel transition · GSAP stagger · no WebGL</div>
+  </div>
+
+  <div class="px-overlay" id="overlay"></div>
+
+  <div class="panel">
+    <button class="fire" id="fire">Fire transition →</button>
+    <div class="grp">
+      <label>Pattern</label>
+      <select id="pattern">
+        <option value="wave">Wave</option>
+        <option value="random" selected>Random</option>
+        <option value="center">Center</option>
+        <option value="edges">Edges</option>
+      </select>
+    </div>
+    <div class="grp">
+      <label>Density</label>
+      <input type="range" id="density" min="10" max="44" step="2" value="26" />
+      <span class="val" id="densityVal">26</span>
+    </div>
+    <div class="grp">
+      <label>Speed</label>
+      <input type="range" id="speed" min="50" max="200" step="10" value="100" />
+      <span class="val" id="speedVal">1.0×</span>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script>
+    const overlay = document.getElementById('overlay');
+    const screens = [...document.querySelectorAll('.screen')];
+    const fireBtn = document.getElementById('fire');
+    const patternSel = document.getElementById('pattern');
+    const densityInp = document.getElementById('density');
+    const speedInp = document.getElementById('speed');
+    const densityVal = document.getElementById('densityVal');
+    const speedVal = document.getElementById('speedVal');
+
+    let cols = 26, rows = 14, current = 0, animating = false;
+
+    function buildGrid() {
+      cols = parseInt(densityInp.value, 10);
+      rows = Math.max(6, Math.round(cols * (window.innerHeight / window.innerWidth)));
+      overlay.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+      overlay.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+      overlay.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < cols * rows; i++) {
+        const c = document.createElement('div');
+        c.className = 'px-cell';
+        frag.appendChild(c);
+      }
+      overlay.appendChild(frag);
+    }
+
+    function showScreen(i) {
+      screens.forEach((s, idx) => s.classList.toggle('on', idx === i));
+      current = i;
+    }
+
+    function fire() {
+      if (animating) return;
+      animating = true;
+      const cells = gsap.utils.toArray('.px-cell');
+      const pat = patternSel.value;
+      const spd = parseInt(speedInp.value, 10) / 100;
+      const next = (current + 1) % screens.length;
+
+      const stagger = { amount: 0.5 * spd, from: pat, grid: [rows, cols] };
+      if (pat === 'wave') stagger.axis = 'x';
+
+      const tl = gsap.timeline({ onComplete: () => { animating = false; } });
+      tl.to(cells, { scale: 1.04, duration: 0.34 * spd, ease: 'power2.in', stagger });
+      tl.add(() => showScreen(next));
+      tl.to(cells, { scale: 0, duration: 0.34 * spd, ease: 'power2.out', stagger }, '+=0.04');
+    }
+
+    fireBtn.addEventListener('click', fire);
+    document.getElementById('stage').addEventListener('click', fire);
+    densityInp.addEventListener('input', () => { densityVal.textContent = densityInp.value; buildGrid(); });
+    speedInp.addEventListener('input', () => { speedVal.textContent = (parseInt(speedInp.value, 10) / 100).toFixed(1) + '×'; });
+    window.addEventListener('resize', buildGrid);
+    window.addEventListener('keydown', (e) => { if (e.code === 'Space') { e.preventDefault(); fire(); } });
+
+    buildGrid();
+  </script>
+</body>
+</html>

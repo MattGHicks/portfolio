@@ -5,7 +5,7 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import RefinedCursor from "@/components/lab/RefinedCursor";
 import CursorPops from "@/components/lab/CursorPops";
-import ScrubHero from "@/components/lab/ScrubHero";
+import Hero from "@/components/lab/Hero";
 import WorkIndex from "@/components/lab/WorkIndex";
 import About from "@/components/lab/About";
 import Contact from "@/components/lab/Contact";
@@ -59,7 +59,7 @@ export default function LabHome() {
         </div>
       </nav>
 
-      <ScrubHero />
+      <Hero />
       <WorkIndex />
       <About />
       <Contact />

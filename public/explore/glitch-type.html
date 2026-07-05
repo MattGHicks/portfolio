@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Glitch type prototype — Matt Hicks portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { font-family: "Inter", system-ui, sans-serif; background: #0a0b10; color: #efe9dc; overflow: hidden; }
+  .bg { position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(80% 60% at 50% 30%, rgba(90,80,60,0.22), transparent 70%),
+      radial-gradient(60% 50% at 80% 80%, rgba(60,80,120,0.16), transparent 70%),
+      #0a0b10; }
+  .stage { position: fixed; inset: 0; z-index: 2; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center; padding: 0 24px; }
+  .eyebrow { font-family: "Space Mono", monospace; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; color: #b9a988; margin-bottom: 30px; }
+  .glitch { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; line-height: 0.92; letter-spacing: -0.03em;
+    color: #efe1c7; filter: url(#glitch); cursor: pointer; user-select: none; }
+  .glitch.wordmark { font-size: clamp(54px, 13vw, 200px); }
+  .glitch.headline { font-size: clamp(40px, 8vw, 132px); max-width: 14ch; letter-spacing: -0.04em; }
+  .sub { font-family: "Space Mono", monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #6c6657; margin-top: 34px; }
+
+  .panel { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 30;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center;
+    padding: 12px 16px; border-radius: 16px; max-width: min(94vw, 900px);
+    background: rgba(16,17,24,0.84); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.1); }
+  .grp { display: flex; align-items: center; gap: 9px; }
+  label { font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8b90a0; }
+  .val { font-family: "Space Mono", monospace; font-size: 11px; color: #efe9dc; min-width: 30px; }
+  button { font-family: "Space Mono", monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700;
+    color: #efe9dc; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16); border-radius: 999px; padding: 10px 16px; cursor: pointer; white-space: nowrap; }
+  button.primary { color: #0a0b10; background: #d9b773; border: none; }
+  button:hover { border-color: rgba(255,255,255,0.32); }
+  input[type=range] { width: 92px; accent-color: #d9b773; }
+  .hint { position: fixed; top: 22px; left: 50%; transform: translateX(-50%); z-index: 30;
+    font-family: "Space Mono", monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5a6076; }
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="glitch" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.014 0" numOctaves="1" seed="7" result="noise" id="turb" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" id="disp" />
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="hint">Hover the type or hit “glitch” — it shimmers constantly</div>
+
+  <div class="stage">
+    <span class="eyebrow">UI/UX &amp; Product Designer — Tampa, FL</span>
+    <h1 class="glitch wordmark" id="text">Matt Hicks</h1>
+    <span class="sub">Designed in Figma · Built with Claude Code</span>
+  </div>
+
+  <div class="panel">
+    <button class="primary" id="burst">Glitch ⚡</button>
+    <button id="toggle">Show headline</button>
+    <div class="grp"><label>Intensity</label><input type="range" id="intensity" min="6" max="46" step="2" value="28" /><span class="val" id="intensityVal">28</span></div>
+    <div class="grp"><label>Slice</label><input type="range" id="slice" min="4" max="40" step="2" value="14" /><span class="val" id="sliceVal">.014</span></div>
+    <div class="grp"><label>Idle</label><input type="range" id="idle" min="0" max="80" step="4" value="24" /><span class="val" id="idleVal">2.4</span></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script>
+    const turb = document.getElementById('turb');
+    const disp = document.getElementById('disp');
+    const text = document.getElementById('text');
+    const burstBtn = document.getElementById('burst');
+    const toggleBtn = document.getElementById('toggle');
+    const intensityInp = document.getElementById('intensity');
+    const sliceInp = document.getElementById('slice');
+    const idleInp = document.getElementById('idle');
+    const intensityVal = document.getElementById('intensityVal');
+    const sliceVal = document.getElementById('sliceVal');
+    const idleVal = document.getElementById('idleVal');
+
+    let intensity = 28, fx = 0.014, idle = 2.4, burst = 0, showingWord = true;
+
+    function frame(t) {
+      burst *= 0.9;
+      const shimmer = idle * (0.55 + 0.45 * Math.sin(t / 130));
+      const scale = shimmer + burst * intensity;
+      disp.setAttribute('scale', scale.toFixed(2));
+      turb.setAttribute('baseFrequency', fx.toFixed(4) + ' 0');
+      if (burst > 0.04) turb.setAttribute('seed', Math.floor(t / 36) % 90);
+      requestAnimationFrame(frame);
+    }
+    function doBurst() { burst = 1; }
+
+    burstBtn.addEventListener('click', doBurst);
+    text.addEventListener('mouseenter', doBurst);
+    toggleBtn.addEventListener('click', () => {
+      showingWord = !showingWord;
+      text.textContent = showingWord ? 'Matt Hicks' : 'Designer who builds systems.';
+      text.className = 'glitch ' + (showingWord ? 'wordmark' : 'headline');
+      toggleBtn.textContent = showingWord ? 'Show headline' : 'Show wordmark';
+      doBurst();
+    });
+    intensityInp.addEventListener('input', () => { intensity = +intensityInp.value; intensityVal.textContent = intensity; });
+    sliceInp.addEventListener('input', () => { fx = +sliceInp.value / 1000; sliceVal.textContent = fx.toFixed(3); });
+    idleInp.addEventListener('input', () => { idle = +idleInp.value / 10; idleVal.textContent = idle.toFixed(1); });
+
+    requestAnimationFrame(frame);
+    setTimeout(doBurst, 350);
+  </script>
+</body>
+</html>

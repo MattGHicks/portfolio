@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -13,9 +12,6 @@ import '@/styles/case-study.css';
 const A = '/images/cs/ai1';
 
 export default function CaseStudyAI1() {
-  useEffect(() => {
-    document.title = 'AI1 — Matt Hicks';
-  }, []);
 
   return (
     <>

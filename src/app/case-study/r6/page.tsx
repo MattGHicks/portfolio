@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -9,13 +8,6 @@ import ArrowIcon from '@/components/ArrowIcon';
 import '@/styles/case-study.css';
 
 export default function CaseStudyR6() {
-  useEffect(() => {
-    document.title = 'R6 Regional Council, Utah — Matt Hicks';
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) {
-      meta.setAttribute('content', 'Complete website redesign for a Central Utah regional government — brand palette built from scratch, Apple-inspired layout, mega menu for workforce and community services.');
-    }
-  }, []);
 
   return (
     <>

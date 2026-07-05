@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -8,13 +7,6 @@ import ScrollAnimations from '@/components/ScrollAnimations';
 import '@/styles/case-study.css';
 
 export default function CaseStudyPoolPilot() {
-  useEffect(() => {
-    document.title = 'PoolPilot — Matt Hicks';
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) {
-      meta.setAttribute('content', 'PoolPilot — a self-hosted smart pool controller designed and built end-to-end: reverse-engineered RS-485 pump protocol, hand-wired ESP32 bridge hardware, and a real-time mobile app that runs the family pool every day.');
-    }
-  }, []);
 
   return (
     <>

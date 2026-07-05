@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -8,13 +7,6 @@ import ScrollAnimations from '@/components/ScrollAnimations';
 import '@/styles/case-study.css';
 
 export default function CaseStudyFranklin() {
-  useEffect(() => {
-    document.title = 'City of Franklin, Indiana — Matt Hicks';
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) {
-      meta.setAttribute('content', 'A full rebrand for a historic Indiana city — new logo, new palette, new typography, new website. Most municipal projects design around an existing brand. Franklin let us redefine it.');
-    }
-  }, []);
 
   return (
     <>

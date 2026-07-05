@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -11,9 +10,6 @@ import { DR_DABBER } from '@/lib/case-studies';
 import '@/styles/case-study.css';
 
 export default function CaseStudyDrDabber() {
-  useEffect(() => {
-    document.title = 'Dr. Dabber — Matt Hicks';
-  }, []);
 
   return (
     <>

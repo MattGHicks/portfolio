@@ -71,6 +71,81 @@
   padding: 120px var(--wd-margin) 48px;
 }
 
+/* ---- Figma-style hover inspection (desktop pointers only) ---- */
+
+.inspect-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.inspect-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid #0d99ff;
+  opacity: 0;
+  transition: opacity 150ms var(--ease), transform 120ms var(--ease),
+    width 120ms var(--ease), height 120ms var(--ease);
+}
+
+.inspect-box.is-on {
+  opacity: 1;
+}
+
+.inspect-handle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border: 1px solid #0d99ff;
+}
+
+.inspect-tl { top: -4.5px; left: -4.5px; }
+.inspect-tr { top: -4.5px; right: -4.5px; }
+.inspect-bl { bottom: -4.5px; left: -4.5px; }
+.inspect-br { bottom: -4.5px; right: -4.5px; }
+
+.inspect-tag {
+  position: absolute;
+  top: -24px;
+  left: -1px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #0d99ff;
+  white-space: nowrap;
+}
+
+.inspect-size {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0d99ff;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 3px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+/* the adjustable spec: the headline scrubs Archivo's wdth axis */
+@media (pointer: fine) {
+  .hero-name {
+    cursor: ew-resize;
+    touch-action: none;
+  }
+}
+
+.hero.is-adjusting,
+.hero.is-adjusting .hero-name {
+  cursor: ew-resize;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 .hero-status {
   display: flex;
   align-items: center;

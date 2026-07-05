@@ -14,7 +14,7 @@ export default function CaseStudyClive() {
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main id="main" className="cs-page">
+      <main id="main" className="cs-page" style={{ "--cs-hero-bg": "url(/images/heroes/clive.jpg)" } as React.CSSProperties}>
         {/* Hero Section */}
         <section className="cs-hero">
           <div className="cs-hero-container">

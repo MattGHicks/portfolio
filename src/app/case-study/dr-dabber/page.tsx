@@ -16,7 +16,7 @@ export default function CaseStudyDrDabber() {
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main id="main" className="cs-page" style={{ "--cs-accent": "#00e2ed" } as React.CSSProperties}>
+      <main id="main" className="cs-page" style={{ "--cs-accent": "#00e2ed", "--cs-hero-bg": "url(/images/heroes/dr-dabber.jpg)" } as React.CSSProperties}>
         {/* Hero */}
         <section className="cs-hero">
           <div className="cs-hero-container">

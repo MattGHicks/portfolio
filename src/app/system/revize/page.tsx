@@ -14,7 +14,7 @@ export default function SystemRevize() {
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main id="main" className="cs-page">
+      <main id="main" className="cs-page" style={{ "--cs-hero-bg": "url(/images/heroes/revize.jpg)" } as React.CSSProperties}>
         {/* Hero */}
         <section className="cs-hero">
           <div className="cs-hero-container">

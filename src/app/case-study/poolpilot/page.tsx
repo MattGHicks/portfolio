@@ -14,7 +14,7 @@ export default function CaseStudyPoolPilot() {
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main id="main" className="cs-page" style={{ "--cs-accent": "#3ecfd9" } as React.CSSProperties}>
+      <main id="main" className="cs-page" style={{ "--cs-accent": "#3ecfd9", "--cs-hero-bg": "url(/images/heroes/poolpilot.jpg)" } as React.CSSProperties}>
         {/* Hero Section */}
         <section className="cs-hero">
           <div className="cs-hero-container">

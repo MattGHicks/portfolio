@@ -18,7 +18,7 @@ export default function CaseStudyAI1() {
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main id="main" className="cs-page cs-ai1" style={{ "--cs-accent": "#2ee6ff" } as React.CSSProperties}>
+      <main id="main" className="cs-page cs-ai1" style={{ "--cs-accent": "#2ee6ff", "--cs-hero-bg": "url(/images/heroes/ai1.jpg)" } as React.CSSProperties}>
         {/* Hero */}
         <section className="cs-hero">
           <div className="cs-hero-container">

@@ -14,7 +14,7 @@ export default function SystemAIWorkflow() {
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main id="main" className="cs-page">
+      <main id="main" className="cs-page" style={{ "--cs-hero-bg": "url(/images/heroes/ai-workflow.jpg)" } as React.CSSProperties}>
         {/* Hero */}
         <section className="cs-hero">
           <div className="cs-hero-container">

@@ -1031,6 +1031,21 @@
   --color-blue: var(--cs-accent);
 }
 
+/* hero ambiance plate — a whisper behind the text, fading into the page.
+   Set per page via --cs-hero-bg; the gradient keeps the band readable. */
+.cs-page .cs-hero {
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(13, 15, 16, 0.8),
+      rgba(13, 15, 16, 0.92) 62%,
+      var(--bg) 97%
+    ),
+    var(--cs-hero-bg, none);
+  background-size: cover;
+  background-position: center;
+}
+
 /* labels: mono sentence case, no tracking */
 .cs-page .cs-back,
 .cs-page .cs-label,

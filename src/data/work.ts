@@ -35,6 +35,7 @@ export const work: WorkItem[] = [
       "A self-hosted smart controller for a “dumb” pool pump — reverse-engineered RS-485 protocol, hand-wired ESP32 bridge hardware, and a real-time mobile app with scheduling and energy analytics. Designed, engineered, and shipped end-to-end; it runs the family pool every day.",
     tags: ["Product Design", "Hardware", "Real-Time UI"],
     poster: "/images/cs/poolpilot/live.png",
+    accent: "#3ecfd9",
   },
   {
     slug: "dr-dabber",
@@ -48,6 +49,7 @@ export const work: WorkItem[] = [
       "An unsolicited, end-to-end redesign of the companion app for the Dr. Dabber e-rig I own — a heat-reactive “Aurora Core” that glows with the temperature, strain LED themes that recolor the entire UI, real heating modes, and a command-center home, all wired to a simulated device you can drive live in the browser.",
     tags: ["Product Design", "Interaction", "Motion", "Front-End"],
     poster: "/images/cs/dr-dabber/home.png",
+    accent: "#00e2ed",
   },
   {
     slug: "ai1",
@@ -61,6 +63,7 @@ export const work: WorkItem[] = [
       "A cinematic concept reveal for SpaceX's AI1 orbital AI data-center satellite — the real spec sheet treated as cinema, with AI-generated Seedance film loops, a live WebGL starfield, scroll-driven lore, HUD telemetry, and a draggable orbit. Honest about every real fact versus invented bit of lore.",
     tags: ["Art Direction", "Motion / WebGL", "3D", "AI Film"],
     poster: "/images/cs/ai1/hero.jpg",
+    accent: "#2ee6ff",
     clip: "/images/cs/ai1/hero.mp4",
   },
   {
@@ -75,6 +78,7 @@ export const work: WorkItem[] = [
       "A full rebrand for a historic Indiana city — new logo, new palette, new type pairing, new website. Most municipal projects design around an existing brand. Franklin let us redefine it: custom wordmark, abstract arch, four color families, two type families, one design system that ties everything together.",
     tags: ["Brand Identity", "Logo", "Color System", "Typography"],
     poster: "/images/cs/franklin/brand-guide.jpg",
+    accent: "#c9a158",
   },
   {
     slug: "r6",

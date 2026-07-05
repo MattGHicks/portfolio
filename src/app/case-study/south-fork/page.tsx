@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -8,13 +7,6 @@ import ScrollAnimations from '@/components/ScrollAnimations';
 import '@/styles/case-study.css';
 
 export default function CaseStudySouthFork() {
-  useEffect(() => {
-    document.title = 'South Fork Water Board, Oregon — Matt Hicks';
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) {
-      meta.setAttribute('content', 'Website redesign for a wholesale water authority serving Oregon City and West Linn — designed around their \'simplicity is brilliant\' philosophy and the natural heritage of the Clackamas River headwaters.');
-    }
-  }, []);
 
   return (
     <>

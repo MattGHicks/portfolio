@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 import '@/styles/case-study.css';
 import Navigation from '@/components/Navigation';
@@ -9,9 +8,6 @@ import ScrollAnimations from '@/components/ScrollAnimations';
 import NoiseOverlay from '@/components/NoiseOverlay';
 
 export default function SystemRevize() {
-  useEffect(() => {
-    document.title = 'Revize Design System — Matt Hicks';
-  }, []);
 
   return (
     <>

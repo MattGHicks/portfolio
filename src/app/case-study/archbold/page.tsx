@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -8,13 +7,6 @@ import ScrollAnimations from '@/components/ScrollAnimations';
 import '@/styles/case-study.css';
 
 export default function CaseStudyArchbold() {
-  useEffect(() => {
-    document.title = 'Village of Archbold, Ohio — Matt Hicks';
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) {
-      meta.setAttribute('content', 'Government website redesign for a small northwest Ohio village — transforming a cluttered, overlapping layout into a clean, confident design built around their navy and gold brand, a grid calendar their residents actually asked for, and navigation that doesn\'t require a map to use.');
-    }
-  }, []);
 
   return (
     <>

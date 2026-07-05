@@ -13,7 +13,7 @@ export default function CaseStudyFranklin() {
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main>
+      <main id="main" className="cs-page" style={{ "--cs-accent": "#c9a158" } as React.CSSProperties}>
         {/* Hero Section */}
         <section className="cs-hero">
           <div className="cs-hero-container">

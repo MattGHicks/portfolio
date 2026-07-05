@@ -16,7 +16,7 @@ export default function CaseStudyDrDabber() {
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main>
+      <main id="main" className="cs-page" style={{ "--cs-accent": "#00e2ed" } as React.CSSProperties}>
         {/* Hero */}
         <section className="cs-hero">
           <div className="cs-hero-container">
@@ -54,6 +54,13 @@ export default function CaseStudyDrDabber() {
             </p>
           </div>
         </section>
+
+        {/* Live — the concept is the demo; lead with it */}
+        <LiveDemo
+          liveUrl={DR_DABBER.liveUrl}
+          repoUrl={DR_DABBER.repoUrl}
+          poster="/images/cs/dr-dabber/home.png"
+        />
 
         {/* Opportunity + Problems */}
         <section className="cs-content">
@@ -205,13 +212,6 @@ export default function CaseStudyDrDabber() {
             </div>
           </div>
         </section>
-
-        {/* Live */}
-        <LiveDemo
-          liveUrl={DR_DABBER.liveUrl}
-          repoUrl={DR_DABBER.repoUrl}
-          poster="/images/cs/dr-dabber/home.png"
-        />
 
         {/* Next */}
         <section className="cs-next animate-on-scroll">

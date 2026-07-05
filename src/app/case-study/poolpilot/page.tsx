@@ -13,7 +13,7 @@ export default function CaseStudyPoolPilot() {
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main>
+      <main id="main" className="cs-page" style={{ "--cs-accent": "#3ecfd9" } as React.CSSProperties}>
         {/* Hero Section */}
         <section className="cs-hero">
           <div className="cs-hero-container">

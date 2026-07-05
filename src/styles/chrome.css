@@ -77,30 +77,6 @@
   flex-shrink: 0;
 }
 
-/* Interior pages still have light content sections until the case-study
-   restyle lands (M3/M4). The scroll scanner flips this class on. */
-.nav-light {
-  background: rgba(243, 240, 234, 0.85);
-  border-bottom-color: rgba(26, 25, 23, 0.12);
-}
-
-.nav-light .nav-logo,
-.nav-light .nav-resume {
-  color: #1a1917;
-}
-
-.nav-light .nav-resume {
-  border-color: rgba(26, 25, 23, 0.3);
-}
-
-.nav-light .nav-link {
-  color: #5a564f;
-}
-
-.nav-light .nav-link:hover {
-  color: #1a1917;
-}
-
 @media (max-width: 719px) {
   .nav-link {
     display: none;

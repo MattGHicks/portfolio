@@ -15,7 +15,7 @@ export default function SystemRevize() {
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main>
+      <main id="main" className="cs-page">
         {/* Hero */}
         <section className="cs-hero">
           <div className="cs-hero-container">

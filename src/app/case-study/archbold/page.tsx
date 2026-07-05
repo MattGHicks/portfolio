@@ -13,7 +13,7 @@ export default function CaseStudyArchbold() {
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main>
+      <main id="main" className="cs-page">
         {/* Hero Section */}
         <section className="cs-hero">
           <div className="cs-hero-container">

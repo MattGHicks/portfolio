@@ -23,13 +23,37 @@ export default function FlagshipWork() {
           >
             <Link href={w.href} className="flag-link">
               <div className="flag-media">
-                <Image
-                  src={w.poster}
-                  alt={`${w.title} — case study preview`}
-                  fill
-                  sizes="(max-width: 899px) 100vw, 640px"
-                  priority={i === 0}
-                />
+                {w.backdrop && w.shot ? (
+                  <>
+                    <Image
+                      className="flag-backdrop"
+                      src={w.backdrop}
+                      alt=""
+                      fill
+                      sizes="(max-width: 899px) 100vw, 640px"
+                      priority={i === 0}
+                    />
+                    <div
+                      className={`flag-shot${w.shot.sheet ? " flag-shot--sheet" : ""}`}
+                    >
+                      <Image
+                        src={w.shot.src}
+                        alt={`${w.title} — the real interface`}
+                        width={w.shot.width}
+                        height={w.shot.height}
+                        sizes="320px"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <Image
+                    src={w.poster}
+                    alt={`${w.title} — case study preview`}
+                    fill
+                    sizes="(max-width: 899px) 100vw, 640px"
+                    priority={i === 0}
+                  />
+                )}
               </div>
               <div className="flag-text">
                 <p className="flag-meta">{w.meta}</p>

@@ -20,6 +20,10 @@ export interface WorkItem {
   poster: string;
   clip?: string;
   accent?: string;
+  /** AI-generated ambiance plate behind the real screenshot (honesty
+      guardrail: the backdrop is mood, the shot is the actual work). */
+  backdrop?: string;
+  shot?: { src: string; width: number; height: number; sheet?: boolean };
 }
 
 export const work: WorkItem[] = [
@@ -36,6 +40,8 @@ export const work: WorkItem[] = [
     tags: ["Product Design", "Hardware", "Real-Time UI"],
     poster: "/images/cs/poolpilot/live.png",
     accent: "#3ecfd9",
+    backdrop: "/images/home/poolpilot-backdrop.jpg",
+    shot: { src: "/images/cs/poolpilot/live.png", width: 1170, height: 2532 },
   },
   {
     slug: "dr-dabber",
@@ -50,6 +56,8 @@ export const work: WorkItem[] = [
     tags: ["Product Design", "Interaction", "Motion", "Front-End"],
     poster: "/images/cs/dr-dabber/home.png",
     accent: "#00e2ed",
+    backdrop: "/images/home/dr-dabber-backdrop.jpg",
+    shot: { src: "/images/cs/dr-dabber/home.png", width: 804, height: 1748 },
   },
   {
     slug: "ai1",
@@ -79,6 +87,13 @@ export const work: WorkItem[] = [
     tags: ["Brand Identity", "Logo", "Color System", "Typography"],
     poster: "/images/cs/franklin/brand-guide.jpg",
     accent: "#c9a158",
+    backdrop: "/images/home/franklin-backdrop.jpg",
+    shot: {
+      src: "/images/cs/franklin/brand-guide.jpg",
+      width: 1440,
+      height: 3707,
+      sheet: true,
+    },
   },
   {
     slug: "r6",

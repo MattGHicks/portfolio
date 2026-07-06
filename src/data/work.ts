@@ -17,13 +17,11 @@ export interface WorkItem {
   hook: string;
   blurb: string;
   tags: string[];
+  /** Flagship posters are AI-composed concept shots of the REAL interface
+      (reference-driven, screen contents faithful) — see /images/home/. */
   poster: string;
   clip?: string;
   accent?: string;
-  /** AI-generated ambiance plate behind the real screenshot (honesty
-      guardrail: the backdrop is mood, the shot is the actual work). */
-  backdrop?: string;
-  shot?: { src: string; width: number; height: number; sheet?: boolean };
 }
 
 export const work: WorkItem[] = [
@@ -38,10 +36,8 @@ export const work: WorkItem[] = [
     blurb:
       "A self-hosted smart controller for a “dumb” pool pump — reverse-engineered RS-485 protocol, hand-wired ESP32 bridge hardware, and a real-time mobile app with scheduling and energy analytics. Designed, engineered, and shipped end-to-end; it runs the family pool every day.",
     tags: ["Product Design", "Hardware", "Real-Time UI"],
-    poster: "/images/cs/poolpilot/live.png",
+    poster: "/images/home/poolpilot-concept.jpg",
     accent: "#3ecfd9",
-    backdrop: "/images/home/poolpilot-backdrop.jpg",
-    shot: { src: "/images/cs/poolpilot/live.png", width: 1170, height: 2532 },
   },
   {
     slug: "dr-dabber",
@@ -54,10 +50,8 @@ export const work: WorkItem[] = [
     blurb:
       "An unsolicited, end-to-end redesign of the companion app for the Dr. Dabber e-rig I own — a heat-reactive “Aurora Core” that glows with the temperature, strain LED themes that recolor the entire UI, real heating modes, and a command-center home, all wired to a simulated device you can drive live in the browser.",
     tags: ["Product Design", "Interaction", "Motion", "Front-End"],
-    poster: "/images/cs/dr-dabber/home.png",
+    poster: "/images/home/dr-dabber-concept.jpg",
     accent: "#00e2ed",
-    backdrop: "/images/home/dr-dabber-backdrop.jpg",
-    shot: { src: "/images/cs/dr-dabber/home.png", width: 804, height: 1748 },
   },
   {
     slug: "ai1",
@@ -70,7 +64,7 @@ export const work: WorkItem[] = [
     blurb:
       "A cinematic concept reveal for SpaceX's AI1 orbital AI data-center satellite — the real spec sheet treated as cinema, with AI-generated Seedance film loops, a live WebGL starfield, scroll-driven lore, HUD telemetry, and a draggable orbit. Honest about every real fact versus invented bit of lore.",
     tags: ["Art Direction", "Motion / WebGL", "3D", "AI Film"],
-    poster: "/images/cs/ai1/hero.jpg",
+    poster: "/images/home/ai1-concept.jpg",
     accent: "#2ee6ff",
     clip: "/images/cs/ai1/hero.mp4",
   },
@@ -85,15 +79,8 @@ export const work: WorkItem[] = [
     blurb:
       "A full rebrand for a historic Indiana city — new logo, new palette, new type pairing, new website. Most municipal projects design around an existing brand. Franklin let us redefine it: custom wordmark, abstract arch, four color families, two type families, one design system that ties everything together.",
     tags: ["Brand Identity", "Logo", "Color System", "Typography"],
-    poster: "/images/cs/franklin/brand-guide.jpg",
+    poster: "/images/home/franklin-concept.jpg",
     accent: "#c9a158",
-    backdrop: "/images/home/franklin-backdrop.jpg",
-    shot: {
-      src: "/images/cs/franklin/brand-guide.jpg",
-      width: 1440,
-      height: 3707,
-      sheet: true,
-    },
   },
   {
     slug: "r6",

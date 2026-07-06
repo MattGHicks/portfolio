@@ -1,0 +1,50 @@
+/* ============================================================
+   Working Drawing — design tokens
+   The annotation layer reads these values back at runtime, so
+   every value here is a public fact of the design.
+   ============================================================ */
+
+:root {
+  /* surfaces */
+  --bg: #0d0f10;
+  --surface: #16181a;
+  --hairline: rgba(230, 228, 223, 0.14);
+  --hairline-strong: rgba(230, 228, 223, 0.28);
+
+  /* ink */
+  --text-1: #e6e4df;
+  --text-2: #9a978f;
+  --text-3: #6d6b64; /* decorative captions only — not body copy */
+
+  /* the drafting pen */
+  --accent: #ff4b21;
+  --ok: #3dd68c;
+
+  /* case studies override this with the client's brand color */
+  --cs-accent: var(--accent);
+
+  /* layout */
+  --wd-max: 1120px;
+  --wd-margin: clamp(20px, 6vw, 96px);
+
+  /* type scale */
+  --fs-display: clamp(56px, 11vw, 148px);
+  --fs-h2: clamp(28px, 4vw, 42px);
+  --fs-h3: 21px;
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-mono: 13px;
+  --fs-mono-sm: 12px;
+
+  /* display face width axis (Archivo SemiExpanded) */
+  --wdth-display: 125%;
+
+  /* motion */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 200ms;
+
+  /* legacy font aliases — admin.css and case-study.css reference these */
+  --font-heading: var(--font-sans);
+  --font-body: var(--font-sans);
+  --font-display: var(--font-sans);
+}

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import ScrollAnimations from '@/components/ScrollAnimations';
@@ -13,7 +14,7 @@ export default function CaseStudyPoolPilot() {
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main>
+      <main id="main" className="cs-page" style={{ "--cs-accent": "#3ecfd9", "--cs-hero-bg": "url(/images/heroes/poolpilot.jpg)" } as React.CSSProperties}>
         {/* Hero Section */}
         <section className="cs-hero">
           <div className="cs-hero-container">
@@ -65,7 +66,7 @@ export default function CaseStudyPoolPilot() {
             <div className="cs-screens cs-screens--1 animate-on-scroll">
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/poolpilot/wiring-diagram.png" alt="Wiring diagram — ESP32 on expansion board connected to a MAX485 transceiver module with explicit flow-control pin, out to the Pentair pump cable's RS-485 pair" loading="lazy" />
+                  <Image src="/images/cs/poolpilot/wiring-diagram.png" alt="Wiring diagram — ESP32 on expansion board connected to a MAX485 transceiver module with explicit flow-control pin, out to the Pentair pump cable's RS-485 pair" width={2192} height={1556} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">ESP32 ↔ MAX485 ↔ pump — the WiFi bridge that finally drove the bus</figcaption>
               </figure>
@@ -136,25 +137,25 @@ export default function CaseStudyPoolPilot() {
             <div className="cs-screens cs-screens--phones animate-on-scroll">
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/poolpilot/live.png" alt="PoolPilot Live screen — glowing radial RPM slider at 1,500 RPM, Eco/Clean/Boost presets, active Summer schedule card, and twin speed and power gauges" loading="lazy" />
+                  <Image src="/images/cs/poolpilot/live.png" alt="PoolPilot Live screen — glowing radial RPM slider at 1,500 RPM, Eco/Clean/Boost presets, active Summer schedule card, and twin speed and power gauges" width={1170} height={2532} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Live — radial control + gauges</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/poolpilot/schedule.png" alt="PoolPilot Schedule screen — 24-hour color-coded timeline with live cursor, and Summer, Maintenance, and Vacation presets with one-tap Use buttons" loading="lazy" />
+                  <Image src="/images/cs/poolpilot/schedule.png" alt="PoolPilot Schedule screen — 24-hour color-coded timeline with live cursor, and Summer, Maintenance, and Vacation presets with one-tap Use buttons" width={1170} height={2532} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Schedule — timeline + presets</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/poolpilot/energy.png" alt="PoolPilot Energy screen — cost and kWh stat cards, power-draw area chart, and energy-per-hour bars" loading="lazy" />
+                  <Image src="/images/cs/poolpilot/energy.png" alt="PoolPilot Energy screen — cost and kWh stat cards, power-draw area chart, and energy-per-hour bars" width={1170} height={2532} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Energy — cost &amp; turnover analytics</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/poolpilot/settings.png" alt="PoolPilot Settings screen — failsafe explainer, system poll and keep-alive readouts, bridge status, and pool volume and rate facts" loading="lazy" />
+                  <Image src="/images/cs/poolpilot/settings.png" alt="PoolPilot Settings screen — failsafe explainer, system poll and keep-alive readouts, bridge status, and pool volume and rate facts" width={1170} height={2532} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Settings — failsafe &amp; system</figcaption>
               </figure>

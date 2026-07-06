@@ -1,21 +1,20 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import '@/styles/case-study.css';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import ScrollAnimations from '@/components/ScrollAnimations';
-import NoiseOverlay from '@/components/NoiseOverlay';
 
 export default function SystemRevize() {
 
   return (
     <>
-      <NoiseOverlay />
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main>
+      <main id="main" className="cs-page" style={{ "--cs-hero-bg": "url(/images/heroes/revize.jpg)" } as React.CSSProperties}>
         {/* Hero */}
         <section className="cs-hero">
           <div className="cs-hero-container">
@@ -74,7 +73,7 @@ export default function SystemRevize() {
             <div className="cs-screens cs-screens--1 animate-on-scroll">
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/revize/system-overview.jpg" alt="Revize Design System overview — component library, variables panel, and token structure" loading="lazy" />
+                  <Image src="/images/cs/revize/system-overview.jpg" alt="Revize Design System overview — component library, variables panel, and token structure" width={1440} height={7571} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">System Overview</figcaption>
               </figure>
@@ -82,13 +81,13 @@ export default function SystemRevize() {
             <div className="cs-screens cs-screens--2 animate-on-scroll" style={{ marginTop: '24px' }}>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/revize/components.jpg" alt="Component library — buttons, cards, navigation, forms, and layout components" loading="lazy" />
+                  <Image src="/images/cs/revize/components.jpg" alt="Component library — buttons, cards, navigation, forms, and layout components" width={1440} height={1150} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Component Library</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/revize/variables.jpg" alt="Variable structure — primitive, semantic, and component token layers" loading="lazy" />
+                  <Image src="/images/cs/revize/variables.jpg" alt="Variable structure — primitive, semantic, and component token layers" width={1441} height={1877} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Token Architecture</figcaption>
               </figure>

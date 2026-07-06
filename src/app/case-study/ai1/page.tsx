@@ -18,7 +18,7 @@ export default function CaseStudyAI1() {
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main className="cs-ai1">
+      <main id="main" className="cs-page cs-ai1" style={{ "--cs-accent": "#2ee6ff", "--cs-hero-bg": "url(/images/heroes/ai1.jpg)" } as React.CSSProperties}>
         {/* Hero */}
         <section className="cs-hero">
           <div className="cs-hero-container">
@@ -57,6 +57,14 @@ export default function CaseStudyAI1() {
             </p>
           </div>
         </section>
+
+        {/* Live — the concept is the demo; lead with it */}
+        <LiveDemoBrowser
+          liveUrl={AI1.liveUrl}
+          repoUrl={AI1.repoUrl}
+          poster={`${A}/hero.jpg`}
+          host="spcx-ai1.vercel.app"
+        />
 
         {/* Opportunity */}
         <section className="cs-content">
@@ -199,14 +207,6 @@ export default function CaseStudyAI1() {
             </div>
           </div>
         </section>
-
-        {/* Live */}
-        <LiveDemoBrowser
-          liveUrl={AI1.liveUrl}
-          repoUrl={AI1.repoUrl}
-          poster={`${A}/hero.jpg`}
-          host="spcx-ai1.vercel.app"
-        />
 
         {/* Next */}
         <section className="cs-next animate-on-scroll">

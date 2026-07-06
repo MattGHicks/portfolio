@@ -81,7 +81,7 @@
 /* ===== CASE STUDY CONTENT ===== */
 .cs-content {
   padding: var(--spacing-xl) var(--page-margin);
-  background: var(--color-light-bg);
+  background: var(--cs-content-bg, var(--color-light-bg));
 }
 
 .cs-content-container {
@@ -863,8 +863,8 @@
 /* bright cyan only on dark sections (hero, showcase, next); a deep teal that
    actually reads on the cream content background for light-section accents */
 .cs-ai1 .cs-label { color: #2ee6ff; }
-.cs-ai1 .cs-decision-name { color: #0b6b7e; }
-.cs-ai1 .cs-callout-stat { color: #0b6b7e; }
+.cs-ai1 .cs-decision-name { color: #2ee6ff; }
+.cs-ai1 .cs-callout-stat { color: #2ee6ff; }
 .cs-ai1 .cs-next-link:hover .cs-next-title,
 .cs-ai1 .cs-next-link:hover .cs-next-arrow { color: #2ee6ff; }
 
@@ -990,4 +990,149 @@
 @media (max-width: 768px) {
   .cs-ai1-clip-grid { grid-template-columns: 1fr; max-width: 340px; margin-inline: auto; }
   .cs-live-browser-actions .cs-qr-card { display: none; }
+}
+
+/* ===================================================================
+   WORKING DRAWING CASCADE — retunes every interior page to the new
+   direction by remapping the legacy tokens inside .cs-page and
+   flattening the old chrome (radii, shadows, letterspaced caps).
+   The pre-cascade rules above still define layout; this layer only
+   re-inks them. Scoped so /admin keeps the original values.
+   =================================================================== */
+
+.cs-page {
+  /* grid aligns with the homepage */
+  --page-margin: var(--wd-margin);
+  --max-width: var(--wd-max);
+
+  /* surfaces */
+  --color-dark-bg: var(--bg);
+  --color-dark-bg-alt: #0a0c0d;
+  --cs-content-bg: #111314;
+  --color-brown-dark: #16181a;
+  --color-brown-darker: #131517;
+  --color-white: #16181a;
+
+  /* ink — former "light section" text flips light */
+  --color-light-bg: var(--text-1);
+  --color-brown-darkest: var(--text-1);
+  --color-brown-medium: var(--text-2);
+  --color-brown-light: var(--text-2);
+  --color-brown-lightest: #26282a;
+
+  --text-on-dark-primary: var(--text-1);
+  --text-on-dark-secondary: var(--text-2);
+  --text-on-dark-tertiary: var(--text-3);
+  --text-on-light-primary: var(--text-1);
+  --text-on-light-secondary: var(--text-2);
+  --text-on-light-tertiary: var(--text-3);
+
+  /* the pen — per-study accent, defaults to the site accent */
+  --color-blue: var(--cs-accent);
+}
+
+/* hero ambiance plate — a whisper behind the text, fading into the page.
+   Set per page via --cs-hero-bg; the gradient keeps the band readable. */
+.cs-page .cs-hero {
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(13, 15, 16, 0.8),
+      rgba(13, 15, 16, 0.92) 62%,
+      var(--bg) 97%
+    ),
+    var(--cs-hero-bg, none);
+  background-size: cover;
+  background-position: center;
+}
+
+/* labels: mono sentence case, no tracking */
+.cs-page .cs-back,
+.cs-page .cs-label,
+.cs-page .cs-tag,
+.cs-page .cs-section-label,
+.cs-page .cs-showcase-label,
+.cs-page .cs-next-label,
+.cs-page .cs-chip,
+.cs-page .cs-screen-caption,
+.cs-page .cs-decision-name {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.cs-page .cs-label {
+  font-size: 13px;
+}
+
+.cs-page .cs-section-label,
+.cs-page .cs-showcase-label,
+.cs-page .cs-next-label {
+  font-size: 12px;
+}
+
+.cs-page .cs-tag {
+  font-size: 11px;
+  border-radius: 0;
+  border-color: var(--hairline-strong);
+}
+
+.cs-page .cs-chip {
+  font-size: 12px;
+  border-radius: 0;
+  background: transparent;
+  border: 1px solid #26282a;
+}
+
+/* display type joins the homepage voice */
+.cs-page .cs-title {
+  font-weight: 700;
+  font-stretch: var(--wdth-display);
+  letter-spacing: -0.015em;
+}
+
+.cs-page .cs-section-title,
+.cs-page .cs-next-title {
+  font-weight: 650;
+  font-stretch: var(--wdth-display);
+  letter-spacing: -0.01em;
+}
+
+/* Archivo has no true 300 presence — body reads better at 400 */
+.cs-page .cs-subtitle,
+.cs-page .cs-paragraph,
+.cs-page .cs-decision-value,
+.cs-page .cs-tool-desc,
+.cs-page .cs-callout-text {
+  font-weight: 400;
+}
+
+/* flatten the old card chrome: hairlines, no radii, no float/shadow */
+.cs-page .cs-screen,
+.cs-page .cs-tool,
+.cs-page .cs-callout,
+.cs-page .cs-figma-btn {
+  border-radius: 0;
+}
+
+.cs-page .cs-screen {
+  border: 1px solid var(--hairline);
+}
+
+.cs-page .cs-screen:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.cs-page .cs-tool,
+.cs-page .cs-callout {
+  border-color: #26282a;
+}
+
+.cs-page .cs-figma-btn:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.cs-page .cs-next {
+  border-top-color: var(--hairline);
 }

@@ -12,8 +12,9 @@
 Matt's personal portfolio site **plus** the password-protected `/admin` Career Ops dashboard. Public side: case studies (Revize municipal sites — South Fork, Brewster, Clive, Archbold, R6, Franklin), design-system showcase, AI workflow section, awards list, resume PDF download. Admin side: end-to-end job-search pipeline (Postgres-backed pipeline, Gmail polling, daily digest, GitHub Actions auto-submit). See `DASHBOARD-DEPLOY.md` for the admin deploy notes and the Obsidian vault `career/system-design-v2.md` for the architecture.
 
 ## Stack
-- **Frontend:** Next.js 14 (App Router), TypeScript, React 18, Tailwind CSS v3
-- **Public portfolio:** static — no CMS, no backend
+- **Frontend:** Next.js 14 (App Router), TypeScript, React 18 — no CSS framework (Tailwind removed 2026-07; tokens are hand-written CSS custom properties)
+- **Design system ("Working Drawing," 2026-07 redesign):** tokens in `src/styles/tokens.css` (ink `#0d0f10`, hairlines, drafting-pen accent `#ff4b21`, per-case-study `--cs-accent`), Archivo (variable, `wdth` axis) + IBM Plex Mono via `next/font`, GSAP + Lenis (`SmoothScrollProvider`, `/admin` passthrough, reduced-motion kill)
+- **Public portfolio:** static — no CMS, no backend; OG cards build-time rendered via `next/og` (`src/lib/og.tsx`)
 - **/admin dashboard:** Drizzle ORM + Postgres (local for dev, Neon via Vercel Marketplace for prod), Gmail API (`googleapis`) for inbox poll + digest send, `jose` for session cookies, Vercel Cron for scheduled jobs, GitHub Actions + Playwright for submission
 - **Deployment:** Vercel (auto-deploy on push to `main`)
 
@@ -22,17 +23,19 @@ Matt's personal portfolio site **plus** the password-protected `/admin` Career O
 portfolio/
   src/
     app/
-      case-study/         # individual case study pages
-        south-fork/
-        clive/
-        archbold/
-        r6/
-        temple/
-      system/             # design system / process pages
-        revize/
-        ai-workflow/
-      components/         # shared UI
-    styles/               # global styles
+      case-study/         # 9 studies; each dir: page.tsx + layout.tsx (metadata) + opengraph-image.tsx
+      system/             # design system / process pages (revize, ai-workflow)
+    components/
+      home/               # homepage sections (Hero, ProofLine, FlagshipWork, PracticeIndex, ...)
+    data/
+      work.ts             # unified work model: tier (flagship/archive/system), hooks, accents
+      awards.ts           # Horizon awards (single source for proof line + About)
+    styles/
+      tokens.css          # Working Drawing tokens (single source of truth)
+      base.css            # reset (carries former Tailwind preflight rules)
+      chrome.css          # nav + footer
+      home.css            # homepage sections
+      case-study.css      # interior layout + Working Drawing cascade (bottom of file)
   public/
     images/cs/            # case study screenshots (organized by project)
   _html-source/           # original HTML mockups (reference only — don't edit)
@@ -46,9 +49,11 @@ portfolio/
 
 ## Design Principles
 - This IS the design showcase — it needs to be exceptional
-- Dark mode, refined typography, generous whitespace
-- Case studies should tell a story — context → problem → solution → result
-- Mobile-responsive — recruiters and clients view on all devices
+- **Working Drawing direction:** the site presents itself as its own living spec — hero annotations show TRUE runtime-measured values (`getComputedStyle` after `fonts.ready`); annotations must stay true, never decorative
+- Dark throughout; hairline rules, no rounded cards/shadows/glows; two faces (Archivo display + IBM Plex Mono for labels/data); one accent per page
+- **No AI-tells:** no letterspaced all-caps labels, no chips/pills, no floating cards; mono sentence-case labels only
+- Work tiers: 4 flagships (PoolPilot, Dr. Dabber, AI1, Franklin) get deep studies; 5 gov studies are condensed archive; concepts lead demo-first
+- Mobile-responsive + `prefers-reduced-motion` first-class
 
 ## Active Work
 - [ ] Watch first DRY-RUN submission complete (Hugging Face, app id 16, dispatched 2026-05-27) → verify screenshots → flip `DRY_RUN=false` in `.github/workflows/submit-application.yml`

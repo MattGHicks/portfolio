@@ -1,21 +1,20 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import '@/styles/case-study.css';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import ScrollAnimations from '@/components/ScrollAnimations';
-import NoiseOverlay from '@/components/NoiseOverlay';
 
 export default function SystemAIWorkflow() {
 
   return (
     <>
-      <NoiseOverlay />
       <Navigation isHomepage={false} />
       <ScrollAnimations />
 
-      <main>
+      <main id="main" className="cs-page" style={{ "--cs-hero-bg": "url(/images/heroes/ai-workflow.jpg)" } as React.CSSProperties}>
         {/* Hero */}
         <section className="cs-hero">
           <div className="cs-hero-container">
@@ -84,13 +83,13 @@ export default function SystemAIWorkflow() {
             <div className="cs-screens cs-screens--2 animate-on-scroll">
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/ai-workflow/claude-code.png" alt="Claude Code in VS Code — AI assistant generating code and making edits in real-time" loading="lazy" />
+                  <Image src="/images/cs/ai-workflow/claude-code.png" alt="Claude Code in VS Code — AI assistant generating code and making edits in real-time" width={1793} height={1174} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Claude Code in VS Code</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/ai-workflow/ai-tasks.png" alt="AI task management interface — organizing and executing multi-step design workflows" loading="lazy" />
+                  <Image src="/images/cs/ai-workflow/ai-tasks.png" alt="AI task management interface — organizing and executing multi-step design workflows" width={1333} height={801} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">AI Task Management</figcaption>
               </figure>
@@ -98,13 +97,13 @@ export default function SystemAIWorkflow() {
             <div className="cs-screens cs-screens--2 animate-on-scroll" style={{ marginTop: '24px' }}>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/ai-workflow/figma-ai.png" alt="Figma AI generating website designs — from prompt to visual in seconds" loading="lazy" />
+                  <Image src="/images/cs/ai-workflow/figma-ai.png" alt="Figma AI generating website designs — from prompt to visual in seconds" width={1024} height={898} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Figma AI Generation</figcaption>
               </figure>
               <figure className="cs-screen">
                 <div className="cs-screen-img">
-                  <img src="/images/cs/ai-workflow/claude-docs.png" alt="Claude Code generating design documentation — automated specs and presentation content" loading="lazy" />
+                  <Image src="/images/cs/ai-workflow/claude-docs.png" alt="Claude Code generating design documentation — automated specs and presentation content" width={966} height={945} sizes="(max-width: 768px) 100vw, 928px" />
                 </div>
                 <figcaption className="cs-screen-caption">Documentation Generation</figcaption>
               </figure>

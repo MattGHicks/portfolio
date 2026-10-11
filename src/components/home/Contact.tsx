@@ -8,8 +8,8 @@ export default function Contact() {
         <p className="contact-lede">
           The fastest way to reach me is email — I read everything.
         </p>
-        <a href="mailto:matt@digitalfish.io" className="contact-email">
-          matt@digitalfish.io
+        <a href="mailto:mattghicks@gmail.com" className="contact-email">
+          mattghicks@gmail.com
         </a>
         <div className="contact-links">
           <a

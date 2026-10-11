@@ -287,7 +287,7 @@ const STANDING_ANSWERS = [
   { key: "name", value: "Matt Hicks", label: "Full name", category: "identity" },
   { key: "location", value: "Tampa, FL", label: "Location", category: "identity" },
   { key: "phone", value: "678.362.2116", label: "Phone", category: "identity" },
-  { key: "email", value: "matt@digitalfish.io", label: "Email (career)", category: "identity" },
+  { key: "email", value: "mattghicks@gmail.com", label: "Email (career)", category: "identity" },
   { key: "portfolio_url", value: "https://digitalfish.io", label: "Portfolio", category: "identity" },
   { key: "linkedin_url", value: "https://linkedin.com/in/matthicksfl", label: "LinkedIn", category: "identity" },
   { key: "work_authorization", value: "yes", label: "Authorized to work in US", category: "eligibility" },

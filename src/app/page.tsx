@@ -625,11 +625,11 @@ export default function HomePage() {
 
             <div className="contact-links">
               <a
-                href="mailto:matt@digitalfish.io"
+                href="mailto:mattghicks@gmail.com"
                 className="contact-link animate-on-scroll stagger-1"
               >
                 <span className="contact-link-label">Email</span>
-                <span className="contact-link-value">matt@digitalfish.io</span>
+                <span className="contact-link-value">mattghicks@gmail.com</span>
               </a>
               <a
                 href="https://linkedin.com/in/matthicksfl"

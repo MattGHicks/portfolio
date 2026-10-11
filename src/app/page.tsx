@@ -619,7 +619,7 @@ export default function HomePage() {
               <p className="contact-subtext">
                 Open to full-time product designer roles.
                 <br />
-                Remote preferred, Tampa area also open.
+                Fully remote, based in the Tampa area (Eastern Time).
               </p>
             </div>
 

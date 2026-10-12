@@ -39,8 +39,8 @@ export async function GET(request: Request) {
     });
   }
 
-  const from = process.env.NOTIFICATION_EMAIL_FROM ?? "matt@digitalfish.io";
-  const to = process.env.NOTIFICATION_EMAIL_TO ?? "matt@digitalfish.io";
+  const from = process.env.NOTIFICATION_EMAIL_FROM ?? "mattghicks@gmail.com";
+  const to = process.env.NOTIFICATION_EMAIL_TO ?? "mattghicks@gmail.com";
 
   try {
     const result = await sendEmail({

@@ -993,129 +993,351 @@
 }
 
 /* ===================================================================
-   WORKING DRAWING CASCADE — retunes every interior page to the new
-   direction by remapping the legacy tokens inside .cs-page and
-   flattening the old chrome (radii, shadows, letterspaced caps).
-   The pre-cascade rules above still define layout; this layer only
-   re-inks them. Scoped so /admin keeps the original values.
+   MONOGRAPH CASCADE — re-inks every interior page onto paper by
+   remapping the legacy tokens inside .cs-page and restyling the old
+   chrome (radii, shadows, letterspaced caps, chips). The rules above
+   still define layout; this layer owns the look. Scoped so /admin
+   keeps the original values.
    =================================================================== */
 
 .cs-page {
-  /* grid aligns with the homepage */
   --page-margin: var(--wd-margin);
   --max-width: var(--wd-max);
 
   /* surfaces */
-  --color-dark-bg: var(--bg);
-  --color-dark-bg-alt: #0a0c0d;
-  --cs-content-bg: #111314;
-  --color-brown-dark: #16181a;
-  --color-brown-darker: #131517;
-  --color-white: #16181a;
+  --color-dark-bg: var(--paper);
+  --color-dark-bg-alt: var(--paper-2);
+  --cs-content-bg: var(--paper);
+  --color-brown-dark: var(--paper-2);
+  --color-brown-darker: var(--paper-2);
+  --color-white: var(--card);
 
-  /* ink — former "light section" text flips light */
-  --color-light-bg: var(--text-1);
-  --color-brown-darkest: var(--text-1);
-  --color-brown-medium: var(--text-2);
-  --color-brown-light: var(--text-2);
-  --color-brown-lightest: #26282a;
+  /* ink */
+  --color-light-bg: var(--ink);
+  --color-brown-darkest: var(--ink);
+  --color-brown-medium: var(--ink-2);
+  --color-brown-light: var(--ink-2);
+  --color-brown-lightest: var(--rule);
 
-  --text-on-dark-primary: var(--text-1);
-  --text-on-dark-secondary: var(--text-2);
-  --text-on-dark-tertiary: var(--text-3);
-  --text-on-light-primary: var(--text-1);
-  --text-on-light-secondary: var(--text-2);
-  --text-on-light-tertiary: var(--text-3);
+  --text-on-dark-primary: var(--ink);
+  --text-on-dark-secondary: var(--ink-2);
+  --text-on-dark-tertiary: var(--ink-3);
+  --text-on-light-primary: var(--ink);
+  --text-on-light-secondary: var(--ink-2);
+  --text-on-light-tertiary: var(--ink-3);
 
-  /* the pen — per-study accent, defaults to the site accent */
-  --color-blue: var(--cs-accent);
+  /* the one color — per-study brand colors are too light for paper,
+     so they live in the plate rule, not in text */
+  --color-blue: var(--accent);
 }
 
-/* hero ambiance plate — a whisper behind the text, fading into the page.
-   Set per page via --cs-hero-bg; the gradient keeps the band readable. */
+/* ---- hero: paper, then the ambiance plate as the first figure ---- */
+
 .cs-page .cs-hero {
-  background-image:
-    linear-gradient(
-      to bottom,
-      rgba(13, 15, 16, 0.8),
-      rgba(13, 15, 16, 0.92) 62%,
-      var(--bg) 97%
-    ),
-    var(--cs-hero-bg, none);
-  background-size: cover;
-  background-position: center;
+  padding-top: clamp(124px, 15vh, 176px);
+  padding-bottom: 0;
+  background-image: none;
 }
 
-/* labels: mono sentence case, no tracking */
-.cs-page .cs-back,
-.cs-page .cs-label,
-.cs-page .cs-tag,
-.cs-page .cs-section-label,
-.cs-page .cs-showcase-label,
-.cs-page .cs-next-label,
-.cs-page .cs-chip,
-.cs-page .cs-screen-caption,
-.cs-page .cs-decision-name {
-  text-transform: none;
+.cs-page .cs-back {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 500;
   letter-spacing: 0;
+  color: var(--ink-3);
+  margin-bottom: 40px;
+}
+
+.cs-page .cs-back:hover {
+  color: var(--accent);
 }
 
 .cs-page .cs-label {
-  font-size: 13px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+
+.cs-page .cs-title {
+  font-family: var(--font-display);
+  font-variation-settings: 'opsz' 144, 'SOFT' 30, 'WONK' 0;
+  font-size: clamp(46px, 7vw, 108px);
+  font-weight: 400;
+  line-height: 0.96;
+  letter-spacing: -0.028em;
+  color: var(--ink);
+  max-width: 14ch;
+  text-wrap: balance;
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+
+.cs-page .cs-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(18px, 1.6vw, 21px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 60ch;
+  margin-bottom: 28px;
+}
+
+.cs-page .cs-subtitle em {
+  font-style: italic;
+}
+
+/* tags: a single ruled line of plain text */
+.cs-page .cs-tags {
+  gap: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--ink);
+}
+
+.cs-page .cs-tag {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-2);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+.cs-page .cs-tag + .cs-tag::before {
+  content: '·';
+  color: var(--ink-3);
+  margin: 0 10px;
+}
+
+/* the ambiance plate */
+.cs-page .cs-hero-container::after {
+  content: '';
+  display: block;
+  margin-top: clamp(40px, 5vw, 72px);
+  aspect-ratio: 21 / 9;
+  background: var(--cs-hero-bg, var(--paper-2)) center / cover no-repeat;
+  border: 1px solid var(--rule);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+@media (max-width: 719px) {
+  .cs-page .cs-hero-container::after {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* ---- content ---- */
+
+.cs-page .cs-content {
+  padding-top: clamp(72px, 9vw, 128px);
+  padding-bottom: clamp(72px, 9vw, 128px);
+}
+
+.cs-page .cs-section {
+  margin-bottom: clamp(64px, 8vw, 104px);
+}
+
+.cs-page .cs-section:last-child {
+  margin-bottom: 0;
 }
 
 .cs-page .cs-section-label,
 .cs-page .cs-showcase-label,
 .cs-page .cs-next-label {
-  font-size: 12px;
-}
-
-.cs-page .cs-tag {
-  font-size: 11px;
-  border-radius: 0;
-  border-color: var(--hairline-strong);
-}
-
-.cs-page .cs-chip {
-  font-size: 12px;
-  border-radius: 0;
-  background: transparent;
-  border: 1px solid #26282a;
-}
-
-/* display type joins the homepage voice */
-.cs-page .cs-title {
-  font-weight: 700;
-  font-stretch: var(--wdth-display);
-  letter-spacing: -0.015em;
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-3);
+  margin-bottom: 14px;
 }
 
 .cs-page .cs-section-title,
-.cs-page .cs-next-title {
-  font-weight: 650;
-  font-stretch: var(--wdth-display);
-  letter-spacing: -0.01em;
+.cs-page .cs-live-title {
+  font-family: var(--font-display);
+  font-variation-settings: 'opsz' 96, 'SOFT' 30, 'WONK' 0;
+  font-size: clamp(30px, 3.6vw, 48px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  max-width: 22ch;
 }
 
-/* Archivo has no true 300 presence — body reads better at 400 */
-.cs-page .cs-subtitle,
 .cs-page .cs-paragraph,
 .cs-page .cs-decision-value,
 .cs-page .cs-tool-desc,
-.cs-page .cs-callout-text {
+.cs-page .cs-callout-text,
+.cs-page .cs-live-lede,
+.cs-page .cs-live-tip {
+  font-family: var(--font-sans);
   font-weight: 400;
 }
 
-/* flatten the old card chrome: hairlines, no radii, no float/shadow */
-.cs-page .cs-screen,
-.cs-page .cs-tool,
-.cs-page .cs-callout,
-.cs-page .cs-figma-btn {
+.cs-page .cs-paragraph {
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  color: var(--ink-2);
+  max-width: 66ch;
+  margin-bottom: 18px;
+}
+
+.cs-page .cs-paragraph strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* process "chips" become a ruled run of text */
+.cs-page .cs-chips {
+  gap: 0;
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  max-width: 66ch;
+}
+
+.cs-page .cs-chip {
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink-2);
+  padding: 0;
+  background: transparent;
+  border: 0;
   border-radius: 0;
+  line-height: 1.8;
+}
+
+.cs-page .cs-chip + .cs-chip::before {
+  content: '·';
+  color: var(--ink-3);
+  margin: 0 10px;
+}
+
+/* decisions ledger */
+.cs-page .cs-decisions {
+  gap: 0;
+  margin-top: 32px;
+  border-top: 1px solid var(--ink);
+}
+
+.cs-page .cs-decision {
+  gap: 32px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cs-page .cs-decision:last-child {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 18px;
+}
+
+.cs-page .cs-decision-name {
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink);
+  min-width: 180px;
+}
+
+.cs-page .cs-decision-value {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+/* tools + callout: card surfaces, hairlines, no radii */
+.cs-page .cs-tools {
+  gap: 0;
+  margin-top: 32px;
+  border-top: 1px solid var(--ink);
+  border-left: 1px solid var(--rule);
+}
+
+.cs-page .cs-tool {
+  padding: 22px 24px 24px 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  padding-left: 24px;
+  margin-left: -1px;
+  border-left: 1px solid var(--rule);
+}
+
+.cs-page .cs-tool-name {
+  font-family: var(--font-display);
+  font-variation-settings: 'opsz' 24, 'SOFT' 30, 'WONK' 0;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.cs-page .cs-tool-desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.cs-page .cs-callout {
+  margin-top: 40px;
+  padding: 32px 0 0;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--ink);
+  border-radius: 0;
+  gap: 40px;
+}
+
+.cs-page .cs-callout-stat {
+  font-family: var(--font-display);
+  font-variation-settings: 'opsz' 144, 'SOFT' 30, 'WONK' 0;
+  font-size: clamp(56px, 6vw, 88px);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.cs-page .cs-callout-text {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 54ch;
+  padding-top: 10px;
+}
+
+/* ---- showcase bands: slightly deeper paper ---- */
+
+.cs-page .cs-showcase {
+  background: var(--paper-2);
+  padding-top: clamp(72px, 9vw, 112px);
+  padding-bottom: clamp(72px, 9vw, 112px);
+}
+
+.cs-page .cs-showcase + .cs-showcase {
+  padding-top: 0;
+}
+
+.cs-page .cs-screens {
+  gap: var(--gutter);
 }
 
 .cs-page .cs-screen {
-  border: 1px solid var(--hairline);
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  cursor: default;
 }
 
 .cs-page .cs-screen:hover {
@@ -1123,16 +1345,218 @@
   box-shadow: none;
 }
 
-.cs-page .cs-tool,
-.cs-page .cs-callout {
-  border-color: #26282a;
+.cs-page .cs-screen:hover img {
+  transform: none;
+}
+
+.cs-page .cs-screen-caption {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-2);
+  background: var(--paper);
+  border-top: 1px solid var(--rule);
+  padding: 12px 16px;
+}
+
+.cs-page .cs-private-note {
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  letter-spacing: 0;
+  color: var(--ink-2);
+  border: 0;
+  border-left: 2px solid var(--accent);
+  border-radius: 0;
+  padding: 2px 0 2px 16px;
+  margin-top: 28px;
+}
+
+/* buttons */
+.cs-page .cs-figma-wrapper {
+  justify-content: flex-start;
+  margin-top: 40px;
+}
+
+.cs-page .cs-figma-btn {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  padding: 12px 20px;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
 .cs-page .cs-figma-btn:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
   transform: none;
   box-shadow: none;
 }
 
+/* phone captions in the showcase */
+.cs-page .phone-caption {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-2);
+}
+
+/* ---- live demo theatres stay dark on purpose ---- */
+
+.cs-page .cs-live {
+  background-color: #0b0c10;
+  --color-light-bg: var(--paper);
+  --color-white: #ffffff;
+  --color-brown-medium: #4b4842;
+  --color-brown-lightest: rgba(244, 241, 234, 0.14);
+  --text-on-dark-primary: var(--paper);
+  --text-on-dark-secondary: #b9b4aa;
+  --text-on-dark-tertiary: #8b867c;
+  padding-top: clamp(72px, 9vw, 112px);
+  padding-bottom: clamp(72px, 9vw, 112px);
+}
+
+.cs-page .cs-live .cs-showcase-label,
+.cs-page .cs-live .cs-live-actions-label {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: var(--fs-label);
+  color: #8b867c;
+}
+
+.cs-page .cs-live .cs-live-play-label {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: var(--fs-label);
+}
+
+.cs-page .cs-live-actions {
+  border-radius: 0;
+}
+
+.cs-page .cs-live-open,
+.cs-page .cs-live .cs-figma-btn {
+  border-radius: 0;
+  font-family: var(--font-sans);
+}
+
+.cs-page .cs-live .cs-figma-btn {
+  color: var(--paper);
+  border-color: rgba(244, 241, 234, 0.4);
+}
+
+.cs-page .cs-live .cs-figma-btn:hover {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--paper);
+}
+
+.cs-page .cs-qr-card {
+  border-radius: 0;
+  border-color: rgba(244, 241, 234, 0.14);
+}
+
+.cs-page .cs-qr-label {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+}
+
+/* AI1's scoped cyan reads only on dark; on paper it defers to the accent */
+.cs-page.cs-ai1 .cs-label,
+.cs-page.cs-ai1 .cs-decision-name,
+.cs-page.cs-ai1 .cs-callout-stat {
+  color: var(--ink);
+}
+
+.cs-page.cs-ai1 .cs-label {
+  color: var(--accent);
+}
+
+.cs-page .cs-ai1-clip {
+  border-radius: 0;
+}
+
+.cs-page .cs-ai1-clip-caption {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: var(--fs-label);
+}
+
+.cs-page .browser-frame {
+  border-radius: 0;
+}
+
+/* ---- next: an ink bookend ---- */
+
 .cs-page .cs-next {
-  border-top-color: var(--hairline);
+  background: var(--ink);
+  border-top: 0;
+  padding-top: clamp(64px, 8vw, 104px);
+  padding-bottom: clamp(64px, 8vw, 104px);
+}
+
+.cs-page .cs-next-label {
+  color: rgba(244, 241, 234, 0.55);
+}
+
+.cs-page .cs-next-title {
+  font-family: var(--font-display);
+  font-variation-settings: 'opsz' 144, 'SOFT' 30, 'WONK' 0;
+  font-size: clamp(36px, 5.6vw, 80px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--paper);
+  background-image: linear-gradient(var(--paper), var(--paper));
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+  background-position: 0 100%;
+  padding-bottom: 6px;
+  transition: background-size 500ms var(--ease);
+}
+
+.cs-page .cs-next-link {
+  align-items: baseline;
+  gap: 20px;
+}
+
+.cs-page .cs-next-link:hover {
+  transform: none;
+}
+
+.cs-page .cs-next-link:hover .cs-next-title {
+  color: var(--paper);
+  background-size: 100% 1px;
+}
+
+.cs-page .cs-next-arrow {
+  font-size: clamp(24px, 3vw, 40px);
+  color: rgba(244, 241, 234, 0.55);
+  transition: transform var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.cs-page .cs-next-link:hover .cs-next-arrow {
+  color: var(--paper);
+  transform: translateX(6px);
+}
+
+@media (max-width: 768px) {
+  .cs-page .cs-decision-name {
+    min-width: 0;
+  }
+
+  .cs-page .cs-tool {
+    padding-right: 0;
+  }
 }

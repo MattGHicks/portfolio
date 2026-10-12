@@ -2,46 +2,68 @@ import Image from "next/image";
 import Link from "next/link";
 import { flagships } from "@/data/work";
 import Reveal from "./Reveal";
+import Plate from "./Plate";
+
+// Magazine rhythm: full plate, a pair, full plate. The two concept
+// studies share the pair; the two shipped things get the full width.
+const layout: Array<"full" | "half"> = ["full", "half", "half", "full"];
 
 export default function FlagshipWork() {
   return (
-    <section className="wd-section" id="work">
-      <header className="sec-head">
-        <h2>Selected work</h2>
-        <span className="sec-meta">
-          {String(flagships.length).padStart(2, "0")} studies · more in the
-          practice below
-        </span>
-      </header>
+    <section className="section" id="work">
+      <div className="container">
+        <header className="sec-head">
+          <h2 className="serif">Selected work</h2>
+          <p className="sec-meta label">
+            Four studies · two shipped, two concepts
+          </p>
+        </header>
 
-      {flagships.map((w, i) => (
-        <Reveal key={w.slug}>
-          <article
-            className={`flag${i % 2 === 1 ? " flag-rev" : ""}${
-              i === flagships.length - 1 ? " flag-last" : ""
-            }`}
-          >
-            <Link href={w.href} className="flag-link">
-              <div className="flag-media">
-                <Image
-                  src={w.poster}
-                  alt={`${w.title} — case study preview`}
-                  fill
-                  sizes="(max-width: 899px) 100vw, 640px"
-                  priority={i === 0}
-                />
-              </div>
-              <div className="flag-text">
-                <p className="flag-meta">{w.meta}</p>
-                <h3 className="flag-title">{w.title}</h3>
-                <p className="flag-hook">{w.hook}</p>
-                <p className="flag-tags">{w.tags.join(" · ")}</p>
-                <span className="flag-cta">Read the case study</span>
-              </div>
-            </Link>
-          </article>
-        </Reveal>
-      ))}
+        <div className="plates">
+          {flagships.map((w, i) => {
+            const size = layout[i] ?? "full";
+            return (
+              <Reveal key={w.slug} className={`plate plate--${size}`}>
+                <Link
+                  href={w.href}
+                  className="plate-link"
+                  style={{ "--plate-accent": w.accent } as React.CSSProperties}
+                >
+                  <Plate className="plate-media">
+                    <Image
+                      src={w.poster}
+                      alt={`${w.title} — case study preview`}
+                      fill
+                      sizes={
+                        size === "full"
+                          ? "(max-width: 1400px) 100vw, 1360px"
+                          : "(max-width: 899px) 100vw, 680px"
+                      }
+                      priority={i === 0}
+                    />
+                  </Plate>
+                  <div className="plate-caption">
+                    <span className="num plate-num">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div className="plate-text">
+                      <h3 className="plate-title serif">{w.title}</h3>
+                      <p className="plate-hook">{w.hook}</p>
+                    </div>
+                    <div className="plate-side">
+                      <p className="label">{w.meta}</p>
+                      <p className="label plate-tags">{w.tags.join(", ")}</p>
+                      <span className="plate-cta">
+                        Read the study <span aria-hidden>→</span>
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 }

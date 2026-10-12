@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
-import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import { Fraunces, Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
 import NoiseOverlay from "@/components/NoiseOverlay";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import "./globals.css";
 
-const archivo = Archivo({
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  axes: ["opsz", "SOFT", "WONK"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const instrument = Instrument_Sans({
   subsets: ["latin"],
   axes: ["wdth"],
+  style: ["normal", "italic"],
   variable: "--font-sans",
   display: "swap",
 });
@@ -31,7 +40,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${archivo.variable} ${plexMono.variable}`}>
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${instrument.variable} ${plexMono.variable}`}
+    >
       <body>
         <a href="#main" className="skip-link">
           Skip to content

@@ -2,8 +2,9 @@ import { ImageResponse } from "next/og";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-// Shared Open Graph card — a Working Drawing "sheet": dark ground, framed
-// border, accent rule, Archivo display. Rendered at build time for every
+// Shared Open Graph card — a Monograph plate: paper ground, ink type,
+// one cobalt mark. (Archivo stands in for Fraunces: satori has no
+// variable-font support, and the card reads fine in a grotesk.) Rendered at build time for every
 // static route, so it costs nothing at runtime.
 
 export const ogSize = { width: 1200, height: 630 };
@@ -16,7 +17,7 @@ const archivo = readFileSync(
 export function ogImage({
   title,
   meta,
-  accent = "#ff4b21",
+  accent = "#1b36d6",
 }: {
   title: string;
   meta: string;
@@ -31,7 +32,7 @@ export function ogImage({
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0d0f10",
+          background: "#f4f1ea",
           padding: 72,
           fontFamily: "Archivo",
         }}
@@ -43,7 +44,7 @@ export function ogImage({
             left: 28,
             right: 28,
             bottom: 28,
-            border: "1px solid rgba(230,228,223,0.22)",
+            border: "1px solid rgba(20,19,17,0.22)",
             display: "flex",
           }}
         />
@@ -54,7 +55,7 @@ export function ogImage({
             alignItems: "center",
           }}
         >
-          <div style={{ display: "flex", fontSize: 24, color: "#9a978f" }}>
+          <div style={{ display: "flex", fontSize: 24, color: "#4b4842" }}>
             digitalfish.io
           </div>
           <div
@@ -75,14 +76,14 @@ export function ogImage({
               display: "flex",
               fontSize: title.length > 24 ? 58 : 78,
               fontWeight: 700,
-              color: "#e6e4df",
+              color: "#141311",
               lineHeight: 1.05,
               maxWidth: 980,
             }}
           >
             {title}
           </div>
-          <div style={{ display: "flex", fontSize: 26, color: "#9a978f" }}>
+          <div style={{ display: "flex", fontSize: 26, color: "#4b4842" }}>
             {meta}
           </div>
         </div>
@@ -91,7 +92,7 @@ export function ogImage({
             display: "flex",
             justifyContent: "space-between",
             fontSize: 21,
-            color: "#6d6b64",
+            color: "#8b867c",
           }}
         >
           <div style={{ display: "flex" }}>

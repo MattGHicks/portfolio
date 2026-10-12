@@ -1,24 +1,26 @@
 import type { Metadata } from "next";
-import { Syne, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
 import NoiseOverlay from "@/components/NoiseOverlay";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import "./globals.css";
 
-const syne = Syne({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "700", "800"],
-  variable: "--font-heading",
-  display: "swap",
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  axes: ["opsz", "SOFT", "WONK"],
   style: ["normal", "italic"],
-  variable: "--font-body",
+  variable: "--font-display",
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const instrument = Instrument_Sans({
+  subsets: ["latin"],
+  axes: ["wdth"],
+  style: ["normal", "italic"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-mono",
@@ -26,9 +28,10 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Matt Hicks — UI/UX Designer",
+  metadataBase: new URL("https://digitalfish.io"),
+  title: "Matt Hicks — Product Designer & Engineer",
   description:
-    "UI/UX Designer fluent in Figma — design systems, AI-augmented workflows, and 190+ shipped government websites. Based in Tampa, FL.",
+    "Product designer and engineer — 190+ civic sites, nine Horizon Interactive awards, hardware side projects, and an AI-native workflow architected from scratch. Tampa, FL.",
 };
 
 export default function RootLayout({
@@ -39,11 +42,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
+      className={`${fraunces.variable} ${instrument.variable} ${plexMono.variable}`}
     >
       <body>
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
         <NoiseOverlay />
-        {children}
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>
   );

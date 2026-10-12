@@ -7,32 +7,37 @@
 - **Deployed:** [digitalfish.io](https://digitalfish.io) on Vercel
 - **Auto-deploy:** yes (push to `main` → Vercel)
 - **Latest production deploy:** 2026-06-09 (`f586665` — PoolPilot case study + homepage "Designed & Built" section)
+- **In review (not deployed):** branch `editorial-redesign` — the "Monograph" total redesign (2026-10-11), previewed locally, awaiting Matt's go-ahead to merge + push
 
 ## What This Is
 Matt's personal portfolio site **plus** the password-protected `/admin` Career Ops dashboard. Public side: case studies (Revize municipal sites — South Fork, Brewster, Clive, Archbold, R6, Franklin), design-system showcase, AI workflow section, awards list, resume PDF download. Admin side: end-to-end job-search pipeline (Postgres-backed pipeline, Gmail polling, daily digest, GitHub Actions auto-submit). See `DASHBOARD-DEPLOY.md` for the admin deploy notes and the Obsidian vault `career/system-design-v2.md` for the architecture.
 
 ## Stack
-- **Frontend:** Next.js 14 (App Router), TypeScript, React 18, Tailwind CSS v3
-- **Public portfolio:** static — no CMS, no backend
-- **/admin dashboard:** Drizzle ORM + Postgres (local for dev, Neon via Vercel Marketplace for prod), Gmail API (`googleapis`) for inbox poll + digest send, `jose` for session cookies, Vercel Cron for scheduled jobs, GitHub Actions + Playwright for submission
+- **Frontend:** Next.js 14 (App Router), TypeScript, React 18 — no CSS framework (hand-written CSS custom properties)
+- **Design system ("Monograph," 2026-10 redesign):** tokens in `src/styles/tokens.css` — warm paper `#f4f1ea`, ink `#141311`, one cobalt accent `#1b36d6`, hairline rules. Two faces via `next/font`: **Fraunces** (variable `opsz`/`SOFT`/`WONK`, display + italics) for anything that speaks, **Instrument Sans** for anything that explains; IBM Plex Mono only for data (index numbers, the footer clock). GSAP + Lenis (`SmoothScrollProvider`, `/admin` passthrough, reduced-motion kill).
+- **Public portfolio:** static — no CMS, no backend; OG cards build-time rendered via `next/og` (`src/lib/og.tsx`)
+- **/admin dashboard:** Drizzle ORM + Postgres (local for dev, Neon via Vercel Marketplace for prod), Gmail API (`googleapis`) for inbox poll + digest send, `jose` for session cookies, Vercel Cron for scheduled jobs
 - **Deployment:** Vercel (auto-deploy on push to `main`)
+- **Visual QA:** `OUT=/some/dir node scripts/screenshots.mjs / /case-study/poolpilot` captures full-page desktop + mobile PNGs against the running dev server (Playwright, reduced motion so every reveal is visible)
 
 ## Project Structure
 ```
 portfolio/
   src/
     app/
-      case-study/         # individual case study pages
-        south-fork/
-        clive/
-        archbold/
-        r6/
-        temple/
-      system/             # design system / process pages
-        revize/
-        ai-workflow/
-      components/         # shared UI
-    styles/               # global styles
+      case-study/         # 9 studies; each dir: page.tsx + layout.tsx (metadata) + opengraph-image.tsx
+      system/             # design system / process pages (revize, ai-workflow)
+    components/
+      home/               # homepage sections (Hero, FlagshipWork+Plate, PracticeIndex, HowIWork, About, Contact)
+    data/
+      work.ts             # unified work model: tier (flagship/archive/system), hooks, accents
+      awards.ts           # Horizon awards (single source for proof line + About)
+    styles/
+      tokens.css          # Monograph tokens (single source of truth)
+      base.css            # reset + shared primitives (.serif, .label, .num, .container, .u-link)
+      chrome.css          # nav (scroll state + mobile sheet) + footer
+      home.css            # homepage sections
+      case-study.css      # interior layout + Monograph cascade (bottom of file re-inks the legacy layer)
   public/
     images/cs/            # case study screenshots (organized by project)
   _html-source/           # original HTML mockups (reference only — don't edit)
@@ -46,9 +51,13 @@ portfolio/
 
 ## Design Principles
 - This IS the design showcase — it needs to be exceptional
-- Dark mode, refined typography, generous whitespace
-- Case studies should tell a story — context → problem → solution → result
-- Mobile-responsive — recruiters and clients view on all devices
+- **Monograph direction:** the site reads like a designer's monograph. Paper ground, ink type, one cobalt accent, hairline rules, generous scale. The work is shown as **plates** (large framed images with ruled captions), the practice as a numbered **index**, facts as serif numerals in a ledger
+- Two faces, strict roles: Fraunces (opsz 144 at display size, italics in cobalt for the one emphasized word) and Instrument Sans. No third display face
+- Motion is few and deliberate: masked line reveal on the hero, slow parallax inside plates, scroll reveals, cursor-following preview in the index. All honor `prefers-reduced-motion`
+- **No AI-tells:** no letterspaced all-caps labels, no chips/pills, no rounded cards, no glows or gradients. Sentence-case labels in ink-3; tags as text runs separated by "·"
+- Interiors inherit the look through the `.cs-page` cascade in `case-study.css` — restyle there, not per page. Live-demo "theatre" sections (Dr. Dabber, AI1) stay dark on purpose; the next-study band is an ink bookend
+- Work tiers: 4 flagships (PoolPilot, Dr. Dabber, AI1, Franklin) get plates and deep studies; 5 gov studies + 2 systems live in the index
+- Mobile-responsive + `prefers-reduced-motion` first-class
 
 ## Active Work
 - [ ] Watch first DRY-RUN submission complete (Hugging Face, app id 16, dispatched 2026-05-27) → verify screenshots → flip `DRY_RUN=false` in `.github/workflows/submit-application.yml`

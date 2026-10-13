@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { work } from "@/data/work";
 
-const rows = work.filter((w) => w.tier !== "flagship");
+const rows = work.filter((w) => w.tier === "archive" || w.tier === "system");
 
 // An index of the practice. On fine pointers a floating plate follows the
 // cursor with the hovered row's poster; on touch each row carries its own.
@@ -45,14 +45,14 @@ export default function PracticeIndex() {
       <div className="container">
         <header className="sec-head">
           <h2 className="serif">The practice</h2>
-          <p className="sec-meta label">Revize · 2023 — now</p>
+          <p className="sec-meta label">Revize · 2023 — now · newest first</p>
         </header>
 
         <p className="practice-lede serif">
           Three years at Revize and 190+ government websites: one Figma
           design system, one 399-item accessibility checklist, every site
-          checked against WCAG 2.1 before it ships. A few that stand for the
-          rest, and the systems underneath them.
+          checked against WCAG 2.1 before it ships. Six recent approvals, and
+          the systems underneath them.
         </p>
 
         <ol className="index" onMouseLeave={() => setActive(null)}>

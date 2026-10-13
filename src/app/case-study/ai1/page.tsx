@@ -212,8 +212,8 @@ export default function CaseStudyAI1() {
         <section className="cs-next animate-on-scroll">
           <div className="cs-next-container">
             <p className="cs-next-label">Next Case Study</p>
-            <Link href="/case-study/dr-dabber" className="cs-next-link">
-              <span className="cs-next-title">Dr. Dabber</span>
+            <Link href="/case-study/franklin" className="cs-next-link">
+              <span className="cs-next-title">City of Franklin, Indiana</span>
               <span className="cs-next-arrow">&#8599;</span>
             </Link>
           </div>

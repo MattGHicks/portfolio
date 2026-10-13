@@ -313,125 +313,144 @@ export const practice: PracticeStudy[] = [
     },
   },
   {
-    slug: "irondale",
-    title: "Irondale Public Library, Alabama",
-    meta: "Library",
-    label: "Revize · Library website · Approved August 2026",
-    hook: "A public library site that shares the city's palette but not its structure, with catalog and website search in a single hero box.",
+    slug: "haw-river",
+    title: "Haw River, North Carolina",
+    meta: "Gov · Town",
+    label: "Revize · Town website · Approved August 2026",
+    hook: "A historic mill town on the Haw River, re-colored from green to blue once it turned out the green belonged to the town next door.",
     subtitle:
-      "The library wanted to feel related to the City of Irondale's website without copying it. If the two matched, the staff said, a separate library site would be money wasted. Same palette, different structure.",
-    tags: ["Visual Design", "Search UX", "Library", "Iteration"],
-    accent: "#00466A",
-    briefTitle: "Related to the city, not a copy of it",
+      "Haw River is a small Piedmont town built around a historic textile mill, with the motto “Our River. Our Town.” The direction from kickoff was simplicity: a solid hero panel, bill pay up front, and nothing busy.",
+    tags: ["Visual Design", "Color System", "Kickoff", "Iteration"],
+    accent: "#00509D",
+    briefTitle: "Keep it simple, put bill pay up front",
     brief: [
-      "Irondale's library shares the city's colors, but its patrons come for different things: the catalog, hours, events, and their account. The old site buried the account link and made patrons guess which search box searched what.",
-      "Homepage sections fill the screen and snap into place on desktop. On mobile the page scrolls freely, because snapping fights thumbs.",
+      "The town was replacing a dated site and gave the designer free rein on color. Its 2019 tree logo with the “Our River. Our Town.” tagline goes in the navigation, and the roughly fifty-year-old official seal goes in the footer.",
+      "I ran the kickoff from a deck built for the meeting, and the decisions came straight out of it: one navigation bar with no utility bar, no social media anywhere because the town doesn't use it, and online bill pay as the most prominent action on the page.",
     ],
-    approachTitle: "One search box, two indexes",
+    approachTitle: "When the color belongs to the neighbors",
     approach:
-      "The hero holds one search box with a toggle between the catalog and the website, so patrons pick what they're searching before they type. Everything else on the homepage is something a patron does: check hours, see events, browse new releases, find their section.",
+      "The first concept used a deep green and gold drawn from the logo. The town turned the green down twice, and the deciding reason wasn't the shade: neighboring Green Level uses a similar green. So I retired it entirely and blended a blue system from three palettes the client picked, giving each palette one job.",
     decisions: [
       {
-        name: "Search toggle",
+        name: "Hero",
         value:
-          "Catalog and website search share one box in the hero, with the catalog selected by default.",
+          "A large photo of the river with a solid, angled overlay panel instead of a thin transparent one, carrying the motto and two calls to action.",
       },
       {
-        name: "My Account",
+        name: "Bill pay",
         value:
-          "Promoted to a highlighted button in the utility bar on every page. The old site buried it.",
+          "Online bill pay is a button in the hero and the first quick-link card directly below it.",
       },
       {
-        name: "No hero video",
+        name: "Palette blend",
         value:
-          "Chosen deliberately for patrons on limited data plans. The hero is a still photograph of the library itself.",
+          "One palette sets the identity blue and gold, another supplies the deepest navy for the footer, and the third gives the light background bands. A darker gold was added so gold can appear as text on light backgrounds.",
       },
       {
-        name: "Live embeds",
+        name: "Side benefit",
         value:
-          "Weekly hours and upcoming events come from the library's LibCal feed, and a new-releases carousel pulls from the catalog, so staff update one system, not two.",
+          "Navy separates cleanly from the trees in the hero photo. That fixed the client's complaint that the green panel blended into the foliage, without changing the photo.",
       },
       {
-        name: "Revision",
+        name: "Announcements",
         value:
-          "The first concept read as a historic academic library rather than a modern public one. I lightened the navy to an ocean blue, swapped in the library's own photos, and cut serif headers on interior pages while keeping them on the homepage.",
+          "News is called Announcements, and a post without a photo falls back to the official seal knocked out on brand color, so nothing ever waits on an image.",
+      },
+      {
+        name: "Events",
+        value: "A calendar grid and a list side by side, filtered to Meetings and Events.",
       },
     ],
-    palette: [{ name: "Ocean Blue", hex: "#00466A", role: "text", note: "Lightened in revision" }],
+    palette: [
+      { name: "River Blue", hex: "#00509D", role: "text", note: "Primary" },
+      { name: "Midnight", hex: "#00296B", role: "text", note: "Hero panel" },
+      { name: "Deep Navy", hex: "#0B132B", role: "text", note: "Footer" },
+      { name: "Gold", hex: "#FDC500", role: "accent", note: "Fills and dark surfaces only" },
+      { name: "Gold Ink", hex: "#8A5A00", role: "text", note: "Gold as text" },
+      { name: "Serene", hex: "#E7ECEF", role: "surface", note: "Light bands" },
+    ],
     screens: {
-      primary: s("irondale", "home", "Home", 4257),
+      primary: s("haw-river", "home", "Home", 3738),
       secondary: [
-        s("irondale", "inner", "Interior page", 2509),
-        s("irondale", "interactions", "Interactions and menus", 4257),
+        s("haw-river", "inner", "Interior page", 2429),
+        s("haw-river", "interactions", "Interactions and menus", 3738),
       ],
     },
     outcome: {
-      title: "From academic to public",
-      body: "The library loved the layout from the first concept. The revision rounds were about tone: making the same structure read as welcoming rather than historic.",
-      stat: "2",
+      title: "A full retheme without a rebuild",
+      body: "Because the design was bound to variables, the switch from green to blue propagated through every board. An audit still found 18 elements hardcoded to the old green, and all of them were rebound before the client saw the revision.",
+      stat: "632",
       statText:
-        "searches in one box. Patrons choose catalog or website before they type, instead of guessing which box does what.",
+        "variable bindings carried the retheme. Afterward the homepage passed with zero contrast failures across 135 text and background pairs.",
     },
   },
   {
-    slug: "dublin",
-    title: "Dublin, California",
-    meta: "Gov · Multi-site",
-    label: "Revize · City website + aquatics center · Approved July 2026",
-    hook: "One design system, four Figma variable modes: City Hall and The Wave aquatics center built from the same components.",
+    slug: "williams",
+    title: "Williams, Arizona",
+    meta: "Gov · City",
+    label: "Revize · City website · Approved August 2026",
+    hook: "A national-park-poster take on a Route 66 mountain town, built so it could never be mistaken for the other Williams.",
     subtitle:
-      "Dublin started as four properties: the city, its police services, The Wave aquatics center, and economic development. One Figma design system with four variable modes let each property swap palette and type while sharing every component.",
-    tags: ["Design Systems", "Variables", "Multi-Site", "Compliance"],
-    accent: "#B96A25",
-    briefTitle: "Four properties, one system",
+      "Williams is a small Route 66 town at 6,762 feet, the Gateway to the Grand Canyon, inside the largest Ponderosa pine forest in the world. The site had one unusual requirement: it must look nothing like the City of Williams, California.",
+    tags: ["Art Direction", "Visual Design", "ADA", "Design Systems"],
+    accent: "#256B87",
+    briefTitle: "Not the other Williams",
     brief: [
-      "Dublin is a growing Bay Area city whose properties each needed their own identity. The Wave is a regional aquatics destination with its own brand, and economic development had a separate branding campaign underway with another vendor.",
-      "Instead of four designs, I built one system with four modes across its color, type, and grid collections. Switching a frame's mode re-skins it for that property.",
+      "The city's identity matters mostly because it separates Williams, Arizona from Williams, California. A wide illustrated lockup made for the web couldn't hold up at navigation size, so its wordmark goes in the nav and the official city logo goes in the footer.",
+      "The city also wants its website, not Facebook, to be the source of truth. That drove several decisions: a Watch Live card that lands on a page of the site instead of YouTube, public notices in place of a news feed nobody would keep fresh, and no mayor's message, because mayors turn over every two years.",
     ],
-    approachTitle: "Let the system absorb scope changes",
+    approachTitle: "Mile Marker 6762",
     approach:
-      "Midway through, the city manager folded police into the main site as a department page, and economic development followed while its branding was finished. Because every property ran on the same components, those changes cost a mode, not a redesign.",
+      "I explored three divergent art directions and chose national-park-poster Americana built only from what Williams has: the last bypassed stretch of Route 66 and a pine forest at 6,762 feet. Then I cut the decoration back over several review rounds, removing shields, dashed centerlines, and sawtooth ridgelines, until the photography and the copy carried the idea.",
     decisions: [
       {
-        name: "Variable modes",
+        name: "Type",
         value:
-          "Main City, Police, The Wave, and Economic Development, each a mode across the Colors, Typography, and Grid collections.",
+          "Besley, a Clarendon-style display serif, with Archivo for body text, deliberately rotated away from the pairings recent projects had used.",
       },
       {
-        name: "Scope change",
+        name: "Hero",
         value:
-          "Police and economic development became department pages on the city site. The Wave stayed standalone as a regional destination with its own URL.",
+          "A tall hero built to take the city's background video, a welcome panel with its own search, and five quick-link cards overlapping the bottom edge.",
       },
       {
-        name: "State law",
+        name: "Both paths",
         value:
-          "A new California requirement called for a prominent agenda-alerts signup. The Stay Connected band carries two calls to action, one for agenda alerts and one for the city newsletter.",
+          "Some residents rely on dropdown menus and some never touch them, so the site keeps both: full dropdowns and quick-link cards for the same tasks.",
       },
       {
-        name: "Economic development",
+        name: "Events first",
         value:
-          "An accessibility-checked palette anchored in Dublin's brand copper, delivered as a swatch the vendor could drop into its own campaign.",
+          "A month calendar with category filters sits right under the quick links, because the old community calendar was the city's pain point. Event titles stay out of the grid cells so the grid keeps its shape.",
       },
       {
-        name: "The Wave",
+        name: "Accessible gold",
         value:
-          "Pure white quick-link cards and six distinct icon colors, so the aquatics site reads as play rather than paperwork.",
+          "The brand's Aspen Gold fails on white, so it carries the motif only. A darker gold ink handles any gold text, and buttons map to the primary blue, which keeps every one of the 56 button variants accessible.",
       },
     ],
+    palette: [
+      { name: "Alpine Lake", hex: "#256B87", role: "text", note: "Primary" },
+      { name: "Ponderosa Pine", hex: "#28513F", role: "text", note: "Secondary" },
+      { name: "Mountain Slate", hex: "#253239", role: "text" },
+      { name: "Aspen Gold", hex: "#D8A63F", role: "accent", note: "Motif only" },
+      { name: "Gold Ink", hex: "#7C5E16", role: "text", note: "Gold as text" },
+      { name: "Alpine Mist", hex: "#F3F6F2", role: "surface" },
+    ],
     screens: {
-      primary: s("dublin", "home", "City home", 3271),
+      primary: s("williams", "home", "Home", 4314),
       secondary: [
-        s("dublin", "wave-home", "The Wave home", 3042),
-        s("dublin", "inner", "City interior page", 2592),
-        s("dublin", "interactions", "City interactions and menus", 3271),
+        s("williams", "inner", "Interior page", 2558),
+        s("williams", "department", "Department template", 2700),
+        s("williams", "interactions", "Interactions and menus", 4314),
       ],
     },
     outcome: {
-      title: "Scope changed. The system didn't.",
-      body: "Six revision rounds, two scope reductions from the city manager, and a new state law all landed in the same Figma file without a rebuild.",
-      stat: "4",
+      title: "Fewer motifs, more Williams",
+      body: "The direction went through a series of internal review rounds that each took something away, then went to the city and was approved after a single revision round. It was built natively on the company design system, so every component it added is reusable.",
+      stat: "56",
       statText:
-        "variable modes in one design system. Two properties came out of it as standalone designs, and the other two folded back into the city site.",
+        "button variants kept accessible by one token decision: buttons use the primary blue, and the gold stays decorative.",
     },
   },
 ];

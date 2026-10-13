@@ -6,7 +6,7 @@
 - **Stage:** live + actively updated
 - **Deployed:** [digitalfish.io](https://digitalfish.io) on Vercel
 - **Auto-deploy:** yes (push to `main` → Vercel)
-- **Latest production deploy:** 2026-10-11 (`b964b6c` — PR #9, the "Monograph" total redesign)
+- **Latest production deploy:** 2026-10-13 (`de07fdd` — PR #10, practice index refreshed with six 2026 Revize approvals; builds on the Monograph redesign, PR #9)
 
 ## What This Is
 Matt's personal portfolio site **plus** the password-protected `/admin` Career Ops dashboard. Public side: case studies (Revize municipal sites — South Fork, Brewster, Clive, Archbold, R6, Franklin), design-system showcase, AI workflow section, awards list, resume PDF download. Admin side: end-to-end job-search pipeline (Postgres-backed pipeline, Gmail polling, daily digest, GitHub Actions auto-submit). See `DASHBOARD-DEPLOY.md` for the admin deploy notes and the Obsidian vault `career/system-design-v2.md` for the architecture.
@@ -24,12 +24,13 @@ Matt's personal portfolio site **plus** the password-protected `/admin` Career O
 portfolio/
   src/
     app/
-      case-study/         # 9 studies; each dir: page.tsx + layout.tsx (metadata) + opengraph-image.tsx
+      case-study/         # flagship + retired studies as static dirs; [slug]/ renders the practice studies from data/practice.ts
       system/             # design system / process pages (revize, ai-workflow)
     components/
       home/               # homepage sections (Hero, FlagshipWork+Plate, PracticeIndex, HowIWork, About, Contact)
     data/
-      work.ts             # unified work model: tier (flagship/archive/system), hooks, accents
+      work.ts             # unified work model: tier (flagship/archive/system/retired), hooks, accents
+      practice.ts         # the six practice studies (copy, decisions, palette, screens) — add a Revize approval here
       awards.ts           # Horizon awards (single source for proof line + About)
     styles/
       tokens.css          # Monograph tokens (single source of truth)
@@ -55,12 +56,13 @@ portfolio/
 - Motion is few and deliberate: masked line reveal on the hero, slow parallax inside plates, scroll reveals, cursor-following preview in the index. All honor `prefers-reduced-motion`
 - **No AI-tells:** no letterspaced all-caps labels, no chips/pills, no rounded cards, no glows or gradients. Sentence-case labels in ink-3; tags as text runs separated by "·"
 - Interiors inherit the look through the `.cs-page` cascade in `case-study.css` — restyle there, not per page. Live-demo "theatre" sections (Dr. Dabber, AI1) stay dark on purpose; the next-study band is an ink bookend
-- Work tiers: 4 flagships (PoolPilot, Dr. Dabber, AI1, Franklin) get plates and deep studies; 5 gov studies + 2 systems live in the index
+- Work tiers: 4 flagships (PoolPilot, Dr. Dabber, AI1, Franklin) get plates and deep studies; 6 recent Revize approvals (Rankin County, Milton, Utica, Limestone, Haw River, Williams) + 2 systems live in the index. R6/Archbold/South Fork/Clive/Temple are `retired`: still online, unlisted
+- **Adding a practice study:** export the final-revision JPGs from `_Matt-Revize/_Approved Designs/` to `public/images/cs/<slug>/` (1440 wide, q78), add an entry to `src/data/practice.ts` sourced from the vault client note — facts only, no invented metrics
 - Mobile-responsive + `prefers-reduced-motion` first-class
 
 ## Active Work
 - [ ] Watch first DRY-RUN submission complete (Hugging Face, app id 16, dispatched 2026-05-27) → verify screenshots → flip `DRY_RUN=false` in `.github/workflows/submit-application.yml`
-- [ ] Add more case studies as Revize projects approve
+- [ ] Add more practice studies as Revize projects approve (see "Adding a practice study")
 
 ## Off Limits
 - Don't edit anything in `_html-source/` — it's a reference archive

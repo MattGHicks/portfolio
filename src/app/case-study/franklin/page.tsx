@@ -201,9 +201,9 @@ export default function CaseStudyFranklin() {
         {/* Next Case Study */}
         <section className="cs-next">
           <div className="cs-next-container">
-            <p className="cs-next-label">Back to All Work</p>
-            <Link href="/#work" className="cs-next-link">
-              <span className="cs-next-title">View all case studies</span>
+            <p className="cs-next-label">Next in the practice</p>
+            <Link href="/case-study/rankin-county" className="cs-next-link">
+              <span className="cs-next-title">Rankin County, Mississippi</span>
               <span className="cs-next-arrow">&#8599;</span>
             </Link>
           </div>

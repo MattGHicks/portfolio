@@ -1,10 +1,15 @@
+import { practice } from "./practice";
+
 // Unified work model. Flagships get deep, archetype-specific case studies;
-// archive entries share the condensed treatment; systems are process pages.
+// archive entries are the recent Revize practice studies (data lives in
+// practice.ts, rendered by /case-study/[slug]); systems are process pages.
+// Retired entries are older studies kept online, so existing links still
+// resolve, but no longer listed on the homepage.
 // `blurb` is the full case-study framing; `hook` is the one-liner used on
 // the homepage. `accent` is the client's brand color, applied per-study as
 // --cs-accent (filled in as each study is restyled).
 
-export type WorkTier = "flagship" | "archive" | "system";
+export type WorkTier = "flagship" | "archive" | "system" | "retired";
 export type WorkArchetype = "build" | "concept" | "craft" | "archive";
 
 export interface WorkItem {
@@ -85,7 +90,7 @@ export const work: WorkItem[] = [
   {
     slug: "r6",
     href: "/case-study/r6",
-    tier: "archive",
+    tier: "retired",
     archetype: "archive",
     title: "R6 Regional Council, Utah",
     meta: "Gov · Regional planning",
@@ -98,7 +103,7 @@ export const work: WorkItem[] = [
   {
     slug: "archbold",
     href: "/case-study/archbold",
-    tier: "archive",
+    tier: "retired",
     archetype: "archive",
     title: "Archbold, Ohio",
     meta: "Gov · Visual design",
@@ -111,7 +116,7 @@ export const work: WorkItem[] = [
   {
     slug: "south-fork",
     href: "/case-study/south-fork",
-    tier: "archive",
+    tier: "retired",
     archetype: "archive",
     title: "South Fork Water, Oregon",
     meta: "Utility · Visual design",
@@ -124,7 +129,7 @@ export const work: WorkItem[] = [
   {
     slug: "clive",
     href: "/case-study/clive",
-    tier: "archive",
+    tier: "retired",
     archetype: "archive",
     title: "City of Clive, Iowa",
     meta: "Gov · Multi-site",
@@ -137,7 +142,7 @@ export const work: WorkItem[] = [
   {
     slug: "temple",
     href: "/case-study/temple",
-    tier: "archive",
+    tier: "retired",
     archetype: "archive",
     title: "Temple, Texas",
     meta: "Gov · Visual design",
@@ -147,6 +152,21 @@ export const work: WorkItem[] = [
     tags: ["Multi-Site", "Mobile", "Iteration"],
     poster: "/images/cs/temple/city-home.jpg",
   },
+  ...practice.map(
+    (p): WorkItem => ({
+      slug: p.slug,
+      href: `/case-study/${p.slug}`,
+      tier: "archive",
+      archetype: "archive",
+      title: p.title,
+      meta: p.meta,
+      hook: p.hook,
+      blurb: p.subtitle,
+      tags: p.tags.slice(0, 3),
+      poster: `/images/cs/${p.slug}/home.jpg`,
+      accent: p.accent,
+    })
+  ),
   {
     slug: "revize",
     href: "/system/revize",

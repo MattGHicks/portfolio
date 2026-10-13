@@ -223,8 +223,8 @@ export default function CaseStudyPoolPilot() {
         <section className="cs-next animate-on-scroll">
           <div className="cs-next-container">
             <p className="cs-next-label">Next Case Study</p>
-            <Link href="/case-study/r6" className="cs-next-link">
-              <span className="cs-next-title">R6 Regional Council, Utah</span>
+            <Link href="/case-study/dr-dabber" className="cs-next-link">
+              <span className="cs-next-title">Dr. Dabber</span>
               <span className="cs-next-arrow">&#8599;</span>
             </Link>
           </div>

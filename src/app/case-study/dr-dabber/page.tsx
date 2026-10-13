@@ -217,8 +217,8 @@ export default function CaseStudyDrDabber() {
         <section className="cs-next animate-on-scroll">
           <div className="cs-next-container">
             <p className="cs-next-label">Next Case Study</p>
-            <Link href="/case-study/poolpilot" className="cs-next-link">
-              <span className="cs-next-title">PoolPilot</span>
+            <Link href="/case-study/ai1" className="cs-next-link">
+              <span className="cs-next-title">AI1 — Orbital Intelligence</span>
               <span className="cs-next-arrow">&#8599;</span>
             </Link>
           </div>

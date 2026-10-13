@@ -171,9 +171,9 @@ export default function SystemAIWorkflow() {
         {/* Next */}
         <section className="cs-next animate-on-scroll">
           <div className="cs-next-container">
-            <p className="cs-next-label">View Case Studies</p>
-            <Link href="/case-study/r6" className="cs-next-link">
-              <span className="cs-next-title">R6 Regional Council, Utah</span>
+            <p className="cs-next-label">Back to the flagships</p>
+            <Link href="/case-study/poolpilot" className="cs-next-link">
+              <span className="cs-next-title">PoolPilot</span>
               <span className="cs-next-arrow">&#8599;</span>
             </Link>
           </div>

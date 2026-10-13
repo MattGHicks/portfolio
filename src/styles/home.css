@@ -76,7 +76,7 @@
 
 .hero-statement {
   font-size: var(--fs-display);
-  line-height: 0.96;
+  line-height: 1.02;
   letter-spacing: -0.028em;
   margin: clamp(28px, 4vw, 48px) 0 clamp(40px, 5vw, 64px);
   max-width: 13.2ch;
@@ -89,17 +89,19 @@
   color: var(--accent);
 }
 
-/* masked line reveal — each line slides up from behind its own clip */
+/* masked line reveal — each line slides up from behind its own clip.
+   The clip is extended below the line box (padding) and the extension is
+   given back (negative margin) so descenders on g/p/y are never cut. */
 .hero-line {
   display: block;
   overflow: hidden;
-  padding-bottom: 0.06em;
-  margin-bottom: -0.06em;
+  padding-bottom: 0.3em;
+  margin-bottom: -0.3em;
 }
 
 .hero-line-in {
   display: block;
-  transform: translateY(110%);
+  transform: translateY(140%);
   animation: hero-rise 1100ms var(--ease) forwards;
 }
 
@@ -656,7 +658,7 @@
 
 .contact-title {
   font-size: clamp(44px, 7.2vw, 112px);
-  line-height: 0.98;
+  line-height: 1.02;
   letter-spacing: -0.028em;
   max-width: 12ch;
   margin-bottom: clamp(32px, 4vw, 56px);
